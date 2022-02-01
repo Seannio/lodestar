@@ -52,7 +52,7 @@ class Character(DefaultCharacter):
         self.db.synaptic_tensility = 1
         self.db.voltaic_conception = 1
         self.db.superstitions = 1
-        self.db.grey_augument
+        self.db.grey_augument = 1
 
 
     def get_abilities(self):
