@@ -43,15 +43,19 @@ class CmdAbilities(BaseCommand):
         Displays a list of your current ability values.
         """
         key = "abilities"
-        aliases = ["abi"]
+        aliases = ["ab"]
         lock = "cmd:all()"
         help_category = "General"
 
         def func(self):
             """implements the actual functionality"""
+            # Synaptic_Tensility: Something about brain-wiggling, thought-bending 
+            # Voltaic_Conception: Were you born technologically inclined, from a chrome-plated birthtube?
+            # Superstitions: Don't you know it's bad luck to traverse space without carbon stiltbeads? 
+            # Grey Augument: little by little, nanites form the tissue-base of your muscles. 
 
-            str, agi, mag = self.caller.get_abilities()
-            string = "STR: %s, AGI: %s, MAG: %s" % (str, agi, mag)
+            synaptic_tensility, voltaic_conception, superstitions, grey_augument = self.caller.get_abilities()
+            string = "Synaptic Tensility: %s\n Voltaic Conception: %s\nSuperstitions: %s\n Grey Augument %s" % (synaptic_tensility, voltaic_conception, superstitions, grey_augument)
             self.caller.msg(string)
 
 

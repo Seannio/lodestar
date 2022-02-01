@@ -41,11 +41,19 @@ class Character(DefaultCharacter):
         example since ability scores should vary from Character to
         Character and is usually set during some character
         generation step instead.
+            - For this purpose, we set every stat to 1 (base)
+            # Synaptic_Tensility: Something about brain-wiggling, thought-bending 
+            # Voltaic_Conception: Were you born technologically inclined, from a chrome-plated birthtube?
+            # Superstitions: Don't you know it's bad luck to traverse space without carbon stiltbeads? 
+            # Grey Augument: little by little, nanites form the tissue-base of your muscles. 
         """
         #set persistent attributes
-        self.db.strength = 5
-        self.db.agility = 4
-        self.db.magic = 2
+        
+        self.db.synaptic_tensility = 1
+        self.db.voltaic_conception = 1
+        self.db.superstitions = 1
+        self.db.grey_augument
+
 
     def get_abilities(self):
         """
