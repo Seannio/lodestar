@@ -60,4 +60,4 @@ class Character(DefaultCharacter):
         Simple access method to return ability
         scores as a tuple (str,agi,mag)
         """
-        return self.db.strength, self.db.agility, self.db.magic
+        return self.db.synaptic_tensility, self.db.voltaic_conception, self.db.superstitions,  self.db.grey_augument

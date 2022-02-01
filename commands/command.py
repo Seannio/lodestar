@@ -55,7 +55,7 @@ class CmdAbilities(BaseCommand):
             # Grey Augument: little by little, nanites form the tissue-base of your muscles. 
 
             synaptic_tensility, voltaic_conception, superstitions, grey_augument = self.caller.get_abilities()
-            string = "Synaptic Tensility: %s\n Voltaic Conception: %s\nSuperstitions: %s\n Grey Augument %s" % (synaptic_tensility, voltaic_conception, superstitions, grey_augument)
+            string = "Synaptic Tensility: %s,\n Voltaic Conception: %s,\nSuperstitions: %s,\n Grey Augument %s,\n" % (synaptic_tensility, voltaic_conception, superstitions, grey_augument)
             self.caller.msg(string)
 
 
