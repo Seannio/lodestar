@@ -24,17 +24,16 @@ class Room(DefaultRoom):
 
     pass
 
-
 class TickerRoom(DefaultRoom):
     "This room is ticked at regular intervals"
-    
+
     randomgoods = ["reactor-plates.",
                 "high-speed graphene batteries.",
                 "dogs wearing hats.",
                 "weapons-grade chili.",
                 "illegally-sourced tubers." ]
     
-    ECHOES = ["A forklift trundles by, carrying a huge pallet of  " + choice(randomgoods),
+    self.ECHOES = ["A forklift trundles by, carrying a huge pallet of  " + choice(randomgoods),
                  "A trickle of oil leaking from the ceiling-pipes splatters onto the ground nearby.",
                  "A deep, mechanical groan echoes down the length of the ship, sending shivers up the spine.",
                  "A mechanized loader rolls by on worn-down treads, hefting a pile of " + choice(randomgoods),
