@@ -27,17 +27,23 @@ class Room(DefaultRoom):
 class TickerRoom(DefaultRoom):
     "This room is ticked at regular intervals"
 
+    """
     randomgoods = ["reactor-plates.",
                 "high-speed graphene batteries.",
                 "dogs wearing hats.",
                 "weapons-grade chili.",
                 "illegally-sourced tubers." ]
+                """
     
-    ECHOES = ["A forklift trundles by, carrying a huge pallet of  " + random.choice(randomgoods),
+    ECHOES = ["A forklift trundles by, carrying a huge pallet of  "]
+    
+    """ 
+                + random.choice(randomgoods),
                  "A trickle of oil leaking from the ceiling-pipes splatters onto the ground nearby.",
                  "A deep, mechanical groan echoes down the length of the ship, sending shivers up the spine.",
                  "A mechanized loader rolls by on worn-down treads, hefting a pile of " + random.choice(randomgoods),
-                 "Farther down the hangar, the sound of a dropped tool echoes dully against the high, metal walls."]
+                 "Farther down the hangar, the sound of a dropped tool echoes dully against the high, metal walls."] 
+     """
        
     def at_object_creation(self):
         "called only when the object is first created"
