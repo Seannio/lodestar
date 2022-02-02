@@ -47,6 +47,7 @@ class TickerRoom(DefaultRoom):
     def at_object_creation(self):
         super().at_object_creation()
         "60 seconnd interval"
+        TICKER_HANDLER.remove(10, self.at_ticker_update)
         TICKER_HANDLER.add(120 * 2, self.at_ticker_update)
         print("AAAAAAA. CREATED THING with TICKER!")
 
