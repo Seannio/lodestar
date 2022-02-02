@@ -41,9 +41,11 @@ class TickerRoom(DefaultRoom):
        
     def at_object_creation(self):
         "called only when the object is first created"
-        TICKER_HANDLER.add(5, self.at_weather_update)
+        TICKER_HANDLER.add(10, self.at_ticker_update)
+        print("AAAAAAA. CREATED THING with TICKER!")
 
-    def at_weather_update(self, *args, **kwargs):
+    def at_ticker_update(self, *args, **kwargs):
         "ticked at regular intervals"
+        print("This is a regular ticker update.")
         echo = random.choice(ECHOES)
         self.msg_contents(echo)
