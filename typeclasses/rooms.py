@@ -33,7 +33,7 @@ class TickerRoom(DefaultRoom):
                 "weapons-grade chili.",
                 "illegally-sourced tubers." ]
     
-    self.ECHOES = ["A forklift trundles by, carrying a huge pallet of  " + choice(randomgoods),
+    ECHOES = ["A forklift trundles by, carrying a huge pallet of  " + choice(randomgoods),
                  "A trickle of oil leaking from the ceiling-pipes splatters onto the ground nearby.",
                  "A deep, mechanical groan echoes down the length of the ship, sending shivers up the spine.",
                  "A mechanized loader rolls by on worn-down treads, hefting a pile of " + choice(randomgoods),
@@ -47,5 +47,5 @@ class TickerRoom(DefaultRoom):
     def at_ticker_update(self, *args, **kwargs):
         "ticked at regular intervals"
         print("This is a regular ticker update.")
-        echo = random.choice(self.ECHOES)
+        echo = random.choice(ECHOES)
         self.msg_contents(echo)
