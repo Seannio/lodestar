@@ -27,14 +27,12 @@ class Room(DefaultRoom):
 class TickerRoom(DefaultRoom):
     "This room is ticked at regular intervals"
 
-    
-    def __init__(self):
-        randomgoods = ["reactor-plates.",
+    randomgoods = ["reactor-plates.",
                 "high-speed graphene batteries.",
                 "dogs wearing hats.",
                 "weapons-grade chili.",
                 "illegally-sourced tubers." ]
-        self.ECHOES = ["A forklift trundles by, carrying a huge pallet of  " + random.choice(randomgoods),
+    self.ECHOES = ["A forklift trundles by, carrying a huge pallet of  " + random.choice(randomgoods),
                  "A trickle of oil leaking from the ceiling-pipes splatters onto the ground nearby.",
                  "A deep, mechanical groan echoes down the length of the ship, sending shivers up the spine.",
                  "A mechanized loader rolls by on worn-down treads, hefting a pile of " + random.choice(randomgoods),
