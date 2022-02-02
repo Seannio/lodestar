@@ -7,6 +7,10 @@ Rooms are simple containers that has no location of their own.
 import random
 from evennia import DefaultRoom, TICKER_HANDLER
 from random import choice
+from evennia import DefaultRoom
+from evennia import TICKER_HANDLER
+from collections import defaultdict
+
 
 class Room(DefaultRoom):
     """
@@ -43,7 +47,7 @@ class AmbientRoom(Room):
         super().at_object_creation()
         # subscribe ourselves to a ticker to repeatedly call the hook
         # "update_weather" on this object.
-        self.db.interval = random.randint(50, 70)
+        self.db.interval = random.randint(5, 7)
         TICKER_HANDLER.add(
             interval=self.db.interval, callback=self.update_ambience
         )
