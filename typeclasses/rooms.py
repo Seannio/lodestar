@@ -24,6 +24,10 @@ class Room(DefaultRoom):
 
     pass
 
+
+class TickerRoom(DefaultRoom):
+    "This room is ticked at regular intervals"
+    
     randomgoods = ["reactor-plates.",
                 "high-speed graphene batteries.",
                 "dogs wearing hats.",
@@ -36,9 +40,6 @@ class Room(DefaultRoom):
                  "A mechanized loader rolls by on worn-down treads, hefting a pile of " + choice(randomgoods),
                  "Farther down the hangar, the sound of a dropped tool echoes dully against the high, metal walls."]
        
-class TickerRoom(DefaultRoom):
-    "This room is ticked at regular intervals"
-
     def at_object_creation(self):
         "called only when the object is first created"
         TICKER_HANDLER.add(10, self.at_ticker_update)
