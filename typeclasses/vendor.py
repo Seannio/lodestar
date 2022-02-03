@@ -8,9 +8,9 @@ def menunode_shopfront(caller):
     "This is the top-menu screen."
 
     shopname = caller.location.key
-    print(shopname)
+    print("shopname: " + shopname)
     wares = caller.location.db.storeroom.contents
-    print(wares)
+    print("Wares = " + wares)
 
     # Wares includes all items inside the storeroom, including the
     # door! Let's remove that from our for sale list.
