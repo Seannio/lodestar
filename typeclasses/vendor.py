@@ -10,7 +10,8 @@ def menunode_shopfront(caller):
     shopname = caller.location.key
     print("shopname: " + shopname)
     thekey="%s-storage" % shopname
-    print("test thing: " + thekey + " aaaaa " + thekey.db.storeroom.contents)
+    print("!!!!!!!!!!!!!!!")
+    print(thekey)
     wares = caller.location.key.db.storeroom.contents
     print("Wares = " + wares)
 
