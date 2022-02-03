@@ -32,7 +32,7 @@ def menunode_shopfront(caller):
 def menunode_inspect_and_buy(caller, raw_string):
     "Sets up the buy menu screen."
 
-    wares = caller.location.db.storeroom.contents
+    wares = caller.location.contents
     # Don't forget, we will need to remove that pesky door again!
     wares = [ware for ware in wares if ware.key.lower() != "door"]
     iware = int(raw_string) - 1
