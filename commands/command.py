@@ -74,9 +74,7 @@ class CmdBuildShop(Command):
     This will create a new NPCshop room
     as well as a linked store room (named
     simply <storename>-storage) for the
-    wares on sale. The store room will be
-    accessed through a locked door in
-    the shop.
+    wares on sale.
     """
     key = "@buildshop"
     locks = "cmd:perm(Builders)"
@@ -96,26 +94,10 @@ class CmdBuildShop(Command):
                              key="%s-storage" % shopname,
                              location=None)
         shop.db.storeroom = storeroom
-        # create a door between the two
-        shop_exit = create_object(DefaultExit,
-                                  key="back door",
-                                  aliases=["storage", "store room"],
-                                  location=shop,
-                                  destination=storeroom)
-        storeroom_exit = create_object(DefaultExit,
-                                  key="door",
-                                  location=storeroom,
-                                  destination=shop)
-        # make a key for accessing the store room
-        storeroom_key_name = "%s-storekey" % shopname
-        storeroom_key = create_object(DefaultObject,
-                                       key=storeroom_key_name,
-                                       location=shop)
-        # only allow chars with this key to enter the store room
-        shop_exit.locks.add("traverse:holds(%s)" % storeroom_key_name)
 
         # inform the builder about progress
         self.caller.msg("The shop %s was created!" % shop)
+        self.caller.msg("The shop %s-storage shopname was created!" % shopname)
 
 
 # -------------------------------------------------------------
