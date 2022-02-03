@@ -7,7 +7,7 @@ from evennia import CmdSet
 def menunode_shopfront(caller):
     "This is the top-menu screen."
 
-    shopname = "HYPERCOOL VEND-O-TRON"
+    shopname = caller.location.key
     wares = caller.location.db.storeroom.contents
 
     # Wares includes all items inside the storeroom, including the
@@ -80,7 +80,7 @@ class CmdBuy(Command):
     def func(self):
         "Starts the shop EvMenu instance"
         evmenu.EvMenu(self.caller,
-                      "typeclasses.npcshop",
+                      "typeclasses.vendor",
                       startnode="menunode_shopfront")
 
 class ShopCmdSet(CmdSet):
