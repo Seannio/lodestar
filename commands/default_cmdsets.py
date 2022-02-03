@@ -16,9 +16,8 @@ own cmdsets by inheriting from them or directly from `evennia.CmdSet`.
 
 from evennia import default_cmds
 from commands import command
-from commands.command import CmdAbilities
-from typeclasses import vendor
-from vendor import CmdBuildShop
+from command import CmdAbilities
+from typeclasses.vendor import CmdBuildShop
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
     """
