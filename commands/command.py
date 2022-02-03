@@ -6,6 +6,10 @@ Commands describe the input the account can do to the game.
 """
 
 from evennia.commands.command import Command as BaseCommand
+from evennia.utils import evmenu
+from evennia import DefaultRoom, DefaultExit, DefaultObject
+from evennia.utils.create import create_object
+from lodestar.typeclasses.vendor import NPCShop
 
 # from evennia import default_cmds
 
@@ -57,6 +61,61 @@ class CmdAbilities(BaseCommand):
             synaptic_tensility, voltaic_conception, superstitions, grey_augument = self.caller.get_abilities()
             string = "Synaptic Tensility: %s,\n Voltaic Conception: %s,\nSuperstitions: %s,\n Grey Augument %s,\n" % (synaptic_tensility, voltaic_conception, superstitions, grey_augument)
             self.caller.msg(string)
+
+# command to build a complete shop (the Command base class
+# should already have been imported earlier in this file)
+class CmdBuildShop(Command):
+    """
+    Build a new shop
+
+    Usage:
+        @buildshop shopname
+
+    This will create a new NPCshop room
+    as well as a linked store room (named
+    simply <storename>-storage) for the
+    wares on sale. The store room will be
+    accessed through a locked door in
+    the shop.
+    """
+    key = "@buildshop"
+    locks = "cmd:perm(Builders)"
+    help_category = "Builders"
+
+    def func(self):
+        "Create the shop rooms"
+        if not self.args:
+            self.msg("Usage: @buildshop <storename>")
+            return
+        # create the shop and storeroom
+        shopname = self.args.strip()
+        shop = create_object(NPCShop,
+                             key=shopname,
+                             location=None)
+        storeroom = create_object(DefaultRoom,
+                             key="%s-storage" % shopname,
+                             location=None)
+        shop.db.storeroom = storeroom
+        # create a door between the two
+        shop_exit = create_object(DefaultExit,
+                                  key="back door",
+                                  aliases=["storage", "store room"],
+                                  location=shop,
+                                  destination=storeroom)
+        storeroom_exit = create_object(DefaultExit,
+                                  key="door",
+                                  location=storeroom,
+                                  destination=shop)
+        # make a key for accessing the store room
+        storeroom_key_name = "%s-storekey" % shopname
+        storeroom_key = create_object(DefaultObject,
+                                       key=storeroom_key_name,
+                                       location=shop)
+        # only allow chars with this key to enter the store room
+        shop_exit.locks.add("traverse:holds(%s)" % storeroom_key_name)
+
+        # inform the builder about progress
+        self.caller.msg("The shop %s was created!" % shop)
 
 
 # -------------------------------------------------------------
