@@ -64,41 +64,6 @@ class CmdAbilities(BaseCommand):
 
 # command to build a complete shop (the Command base class
 # should already have been imported earlier in this file)
-class CmdBuildShop(Command):
-    """
-    Build a new shop
-
-    Usage:
-        @buildshop shopname
-
-    This will create a new NPCshop room
-    as well as a linked store room (named
-    simply <storename>-storage) for the
-    wares on sale.
-    """
-    key = "@buildshop"
-    locks = "cmd:perm(Builders)"
-    help_category = "Builders"
-
-    def func(self):
-        "Create the shop rooms"
-        if not self.args:
-            self.msg("Usage: @buildshop <storename>")
-            return
-        # create the shop and storeroom
-        shopname = self.args.strip()
-        shop = create_object(NPCShop,
-                             key=shopname,
-                             location=None)
-        storeroom = create_object(DefaultRoom,
-                             key="%s-storage" % shopname,
-                             location=None)
-        shop.db.storeroom = storeroom
-
-        # inform the builder about progress
-        self.caller.msg("The shop %s was created!" % shop)
-        self.caller.msg("The shop %s-storage shopname was created!" % shopname)
-
 
 # -------------------------------------------------------------
 #
