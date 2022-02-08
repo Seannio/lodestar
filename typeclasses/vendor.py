@@ -85,16 +85,20 @@ class CmdBuy(Command):
         if not self.args:
             self.msg("Usage: buy <shop name>")
             return
+
         "Starts the shop EvMenu instance"
         shopname = self.args.strip()
         locationkeys = self.caller.location.contents
         self.msg("shopname : %s" % shopname)
         self.msg("locationkeys : %s" % locationkeys)
-        
+
         for ob in locationkeys:
-            if shopname not in ob.key:
+            if shopname in ob:
+                self.msg("Object: %s matches shopname" % ob)
+            if shopname not in ob:
                 self.msg("There's no shop by that name here.")
                 return
+            
 
 
         evmenu.EvMenu(self.caller, 
