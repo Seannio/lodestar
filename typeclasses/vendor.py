@@ -93,15 +93,16 @@ class CmdBuy(Command):
         self.msg("locationkeys : %s" % locationkeys)
         
         for key in locationkeys:
-            if key is shopname:
+            self.msg("key: %s" % key)
+            if key == shopname:
                 self.msg("Object: %s matches shopname" % key)
+                
+                evmenu.EvMenu(self.caller, 
+                      "typeclasses.vendor",
+                      startnode="menunode_shopfront")
             else:
                 self.msg("There's no shop by that name here.")  
 
-        evmenu.EvMenu(self.caller, 
-                      "typeclasses.vendor",
-                      shopname,
-                      startnode="menunode_shopfront")
 
 class CmdBuildShop(Command):
     """
