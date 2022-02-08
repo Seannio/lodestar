@@ -11,8 +11,9 @@ def menunode_shopfront(caller, raw_string, **kwargs):
     #connectedStore: store object
     result = ""
     for arg in kwargs.values():
+        print("KWARG: %s" % arg)
         result += arg
-    print("ASASHAHFGHHFAHSFAHFSFH" + result)
+    print("HERE ARE THE KWARGS: " + result)
     # First-screen for the Vending Machine
     # - Strips the shop-name from the args, populates the wares list with shop contents. 
     caller.ndb._menutree.shopname = raw_string.strip()
@@ -100,7 +101,7 @@ class CmdBuy(Command):
                       startnode="menunode_shopfront",
                       cmd_on_exit="look",
                       startnode_input=shopname,
-                      connectedStore = shopname)
+                      connectedStore=shopname)
                       
         """
         locationkeys = self.caller.location.contents
