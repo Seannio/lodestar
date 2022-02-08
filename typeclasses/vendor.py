@@ -10,12 +10,8 @@ from evennia import CmdSet
 def menunode_shopfront(caller, raw_string):
     "This is the top-menu screen."
     shopname = raw_string.strip()
-
-    locationkeys = caller.location.contents  
-    for key in locationkeys:
-        if key.key == shopname:
-            wares = caller.location.key.contents
-
+    vendobject = caller.search(shopname, typeclass=VendingMachine)
+    wares = vendobject.contents
     # Wares includes all items inside the storeroom, including the
     # door! Let's remove that from our for sale list.
     wares = [ware for ware in wares if ware.key.lower()]
@@ -89,8 +85,19 @@ class CmdBuy(Command):
             self.msg("Usage: buy <shop name>")
             return
 
+        
         "Starts the shop EvMenu instance"
         shopname = self.args.strip()
+        target = self.caller.search(shopname, typeclass=VendingMachine)
+        if not target: 
+            self.msg("There isn't a shop here by that name.")
+            return
+        evmenu.EvMenu(self.caller, 
+                      "typeclasses.vendor",
+                      startnode="menunode_shopfront",
+                      startnode_input=shopname)
+                      
+        """
         locationkeys = self.caller.location.contents
         
         for key in locationkeys:
@@ -101,7 +108,7 @@ class CmdBuy(Command):
                       startnode_input=shopname)
             else:
                 self.msg("There's no shop by that name here.")  
-
+        """
 
 class CmdBuildShop(Command):
     """
