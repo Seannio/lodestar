@@ -10,15 +10,14 @@ def menunode_shopfront(caller, raw_string, **kwargs):
     # First-screen for the Vending Machine
     # - Strips the shop-name from the args, populates the wares list with shop contents. 
     caller.ndb._menutree.shopname = raw_string.strip()
-    vendobject = ""
     
     #this is fucking stupid
     if caller.ndb._menutree.shopname.isdigit():
         print("wawa")
     else:
+        
         vendobject = caller.search(caller.ndb._menutree.shopname, typeclass=VendingMachine)
-
-    wares = vendobject.contents
+        wares = vendobject.contents
 
     text = "*** Welcome to %s! ***\n" % caller.ndb._menutree.shopname
     if wares:
