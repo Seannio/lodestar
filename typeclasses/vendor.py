@@ -10,11 +10,11 @@ from evennia import CmdSet
 def menunode_shopfront(caller, raw_string):
     # First-screen for the Vending Machine
     # - Strips the shop-name from the args, populates the wares list with shop contents. 
-    shopname = raw_string.strip()
-    vendobject = caller.search(shopname, typeclass=VendingMachine)
+    caller.ndb._menutree.shopname = raw_string.strip()
+    vendobject = caller.search(caller.ndb._menutree.shopname, typeclass=VendingMachine)
     wares = vendobject.contents
 
-    text = "*** Welcome to %s! ***\n" % shopname
+    text = "*** Welcome to %s! ***\n" % caller.ndb._menutree.shopname
     if wares:
         text += "|wAn array of harshly-illuminated wares sit across the dipenser-display,\nsome out of stock\n|n (choose 1-%i to inspect,  quit to exit.)" \
              % len(wares)
@@ -31,10 +31,8 @@ def menunode_shopfront(caller, raw_string):
 
 def menunode_inspect_and_buy(caller, raw_string):
     "Sets up the buy menu screen."
-
-    wares = caller.location.contents
-    # Don't forget, we will need to remove that pesky door again!
-    wares = [ware for ware in wares if ware.key.lower()]
+    vendobject = caller.search(caller.ndb._menutree.shopname, typeclass=VendingMachine)
+    wares = vendobject.contents
     iware = int(raw_string) - 1
     ware = wares[iware]
     value = ware.db.gold_value or 2
