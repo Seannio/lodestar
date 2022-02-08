@@ -93,8 +93,8 @@ class CmdBuy(Command):
         self.msg("locationkeys : %s" % locationkeys)
         
         for key in locationkeys:
-            self.msg("key: %s" % key)
-            if key == shopname:
+            self.msg("key: %s" % key.key)
+            if key.key == shopname:
                 self.msg("Object: %s matches shopname" % key)
                 
                 evmenu.EvMenu(self.caller, 
