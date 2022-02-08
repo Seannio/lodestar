@@ -90,9 +90,11 @@ class CmdBuy(Command):
         locationkeys = self.caller.location.contents
         self.msg("shopname : %s" % shopname)
         self.msg("locationkeys : %s" % locationkeys)
-        if shopname not in locationkeys.key:
-            self.msg("There's no shop by that name here.")
-            return
+        
+        for ob in locationkeys:
+            if shopname not in ob.key:
+                self.msg("There's no shop by that name here.")
+                return
 
 
         evmenu.EvMenu(self.caller, 
