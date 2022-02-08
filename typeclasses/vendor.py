@@ -91,15 +91,12 @@ class CmdBuy(Command):
         locationkeys = self.caller.location.contents
         self.msg("shopname : %s" % shopname)
         self.msg("locationkeys : %s" % locationkeys)
-
-        for ob in locationkeys:
-            if shopname in ob:
-                self.msg("Object: %s matches shopname" % ob)
-            if shopname not in ob:
-                self.msg("There's no shop by that name here.")
-                return
-            
-
+        
+        for key in locationkeys:
+            if key is shopname:
+                self.msg("Object: %s matches shopname" % key)
+            else:
+                self.msg("There's no shop by that name here.")  
 
         evmenu.EvMenu(self.caller, 
                       "typeclasses.vendor",
