@@ -55,10 +55,10 @@ def menunode_inspect_and_buy(caller, raw_string):
 
     options = ({"desc": "Buy %s for %s gold" % \
                         (ware.key, ware.db.gold_value or 1),
-                "goto": menunode_shopfront,
+                "goto": "menunode_shopfront",
                 "exec": buy_ware_result},
                {"desc": "Look for something else",
-                "goto": menunode_shopfront})
+                "goto": "menunode_shopfront"})
 
     return text, options
     # mygame/typeclasses/npcshop.py
