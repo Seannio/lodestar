@@ -16,8 +16,8 @@ def menunode_shopfront(caller, raw_string):
 
     text = "*** Welcome to %s! ***\n" % shopname
     if wares:
-        text += "|wAn array of harshly-illuminated wares sit across the dipenser-display, some out of stock\n|n (choose 1-%i to inspect);" \
-                " quit to exit:" % len(wares)
+        text += "|wAn array of harshly-illuminated wares sit across the dipenser-display,\nsome out of stock\n|n (choose 1-%i to inspect,  quit to exit.)" \
+             % len(wares)
     else:
         text += "The vending machine is empty."
 
