@@ -61,10 +61,10 @@ def menunode_inspect_and_buy(caller, raw_string):
 
     options = ({"desc": "Buy %s for %s gold" % \
                         (ware.key, ware.db.gold_value or 1),
-                "goto": "menunode_shopfront",
+                "goto": "menunode_shopfront(caller.ndb._menutree.shopname)",
                 "exec": buy_ware_result},
                {"desc": "Look for something else",
-                "goto": "menunode_shopfront"})
+                "goto": "menunode_shopfront(caller.ndb._menutree.shopname)"})
 
     return text, options
     # mygame/typeclasses/npcshop.py
@@ -102,19 +102,6 @@ class CmdBuy(Command):
                       cmd_on_exit="look",
                       startnode_input=shopname,
                       connectedStore=shopname)
-                      
-        """
-        locationkeys = self.caller.location.contents
-        
-        for key in locationkeys:
-            if key.key == shopname:
-                evmenu.EvMenu(self.caller, 
-                      "typeclasses.vendor",
-                      startnode="menunode_shopfront",
-                      startnode_input=shopname)
-            else:
-                self.msg("There's no shop by that name here.")  
-        """
 
 class CmdBuildShop(Command):
     """
