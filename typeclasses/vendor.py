@@ -7,11 +7,14 @@ from evennia.utils import evmenu
 from evennia import Command
 from evennia import CmdSet
 
-def menunode_shopfront(caller):
+def menunode_shopfront(caller, raw_string):
     "This is the top-menu screen."
+    shopname = raw_string.strip()
 
-    shopname = caller.location.key
-    wares = caller.location.db.storeroom.contents
+    locationkeys = caller.location.contents  
+    for key in locationkeys:
+        if key.key == shopname:
+            wares = caller.key.key.contents
 
     # Wares includes all items inside the storeroom, including the
     # door! Let's remove that from our for sale list.
@@ -89,17 +92,13 @@ class CmdBuy(Command):
         "Starts the shop EvMenu instance"
         shopname = self.args.strip()
         locationkeys = self.caller.location.contents
-        self.msg("shopname : %s" % shopname)
-        self.msg("locationkeys : %s" % locationkeys)
         
         for key in locationkeys:
-            self.msg("key: %s" % key.key)
             if key.key == shopname:
-                self.msg("Object: %s matches shopname" % key)
-                
                 evmenu.EvMenu(self.caller, 
                       "typeclasses.vendor",
-                      startnode="menunode_shopfront")
+                      startnode="menunode_shopfront",
+                      startnode_input=shopname)
             else:
                 self.msg("There's no shop by that name here.")  
 
