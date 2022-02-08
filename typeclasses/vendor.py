@@ -7,14 +7,15 @@ from evennia.utils import evmenu
 from evennia import Command
 from evennia import CmdSet
 
-def menunode_shopfront(caller, *args):
+def menunode_shopfront(caller, **kwargs):
     # First-screen for the Vending Machine
     # - Strips the shop-name from the args, populates the wares list with shop contents. 
-    
-    for arg in args:
-        print("another arg through *argv:", arg)
+    name = "" 
 
-    caller.ndb._menutree.shopname = args.shoppe.strip()
+    for arg in kwargs.values():
+        name += arg
+    print(" ASDASFJASFJASFJASFASFJASFJASFJASFJAFSDKDAKSDKDKASADJW %s " % name)
+    caller.ndb._menutree.shopname = name
     
     vendobject = caller.search(caller.ndb._menutree.shopname, typeclass=VendingMachine)
     wares = vendobject.contents
