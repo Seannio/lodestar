@@ -19,7 +19,7 @@ class ScreenObject(Object):
         # first get the base string from the
         # parent's return_appearance.
         string = super().return_appearance(looker)
-        wisewords = choice(self.db.tv_texts)
-        return string + wisewords
+        randomad = choice(self.db.tv_texts)
+        return string + randomad
 
         
