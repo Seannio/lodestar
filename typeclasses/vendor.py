@@ -93,6 +93,7 @@ class CmdBuy(Command):
         evmenu.EvMenu(self.caller, 
                       "typeclasses.vendor",
                       startnode="menunode_shopfront",
+                      cmd_on_exit="look",
                       startnode_input=shopname)
                       
         """
