@@ -11,7 +11,7 @@ def menunode_shopfront(caller, raw_string):
     # First-screen for the Vending Machine
     # - Strips the shop-name from the args, populates the wares list with shop contents. 
     caller.ndb._menutree.shopname = raw_string.strip()
-     
+    
     vendobject = caller.search(caller.ndb._menutree.shopname, typeclass=VendingMachine)
     wares = vendobject.contents
 
@@ -55,10 +55,10 @@ def menunode_inspect_and_buy(caller, raw_string):
 
     options = ({"desc": "Buy %s for %s gold" % \
                         (ware.key, ware.db.gold_value or 1),
-                "goto": "menunode_shopfront",
+                "goto": menunode_shopfront(startnode_input=caller.ndb._menutree.shopname),
                 "exec": buy_ware_result},
                {"desc": "Look for something else",
-                "goto": "menunode_shopfront"})
+                "goto": menunode_shopfront(startnode_input=caller.ndb._menutree.shopname)})
 
     return text, options
     # mygame/typeclasses/npcshop.py
