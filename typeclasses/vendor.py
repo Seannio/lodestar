@@ -7,15 +7,10 @@ from evennia.utils import evmenu
 from evennia import Command
 from evennia import CmdSet
 
-def menunode_shopfront(caller, **kwargs):
+def menunode_shopfront(caller, raw_string):
     # First-screen for the Vending Machine
     # - Strips the shop-name from the args, populates the wares list with shop contents. 
-    name = "" 
-
-    for arg in kwargs.values():
-        name += arg
-    print(" ASDASFJASFJASFJASFASFJASFJASFJASFJAFSDKDAKSDKDKASADJW %s " % name)
-    caller.ndb._menutree.shopname = name
+    caller.ndb._menutree.shopname = raw_string.strip()
     
     vendobject = caller.search(caller.ndb._menutree.shopname, typeclass=VendingMachine)
     wares = vendobject.contents
@@ -60,10 +55,10 @@ def menunode_inspect_and_buy(caller, raw_string):
 
     options = ({"desc": "Buy %s for %s gold" % \
                         (ware.key, ware.db.gold_value or 1),
-                "goto": menunode_shopfront(),
+                "goto": menunode_shopfront,
                 "exec": buy_ware_result},
                {"desc": "Look for something else",
-                "goto": menunode_shopfront()})
+                "goto": menunode_shopfront})
 
     return text, options
     # mygame/typeclasses/npcshop.py
@@ -98,8 +93,7 @@ class CmdBuy(Command):
         evmenu.EvMenu(self.caller, 
                       "typeclasses.vendor",
                       startnode="menunode_shopfront",
-                      shoppe=shopname,
-                      stinky="gghghghg")
+                      startnode_input=shopname)
                       
         """
         locationkeys = self.caller.location.contents
