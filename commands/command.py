@@ -9,8 +9,6 @@ from evennia.commands.command import Command as BaseCommand
 from evennia.utils import evmenu
 from evennia import DefaultRoom, DefaultExit, DefaultObject
 from evennia.utils.create import create_object
-from typeclasses.vendor import NPCShop
-
 # from evennia import default_cmds
 
 
