@@ -14,8 +14,9 @@ def menunode_shopfront(caller, raw_string, **kwargs):
     #this is fucking stupid
     if caller.ndb._menutree.shopname.isdigit():
         print("wawa")
-    else:
-        
+        vendobject = vendobject
+        wares = wares 
+    else: 
         vendobject = caller.search(caller.ndb._menutree.shopname, typeclass=VendingMachine)
         wares = vendobject.contents
 
