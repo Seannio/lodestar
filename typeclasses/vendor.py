@@ -11,7 +11,7 @@ def menunode_shopfront(caller):
     "This is the top-menu screen."
 
     shopname = caller.location.key
-    wares = caller.location.contents
+    wares = caller.location.db.storeroom.contents
 
     # Wares includes all items inside the storeroom, including the
     # door! Let's remove that from our for sale list.
@@ -82,9 +82,21 @@ class CmdBuy(Command):
     aliases = ("shop", "browse")
 
     def func(self):
+        if not self.args:
+            self.msg("Usage: buy <shop name>")
+            return
         "Starts the shop EvMenu instance"
-        evmenu.EvMenu(self.caller,
+        shopname = self.args.strip.lower()
+        locationkeys = self.caller.location.contents
+
+        if shopname not in locationkeys.key.lower:
+            self.msg("There's no shop by that name here.")
+            return
+
+
+        evmenu.EvMenu(self.caller, 
                       "typeclasses.vendor",
+                      shopname,
                       startnode="menunode_shopfront")
 
 class CmdBuildShop(Command):
@@ -111,11 +123,11 @@ class CmdBuildShop(Command):
         shop = create_object(VendingMachine,
                              key=shopname,
                              location=self.caller.location)
-        storeroom = shop.contents
+        shop.db.storeroom = shop
 
         # inform the builder about progress
         self.caller.msg("The shop %s was created!" % shop)
-        self.caller.msg("The contents of the shop are %s" % storeroom)
+        self.caller.msg("The contents of the shop are %s" % shop.contents)
 
 
 class ShopCmdSet(CmdSet):
