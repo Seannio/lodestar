@@ -8,20 +8,18 @@ from evennia import Command
 from evennia import CmdSet
 
 def menunode_shopfront(caller, raw_string):
-    "This is the top-menu screen."
+    # First-screen for the Vending Machine
+    # - Strips the shop-name from the args, populates the wares list with shop contents. 
     shopname = raw_string.strip()
     vendobject = caller.search(shopname, typeclass=VendingMachine)
     wares = vendobject.contents
-    # Wares includes all items inside the storeroom, including the
-    # door! Let's remove that from our for sale list.
-    wares = [ware for ware in wares if ware.key.lower()]
 
     text = "*** Welcome to %s! ***\n" % shopname
     if wares:
-        text += "   Things for sale (choose 1-%i to inspect);" \
+        text += "|wAn array of harshly-illuminated wares sit across the dipenser-display, some out of stock\n|n (choose 1-%i to inspect);" \
                 " quit to exit:" % len(wares)
     else:
-        text += "   There is nothing for sale; quit to exit."
+        text += "The vending machine is empty."
 
     options = []
     for ware in wares:
@@ -146,27 +144,6 @@ class ShopCmdSet(CmdSet):
         self.add(CmdBuy())
 
 # bottom of mygame/typeclasses/npcshop.py
-
-class VendingMachine(DefaultObject):
-       "A basic vending machine object that can't be STOLEN."
-       def at_object_creation(self):
-           "Called whenever a new object is created"
-           # lock the object down by default
-           self.cmdset.add_default(ShopCmdSet)
-           self.db.storeroom = None
-           self.locks.add("get:false()")
-           # the default "get" command looks for this Attribute in order
-           # to return a customized error message (we just happen to know
-           # this, you'd have to look at the code of the 'get' command to
-           # find out).
-           self.db.get_err_msg = "The vending machine is too heavy to pick up."
-
-# class for our front shop room
-class NPCShop(DefaultRoom):
-    def at_object_creation(self):
-        # we could also use add(ShopCmdSet, permanent=True)
-        self.cmdset.add_default(ShopCmdSet)
-        self.db.storeroom = None
 
 class VendingMachine(DefaultObject):
        "A basic vending machine object that can't be STOLEN."
