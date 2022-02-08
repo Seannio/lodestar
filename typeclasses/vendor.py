@@ -14,7 +14,7 @@ def menunode_shopfront(caller, raw_string):
     locationkeys = caller.location.contents  
     for key in locationkeys:
         if key.key == shopname:
-            wares = caller.key.key.contents
+            wares = caller.location.key.contents
 
     # Wares includes all items inside the storeroom, including the
     # door! Let's remove that from our for sale list.
