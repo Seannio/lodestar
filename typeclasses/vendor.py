@@ -10,19 +10,19 @@ from evennia import CmdSet
 def menunode_shopfront(caller, raw_string):
     # First-screen for the Vending Machine
     # - Strips the shop-name from the args, populates the wares list with shop contents. 
-    caller.ndb._menutree.shopname = raw_string.strip()
-    vendobject = caller.search(caller.ndb._menutree.shopname, typeclass=VendingMachine)
-    wares = vendobject.contents
+    shopname = raw_string.strip()
+    vendobject = caller.search(shopname, typeclass=VendingMachine)
+    caller.ndb._menutree.wares = vendobject.contents
 
-    text = "*** Welcome to %s! ***\n" % caller.ndb._menutree.shopname
-    if wares:
+    text = "*** Welcome to %s! ***\n" % shopname
+    if caller.ndb._menutree.wares:
         text += "|wAn array of harshly-illuminated wares sit across the dipenser-display,\nsome out of stock\n|n (choose 1-%i to inspect,  quit to exit.)" \
-             % len(wares)
+             % len(caller.ndb._menutree.wares)
     else:
         text += "The vending machine is empty."
 
     options = []
-    for ware in wares:
+    for ware in caller.ndb._menutree.wares:
         # add an option for every ware in store
         options.append({"desc": "%s (%s chits)" %
                              (ware.key, ware.db.gold_value or 1),
@@ -31,28 +31,27 @@ def menunode_shopfront(caller, raw_string):
 
 def menunode_inspect_and_buy(caller, raw_string):
     "Sets up the buy menu screen."
-    vendobject = caller.search(caller.ndb._menutree.shopname, typeclass=VendingMachine)
-    wares = vendobject.contents
+
     iware = int(raw_string) - 1
-    ware = wares[iware]
-    value = ware.db.gold_value or 2
+    caller.ndb._menutree.wares = caller.ndb._menutree.wares[iware]
+    value = caller.ndb._menutree.wares.db.gold_value or 2
     wealth = caller.db.gold or 0
-    text = "You inspect %s:\n\n%s" % (ware.key, ware.db.desc)
+    text = "You inspect %s:\n\n%s" % (caller.ndb._menutree.wares.key, caller.ndb._menutree.wares.db.desc)
 
     def buy_ware_result(caller):
         "This will be executed first when choosing to buy."
         if wealth >= value:
             rtext = "You pay %i chits and purchase %s!" % \
-                         (value, ware.key)
+                         (value, caller.ndb._menutree.wares.key)
             caller.db.gold -= value
-            ware.move_to(caller, quiet=True)
+            caller.ndb._menutree.wares.move_to(caller, quiet=True)
         else:
             rtext = "You cannot afford %i chits for %s!" % \
-                          (value, ware.key)
+                          (value, caller.ndb._menutree.wares.key)
         caller.msg(rtext)
 
     options = ({"desc": "Buy %s for %s gold" % \
-                        (ware.key, ware.db.gold_value or 1),
+                        (caller.ndb._menutree.wares.key, caller.ndb._menutree.wares.db.gold_value or 1),
                 "goto": "menunode_shopfront",
                 "exec": buy_ware_result},
                {"desc": "Look for something else",
