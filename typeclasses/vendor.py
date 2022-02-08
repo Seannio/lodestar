@@ -1,24 +1,22 @@
 # mygame/typeclasses/vendor.py
 
 from evennia import DefaultRoom, DefaultExit, DefaultObject
-
 from evennia.utils.create import create_object
 from evennia.utils import evmenu
 from evennia import Command
 from evennia import CmdSet
 
 def menunode_shopfront(caller, raw_string, **kwargs):
-    #connectedStore: store object
-    result = ""
-    for arg in kwargs.values():
-        print("KWARG: %s" % arg)
-        result += arg
-    print("HERE ARE THE KWARGS: " + result)
     # First-screen for the Vending Machine
     # - Strips the shop-name from the args, populates the wares list with shop contents. 
     caller.ndb._menutree.shopname = raw_string.strip()
-    
-    vendobject = caller.search(caller.ndb._menutree.shopname, typeclass=VendingMachine)
+
+    #this is fucking stupid
+    if caller.ndb._menutree.shopname.is_integer():
+        print("wawa")
+    else:
+        vendobject = caller.search(caller.ndb._menutree.shopname, typeclass=VendingMachine)
+
     wares = vendobject.contents
 
     text = "*** Welcome to %s! ***\n" % caller.ndb._menutree.shopname
