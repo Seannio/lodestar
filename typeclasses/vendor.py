@@ -110,7 +110,7 @@ class CmdBuildShop(Command):
         shopname = self.args.strip()
         shop = create_object(VendingMachine,
                              key=shopname,
-                             location=None)
+                             location=self.caller.location)
         storeroom = shop.contents
 
         # inform the builder about progress
