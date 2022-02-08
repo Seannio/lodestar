@@ -12,9 +12,10 @@ def menunode_shopfront(caller, raw_string, **kwargs):
     caller.ndb._menutree.shopname = raw_string.strip()
 
     #this is fucking stupid
-    if caller.ndb._menutree.shopname.is_integer():
+    try:
+        val = int(caller.ndb._menutree.shopname)
         print("wawa")
-    else:
+    except ValueError:
         vendobject = caller.search(caller.ndb._menutree.shopname, typeclass=VendingMachine)
 
     wares = vendobject.contents
