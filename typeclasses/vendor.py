@@ -11,11 +11,11 @@ def menunode_shopfront(caller):
     "This is the top-menu screen."
 
     shopname = caller.location.key
-    wares = caller.location.db.storeroom.contents
+    wares = caller.location.contents
 
     # Wares includes all items inside the storeroom, including the
     # door! Let's remove that from our for sale list.
-    wares = [ware for ware in wares if ware.key.lower() != "door"]
+    wares = [ware for ware in wares if ware.key.lower()]
 
     text = "*** Welcome to %s! ***\n" % shopname
     if wares:
@@ -35,9 +35,9 @@ def menunode_shopfront(caller):
 def menunode_inspect_and_buy(caller, raw_string):
     "Sets up the buy menu screen."
 
-    wares = caller.location.db.storeroom.contents
+    wares = caller.location.contents
     # Don't forget, we will need to remove that pesky door again!
-    wares = [ware for ware in wares if ware.key.lower() != "door"]
+    wares = [ware for ware in wares if ware.key.lower()]
     iware = int(raw_string) - 1
     ware = wares[iware]
     value = ware.db.gold_value or 2
@@ -115,7 +115,7 @@ class CmdBuildShop(Command):
 
         # inform the builder about progress
         self.caller.msg("The shop %s was created!" % shop)
-        self.caller.msg("The contents of the shop are in %s" % storeroom)
+        self.caller.msg("The contents of the shop are %s" % storeroom)
 
 
 class ShopCmdSet(CmdSet):
