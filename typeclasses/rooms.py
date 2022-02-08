@@ -53,3 +53,5 @@ class TickerRoom(DefaultRoom):
 
         print("This is a regular ticker update.")
         self.msg_contents("|w%s|n" % random.choice(ECHOES))
+
+

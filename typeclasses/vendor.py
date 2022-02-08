@@ -1,5 +1,8 @@
 # mygame/typeclasses/vendor.py
 
+from evennia import DefaultRoom, DefaultExit, DefaultObject
+
+from evennia.utils.create import create_object
 from evennia.utils import evmenu
 from evennia import Command
 from evennia import CmdSet
@@ -62,6 +65,7 @@ def menunode_inspect_and_buy(caller, raw_string):
 
     return text, options
     # mygame/typeclasses/npcshop.py
+
 class CmdBuy(Command):
     """
     Start to do some shopping
@@ -90,33 +94,28 @@ class CmdBuildShop(Command):
     Usage:
         @buildshop shopname
 
-    This will create a new NPCshop room
-    as well as a linked store room (named
-    simply <storename>-storage) for the
-    wares on sale.
+    This will create a new VENDING MACHINE object, where
+    the items to be sold will be stored in the vending machine. 
     """
     key = "@buildshop"
     locks = "cmd:perm(Builders)"
     help_category = "Builders"
 
     def func(self):
-        "Create the shop rooms"
+        "Create the shop objects"
         if not self.args:
             self.msg("Usage: @buildshop <storename>")
             return
         # create the shop and storeroom
         shopname = self.args.strip()
-        shop = create_object(NPCShop,
+        shop = create_object(VendingMachine,
                              key=shopname,
                              location=None)
-        storeroom = create_object(DefaultRoom,
-                             key="%s-storage" % shopname,
-                             location=None)
-        shop.db.storeroom = storeroom
+        storeroom = shop.contents
 
         # inform the builder about progress
         self.caller.msg("The shop %s was created!" % shop)
-        self.caller.msg("The shop %s-storage shopname was created!" % shopname)
+        self.caller.msg("The contents of the shop are in %s" % storeroom)
 
 
 class ShopCmdSet(CmdSet):
@@ -125,10 +124,19 @@ class ShopCmdSet(CmdSet):
 
 # bottom of mygame/typeclasses/npcshop.py
 
-from evennia import DefaultRoom, DefaultExit, DefaultObject
-from evennia.utils.create import create_object
-
-
+class VendingMachine(DefaultObject):
+       "A basic vending machine object that can't be STOLEN."
+       def at_object_creation(self):
+           "Called whenever a new object is created"
+           # lock the object down by default
+           self.cmdset.add_default(ShopCmdSet)
+           self.db.storeroom = None
+           self.locks.add("get:false()")
+           # the default "get" command looks for this Attribute in order
+           # to return a customized error message (we just happen to know
+           # this, you'd have to look at the code of the 'get' command to
+           # find out).
+           self.db.get_err_msg = "The vending machine is too heavy to pick up."
 
 # class for our front shop room
 class NPCShop(DefaultRoom):
@@ -137,3 +145,16 @@ class NPCShop(DefaultRoom):
         self.cmdset.add_default(ShopCmdSet)
         self.db.storeroom = None
 
+class VendingMachine(DefaultObject):
+       "A basic vending machine object that can't be STOLEN."
+       def at_object_creation(self):
+           "Called whenever a new object is created"
+           # lock the object down by default
+           self.cmdset.add_default(ShopCmdSet)
+           self.db.storeroom = None
+           self.locks.add("get:false()")
+           # the default "get" command looks for this Attribute in order
+           # to return a customized error message (we just happen to know
+           # this, you'd have to look at the code of the 'get' command to
+           # find out).
+           self.db.get_err_msg = "The vending machine is too heavy to pick up."
