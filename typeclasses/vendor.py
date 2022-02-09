@@ -9,7 +9,11 @@ from evennia import CmdSet
 def menunode_shopfront(caller, raw_string, **kwargs):
     for i, v in kwargs.items():
         print ("    ", i, ": ", v)
-    print("SAJFDJFAJFADSJFAJFJFJ %s" % kwargs.items)
+
+    menu_dic = caller.ndb._menutree.menu_dic
+    print("What: " + menu_dic)
+    print("Kwargs? Hello? %s" % kwargs.items)
+
     # First-screen for the Vending Machine
     # - Strips the shop-name from the args, populates the wares list with shop contents. 
     caller.ndb._menutree.shopname = raw_string.strip()
@@ -56,10 +60,10 @@ def menunode_inspect_and_buy(caller, raw_string):
 
     options = ({"desc": "Buy %s for %s gold" % \
                         (ware.key, ware.db.gold_value or 1),
-                "goto": (menunode_shopfront, {"raw_stringie": caller.ndb._menutree.shopname}),
+                "goto": ('menunode_shopfront'),
                 "exec": buy_ware_result},
                {"desc": "Look for something else",
-                "goto": (menunode_shopfront, {"raw_stringie": caller.ndb._menutree.shopname})}
+                "goto": ('menunode_shopfront')}
                )
 
     return text, options
@@ -93,7 +97,7 @@ class CmdBuy(Command):
             self.msg("There isn't a shop here by that name.")
             return
 
-        menu_dic = {'shopname':shopname}
+        menu_dic = {'shopname':shopname, 'char_class': None}
 
         evmenu.EvMenu(self.caller, 
                       "typeclasses.vendor",
