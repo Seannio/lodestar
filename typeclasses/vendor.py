@@ -15,12 +15,13 @@ def menunode_shopfront(caller, raw_string, **kwargs):
     # caller.ndb._menutree.shopname = raw_string.strip()
     try:
         vendobject = caller.search(cmdarg, typeclass=VendingMachine)
+        caller.ndb._menutree.shoptitle = vendobject
     except:
         caller.msg("Error.")
 
     wares = vendobject.contents
 
-    text = "*** Welcome to %s! ***\n" % caller.ndb._menutree.shopname
+    text = "*** Welcome to %s! ***\n" % caller.ndb._menutree.shoptitle
     if wares:
         text += "|wAn array of harshly-illuminated wares sit across the dipenser-display,\nsome out of stock\n|n (choose 1-%i to inspect,  quit to exit.)" \
              % len(wares)
@@ -38,7 +39,7 @@ def menunode_shopfront(caller, raw_string, **kwargs):
 def menunode_inspect_and_buy(caller, raw_string):
     "Sets up the buy menu screen."
 
-    vendobject = caller.search(caller.ndb._menutree.shopname, typeclass=VendingMachine)
+    vendobject = caller.search(caller.ndb._menutree.shoptitle, typeclass=VendingMachine)
     wares = vendobject.contents
     iware = int(raw_string) - 1
     ware = wares[iware]
