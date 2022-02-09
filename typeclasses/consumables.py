@@ -8,12 +8,12 @@ class ConsumableObject(DefaultObject):
        def at_object_creation(self):
            print("wow")
 
+"""
 class CmdEat(Command):
-    """
+
     Usage: 
         eat <thing>
         allows you to eat a consumable object! 
-    """
     key = 'eat'
     def func(self):
         if not self.args:
@@ -31,6 +31,7 @@ class CmdEat(Command):
                 self.caller.msg(f"You eat {target.name}.")
                 self.caller.msg_contents(f"{self.caller.name} eats {target.name}.", exclude=self.caller)
                 target.delete()
+"""
 
 class CmdCreateFood(Command):
     """
