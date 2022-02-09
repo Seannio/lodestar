@@ -1,3 +1,6 @@
+from evennia import DefaultRoom, DefaultExit, DefaultObject
+from evennia.utils.create import create_object
+
 class ConsumableObject(DefaultObject):
        # A basic object that can be eaten/drank/smoked/etc. 
 

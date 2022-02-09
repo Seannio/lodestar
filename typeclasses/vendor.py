@@ -26,7 +26,7 @@ def menunode_shopfront(caller, raw_string, **kwargs):
         return
 
     # generate the MACHINE MENU! Maybe randomize things here, later.
-    text = "*** Welcome to %s! ***\n" % caller.ndb._menutree.shoptitle
+    text = "*** Welcome to the %s service! ***\n" % caller.ndb._menutree.shoptitle
     if wares:
         text += "|wAn array of harshly-illuminated wares sit across the dipenser-display,\nsome out of stock\n|n (choose 1-%i to inspect,  quit to exit.)" \
              % len(wares)
@@ -151,7 +151,7 @@ class CmdStock(Command):
         Loads a vending machine with OBJECTS.  
     """
     key = 'stock'
-    
+
     #TODO: Make refactor the Stock item to deposit multiples of something!
 
     def parse(self):
@@ -163,9 +163,6 @@ class CmdStock(Command):
         self.machine_arg = self.machine_arg.strip()
 
     def func(self):
-        if not self.args:
-            self.msg("Usage: stock <machine> with <goods>")
-            return
         caller = self.caller
         goods_arg = self.goods_arg
         machine_arg = self.machine_arg
@@ -193,10 +190,6 @@ class CmdStock(Command):
         else:
             caller.msg(f"Could not find {goods_arg}!")
 
-class ShopCmdSet(CmdSet):
-    def at_cmdset_creation(self):
-        self.add(CmdBuy())
-        self.add(CmdStock())
 
 # ------- Vendor Objects  --------
 
@@ -214,3 +207,10 @@ class VendingStock(DefaultObject):
 
        def at_object_creation(self):
            print("wow")
+
+
+
+class ShopCmdSet(CmdSet):
+    def at_cmdset_creation(self):
+        self.add(CmdBuy())
+        self.add(CmdStock())
