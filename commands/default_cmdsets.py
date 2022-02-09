@@ -18,7 +18,7 @@ from evennia import default_cmds
 from commands import command
 from commands.command import CmdAbilities
 from typeclasses.vendor import CmdCreateVend, ShopCmdSet
-from typeclasses.consumables import ConsumableCmdSet
+from typeclasses.consumables import ConsumableCmdSet, CmdCreateFood
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -42,7 +42,8 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(ShopCmdSet())
 
         self.add(ConsumableCmdSet())
-        
+        self.add(CmdCreateFood())
+
         self.add(CmdAbilities())
 
 

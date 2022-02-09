@@ -23,7 +23,7 @@ class CmdEat(Command):
         toeat = self.args.strip()
         target = self.caller.search(toeat, candidates=self.caller.contents, typeclass=ConsumableObject)
         
-        if (self.caller.search(toeat, candidates=self.caller.contents).typeclass!=ConsumableObject):
+        if (self.caller.search(toeat, candidates=self.caller.contents).object.typeclass!=ConsumableObject):
             self.msg("That's not food.")
             return
         if not target: 
