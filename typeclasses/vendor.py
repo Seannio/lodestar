@@ -7,17 +7,17 @@ from evennia import Command
 from evennia import CmdSet
 
 def menunode_shopfront(caller, raw_string, **kwargs):
-    for i, v in kwargs.items():
-        print ("    ", i, ": ", v)
-
+    
     menu_dic = caller.ndb._menutree.menu_dic
-    print("What: " + menu_dic['shopname'])
-    print("Kwargs? Hello? %s" % kwargs.items)
-
+    cmdarg = menu_dic['shopname']
     # First-screen for the Vending Machine
     # - Strips the shop-name from the args, populates the wares list with shop contents. 
-    caller.ndb._menutree.shopname = raw_string.strip()
-    vendobject = caller.search(caller.ndb._menutree.shopname, typeclass=VendingMachine)
+    # caller.ndb._menutree.shopname = raw_string.strip()
+    try:
+        vendobject = caller.search(cmdarg, typeclass=VendingMachine)
+    except:
+        caller.msg("Error.")
+
     wares = vendobject.contents
 
     text = "*** Welcome to %s! ***\n" % caller.ndb._menutree.shopname
