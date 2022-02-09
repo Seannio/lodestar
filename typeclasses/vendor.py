@@ -72,10 +72,40 @@ def menunode_inspect_and_buy(caller, raw_string):
                )
 
     return text, options
-    # mygame/typeclasses/npcshop.py
 
 
+# ------- Vendor Commands  --------
 
+class CmdCreateVend(Command):
+    """
+    Build a new shop
+
+    Usage:
+        @createvend <vending machine name>
+
+    This will create a new, empty VENDING MACHINE object. 
+    They can be loaded with stuff via the <stock> command.
+    """
+    key = "@createvend"
+    locks = "cmd:perm(Builders)"
+    help_category = "Builders"
+
+    def func(self):
+        "Create the shop objects"
+        if not self.args:
+            self.msg("Usage: @createvend <vending machine name>")
+            return
+
+        # create the shop 
+        shopname = self.args.strip()
+        shop = create_object(VendingMachine,
+                             key=shopname,
+                             location=self.caller.location)
+        shop.db.storeroom = shop
+
+        # inform the builder about progress
+        self.caller.msg("The shop %s was created!" % shop)
+        self.caller.msg("The contents of the shop are %s" % shop.contents)
 
 class CmdBuy(Command):
     """
@@ -113,36 +143,6 @@ class CmdBuy(Command):
                       cmd_on_exit="look",
                       startnode_input=shopname,
                       menu_dic=menu_dic)
-
-class CmdBuildShop(Command):
-    """
-    Build a new shop
-
-    Usage:
-        @buildshop shopname
-
-    This will create a new VENDING MACHINE object, where
-    the items to be sold will be stored in the vending machine. 
-    """
-    key = "@buildshop"
-    locks = "cmd:perm(Builders)"
-    help_category = "Builders"
-
-    def func(self):
-        "Create the shop objects"
-        if not self.args:
-            self.msg("Usage: @buildshop <storename>")
-            return
-        # create the shop and storeroom
-        shopname = self.args.strip()
-        shop = create_object(VendingMachine,
-                             key=shopname,
-                             location=self.caller.location)
-        shop.db.storeroom = shop
-
-        # inform the builder about progress
-        self.caller.msg("The shop %s was created!" % shop)
-        self.caller.msg("The contents of the shop are %s" % shop.contents)
 
 class CmdStock(Command):
     """
@@ -189,23 +189,25 @@ class CmdStock(Command):
         else:
             caller.msg(f"Could not find {goods_arg}!")
 
-
-
 class ShopCmdSet(CmdSet):
     def at_cmdset_creation(self):
         self.add(CmdBuy())
         self.add(CmdStock())
 
+# ------- Vendor Objects  --------
+
 class VendingMachine(DefaultObject):
-       "A basic vending machine object that can't be STOLEN."
+       # a basic vending machine object with a get/move lock.
        def at_object_creation(self):
-           "Called whenever a new object is created"
            # lock the object down by default
            self.cmdset.add_default(ShopCmdSet)
-           self.db.storeroom = None
            self.locks.add("get:false()")
-           # the default "get" command looks for this Attribute in order
-           # to return a customized error message (we just happen to know
-           # this, you'd have to look at the code of the 'get' command to
-           # find out).
            self.db.get_err_msg = "The vending machine is too heavy to pick up."
+
+class VendingStock(DefaultObject):
+       # A basic vending machine object that can be stocked in a vending machine.
+       # Ideally, when stocked, it should create several other objects. 
+       # ex:  'crate of bottles' -> 5 bottles when placed
+
+       def at_object_creation(self):
+           print("wow")
