@@ -22,11 +22,15 @@ class CmdEat(Command):
 
         toeat = self.args.strip()
         target = self.caller.search(toeat, candidates=self.caller.contents, typeclass=ConsumableObject)
+        
+        if (target.typeclass!=ConsumableObject):
+            self.msg("That's not food.")
+            return
         if not target: 
             self.msg("You don't have anything by that name.")
             return
-
-        if target.location == self.caller:
+        else:
+            if target.location == self.caller:
                 self.caller.msg(f"You eat {target.name}.")
                 self.caller.msg_contents(f"{self.caller.name} eats {target.name}.", exclude=self.caller)
                 target.delete()
