@@ -17,7 +17,7 @@ own cmdsets by inheriting from them or directly from `evennia.CmdSet`.
 from evennia import default_cmds
 from commands import command
 from commands.command import CmdAbilities
-from typeclasses.vendor import CmdCreateVend
+from typeclasses.vendor import CmdCreateVend, ShopCmdSet
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -39,6 +39,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         #
         self.add(CmdCreateVend())
         self.add(CmdAbilities())
+        self.cmdset.add_default(ShopCmdSet)
 
 
 class AccountCmdSet(default_cmds.AccountCmdSet):

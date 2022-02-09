@@ -200,7 +200,6 @@ class VendingMachine(DefaultObject):
        # a basic vending machine object with a get/move lock.
        def at_object_creation(self):
            # lock the object down by default
-           self.cmdset.add_default(ShopCmdSet)
            self.locks.add("get:false()")
            self.db.get_err_msg = "The vending machine is too heavy to pick up."
 
