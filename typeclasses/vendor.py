@@ -150,14 +150,18 @@ class CmdStock(Command):
         stock <vending machine> with <goods>
         Loads a vending machine with OBJECTS.  
     """
-    key = 'put'
-
+    key = 'stock'
+    
     def parse(self):
         self.machine_arg, self.goods_arg = self.args.split('with')
         self.goods_arg = self.goods_arg.strip()
         self.machine_arg = self.machine_arg.strip()
 
     def func(self):
+        if not self.args:
+            self.msg("Usage: stock <machine> with <goods>")
+            return
+
         caller = self.caller
         goods_arg = self.goods_arg
         machine_arg = self.machine_arg
