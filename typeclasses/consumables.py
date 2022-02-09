@@ -23,7 +23,7 @@ class CmdEat(Command):
         toeat = self.args.strip()
         target = self.caller.search(toeat, candidates=self.caller.contents, typeclass=ConsumableObject)
         
-        if (target.typeclass!=ConsumableObject):
+        if (self.caller.search(toeat, candidates=self.caller.contents).typeclass!=ConsumableObject):
             self.msg("That's not food.")
             return
         if not target: 
@@ -51,12 +51,10 @@ class CmdCreateFood(Command):
 
         # create the shop 
         foodname = self.args.strip()
+        self.caller.msg("Creating: %s" % foodname)
         food = create_object(ConsumableObject,
                              key=foodname,
                              location=self.caller.location)
-
-        # inform the builder about progress
-        self.caller.msg("Object created: %s" % food)
 
 # commandset for CONSUMING
 class ConsumableCmdSet(CmdSet):
