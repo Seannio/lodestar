@@ -7,17 +7,15 @@ from evennia import Command
 from evennia import CmdSet
 
 def menunode_shopfront(caller, raw_string, **kwargs):
+    choices_dic = caller.ndb._menutree.choices_dic
+    namething = choices_dic.get('shopname')
+    print("SAJFDJFAJFADSJFAJFJFJ %s" % namething)
+    print("OTHER SAJFDJFAJFADSJFAJFJFJ %s" % choices_dic)
     # First-screen for the Vending Machine
     # - Strips the shop-name from the args, populates the wares list with shop contents. 
     caller.ndb._menutree.shopname = raw_string.strip()
-    vendobject = caller.search("", typeclass=VendingMachine)
+    vendobject = caller.search(caller.ndb._menutree.shopname, typeclass=VendingMachine)
     wares = vendobject.contents
-    #this is fucking stupid
-    if caller.ndb._menutree.shopname.isdigit():
-        print("wawa")
-    else: 
-        vendobject = caller.search(caller.ndb._menutree.shopname, typeclass=VendingMachine)
-        wares = vendobject.contents
 
     text = "*** Welcome to %s! ***\n" % caller.ndb._menutree.shopname
     if wares:
@@ -95,12 +93,15 @@ class CmdBuy(Command):
         if not target: 
             self.msg("There isn't a shop here by that name.")
             return
+
+        menu_dic = {'shopname':shopname}
+
         evmenu.EvMenu(self.caller, 
                       "typeclasses.vendor",
                       startnode="menunode_shopfront",
                       cmd_on_exit="look",
                       startnode_input=shopname,
-                      connectedStore=shopname)
+                      menu_dic=menu_dic)
 
 class CmdBuildShop(Command):
     """
