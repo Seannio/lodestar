@@ -60,9 +60,6 @@ class CmdAbilities(BaseCommand):
             string = "Synaptic Tensility: %s,\n Voltaic Conception: %s,\nSuperstitions: %s,\n Grey Augument %s,\n" % (synaptic_tensility, voltaic_conception, superstitions, grey_augument)
             self.caller.msg(string)
 
-# command to build a complete shop (the Command base class
-# should already have been imported earlier in this file)
-
 # -------------------------------------------------------------
 #
 # The default commands inherit from

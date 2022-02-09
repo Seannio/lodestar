@@ -152,6 +152,8 @@ class CmdStock(Command):
     """
     key = 'stock'
     
+    #TODO: Make refactor the Stock item to deposit multiples of something!
+
     def parse(self):
         if not self.args:
             self.msg("Usage: stock <machine> with <goods>")
