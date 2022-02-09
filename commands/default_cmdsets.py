@@ -39,7 +39,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         #
         self.add(CmdCreateVend())
         self.add(CmdAbilities())
-        self.cmdset.add(ShopCmdSet())
+        self.add(ShopCmdSet())
 
 
 class AccountCmdSet(default_cmds.AccountCmdSet):
