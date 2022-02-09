@@ -27,9 +27,7 @@ class CmdEat(Command):
         if not target: 
             self.msg("You don't have anything by that name.")
             return
-
-        if len(target):
-            target = target[0]
+            
         if target.location == self.caller:
                 self.caller.msg(f"You eat {target.name}.")
                 self.caller.msg_contents(f"{self.caller.name} eats {target.name}.", exclude=self.caller)
