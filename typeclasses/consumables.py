@@ -10,11 +10,6 @@ class ConsumableObject(DefaultObject):
         
            print("wow")
 
-class ConsumableCmdSet(CmdSet):
-    def at_cmdset_creation(self):
-        print("wow")
-        # self.add(CmdBuy())
-
 class CmdEat(Command):
     """
     Usage: 
@@ -41,5 +36,7 @@ class CmdEat(Command):
                 target.delete()
 
 
-
-# self.search(query, candidates=self.caller.contents)
+# commandset for CONSUMING
+class ConsumableCmdSet(CmdSet):
+    def at_cmdset_creation(self):
+        self.add(CmdEat())

@@ -18,6 +18,7 @@ from evennia import default_cmds
 from commands import command
 from commands.command import CmdAbilities
 from typeclasses.vendor import CmdCreateVend, ShopCmdSet
+from typeclasses.consumables import ConsumableCmdSet
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -38,8 +39,11 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         # any commands you add below will overload the default ones.
         #
         self.add(CmdCreateVend())
-        self.add(CmdAbilities())
         self.add(ShopCmdSet())
+
+        self.add(ConsumableCmdSet())
+        
+        self.add(CmdAbilities())
 
 
 class AccountCmdSet(default_cmds.AccountCmdSet):
