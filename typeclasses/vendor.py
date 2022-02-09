@@ -208,8 +208,6 @@ class VendingStock(DefaultObject):
        def at_object_creation(self):
            print("wow")
 
-
-
 class ShopCmdSet(CmdSet):
     def at_cmdset_creation(self):
         self.add(CmdBuy())

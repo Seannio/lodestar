@@ -1,13 +1,11 @@
 from evennia import DefaultRoom, DefaultExit, DefaultObject
 from evennia import Command
 from evennia import CmdSet
+from evennia import create_object
 
 class ConsumableObject(DefaultObject):
        # A basic object that can be eaten/drank/smoked/etc. 
-
-       one_consume_only = True
        def at_object_creation(self):
-        
            print("wow")
 
 class CmdEat(Command):
@@ -27,12 +25,34 @@ class CmdEat(Command):
         if not target: 
             self.msg("You don't have anything by that name.")
             return
-            
+
         if target.location == self.caller:
                 self.caller.msg(f"You eat {target.name}.")
                 self.caller.msg_contents(f"{self.caller.name} eats {target.name}.", exclude=self.caller)
                 target.delete()
 
+class CmdCreateFood(Command):
+    """
+    Usage:
+        @CreateFood food 
+    """
+    key = "@createfood"
+    locks = "cmd:perm(Builders)"
+    help_category = "Builders"
+
+    def func(self):
+        if not self.args:
+            self.msg("Usage: @createfood food")
+            return
+
+        # create the shop 
+        foodname = self.args.strip()
+        food = create_object(ConsumableObject,
+                             key=foodname,
+                             location=self.caller.location)
+
+        # inform the builder about progress
+        self.caller.msg("Object created: %s" % food)
 
 # commandset for CONSUMING
 class ConsumableCmdSet(CmdSet):
