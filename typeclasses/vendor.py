@@ -153,6 +153,9 @@ class CmdStock(Command):
     key = 'stock'
     
     def parse(self):
+        if not self.args:
+            self.msg("Usage: stock <machine> with <goods>")
+            return
         self.machine_arg, self.goods_arg = self.args.split('with')
         self.goods_arg = self.goods_arg.strip()
         self.machine_arg = self.machine_arg.strip()
@@ -161,7 +164,6 @@ class CmdStock(Command):
         if not self.args:
             self.msg("Usage: stock <machine> with <goods>")
             return
-
         caller = self.caller
         goods_arg = self.goods_arg
         machine_arg = self.machine_arg
