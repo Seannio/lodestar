@@ -6,41 +6,45 @@ from evennia.utils import evmenu
 from evennia import Command
 from evennia import CmdSet
 
+
+
 def menunode_shopfront(caller, raw_string, **kwargs):
-    
+
+    # menu_dic is passed from kwargs, but is stored innately in
+    # ndb._menutree. It's deleted on menu-exit. 
     menu_dic = caller.ndb._menutree.menu_dic
     cmdarg = menu_dic['shopname']
-    # First-screen for the Vending Machine
-    # - Strips the shop-name from the args, populates the wares list with shop contents. 
-    # caller.ndb._menutree.shopname = raw_string.strip()
+
+    # try-catch, forcing an error if multiple identical vending machines
+    # exist. Shouldn't happen, but....
     try:
         vendobject = caller.search(cmdarg, typeclass=VendingMachine)
         caller.ndb._menutree.shoptitle = vendobject
+        wares = vendobject.contents
     except:
         caller.msg("Error.")
+        return
 
-    wares = vendobject.contents
-
+    # generate the MACHINE MENU! Maybe randomize things here, later.
     text = "*** Welcome to %s! ***\n" % caller.ndb._menutree.shoptitle
     if wares:
         text += "|wAn array of harshly-illuminated wares sit across the dipenser-display,\nsome out of stock\n|n (choose 1-%i to inspect,  quit to exit.)" \
              % len(wares)
     else:
         text += "The vending machine is empty."
-
     options = []
     for ware in wares:
-        # add an option for every ware in store
+        # list every ware in the store
         options.append({"desc": "%s (%s chits)" %
                              (ware.key, ware.db.gold_value or 1),
                         "goto": "menunode_inspect_and_buy"})
     return text, options
 
 def menunode_inspect_and_buy(caller, raw_string):
-    "Sets up the buy menu screen."
+    # called by "goto" in the previous function
+    #vendobject = caller.search(caller.ndb._menutree.shoptitle, typeclass=VendingMachine)
+    wares = caller.ndb._menutree.shoptitle.contents
 
-    vendobject = caller.search(caller.ndb._menutree.shoptitle, typeclass=VendingMachine)
-    wares = vendobject.contents
     iware = int(raw_string) - 1
     ware = wares[iware]
     value = ware.db.gold_value or 2
@@ -69,6 +73,9 @@ def menunode_inspect_and_buy(caller, raw_string):
 
     return text, options
     # mygame/typeclasses/npcshop.py
+
+
+
 
 class CmdBuy(Command):
     """
@@ -137,12 +144,53 @@ class CmdBuildShop(Command):
         self.caller.msg("The shop %s was created!" % shop)
         self.caller.msg("The contents of the shop are %s" % shop.contents)
 
+class CmdStock(Command):
+    """
+    Usage: 
+        stock <vending machine> with <goods>
+        Loads a vending machine with OBJECTS.  
+    """
+    key = 'put'
+
+    def parse(self):
+        self.machine_arg, self.goods_arg = self.args.split('with')
+        self.goods_arg = self.goods_arg.strip()
+        self.machine_arg = self.machine_arg.strip()
+
+    def func(self):
+        caller = self.caller
+        goods_arg = self.goods_arg
+        machine_arg = self.machine_arg
+
+        # Find the item.
+        # Location unset, search conducted within the character and its location.
+
+        item = caller.search(goods_arg, quiet=True)
+        if item:
+            if len(item):
+                item = item[0]
+            container = caller.search(machine_arg, quiet=True)
+            if container:
+                if len(container):
+                    container = container[0]
+                if item.location == caller:
+                    caller.msg(f"You place {item.name} in {container.name}.")
+                    caller.msg_contents(f"{caller.name} places {item.name} in {container.name}.", exclude=caller)
+                elif item.location == caller.location:
+                    caller.msg(f"You pick up {item.name} and place it in {container.name}.")
+                    caller.msg_contents(f"{caller.name} picks up {item.name} and places it in {container.name}.", exclude=caller)
+                item.move_to(container, quiet=True)
+            else:
+                caller.msg(f"Could not find {machine_arg}!")
+        else:
+            caller.msg(f"Could not find {goods_arg}!")
+
+
 
 class ShopCmdSet(CmdSet):
     def at_cmdset_creation(self):
         self.add(CmdBuy())
-
-# bottom of mygame/typeclasses/npcshop.py
+        self.add(CmdStock())
 
 class VendingMachine(DefaultObject):
        "A basic vending machine object that can't be STOLEN."
