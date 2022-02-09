@@ -11,7 +11,7 @@ def menunode_shopfront(caller, raw_string, **kwargs):
         print ("    ", i, ": ", v)
 
     menu_dic = caller.ndb._menutree.menu_dic
-    print("What: " + menu_dic)
+    print("What: " + menu_dic['shopname'])
     print("Kwargs? Hello? %s" % kwargs.items)
 
     # First-screen for the Vending Machine
