@@ -25,7 +25,7 @@ class CmdEat(Command):
         
 
         if not target: 
-            self.msg("You don't have anything by that name.")
+            self.msg("You don't have anything edible by that name.")
             return
         else:
             if target.location == self.caller:
@@ -54,6 +54,7 @@ class CmdCreateFood(Command):
                              key=foodname,
                              location=self.caller.location)
         food.db.desc = "A generic food object."
+        food.db.value = 50
 
 # commandset for CONSUMING
 class ConsumableCmdSet(CmdSet):
