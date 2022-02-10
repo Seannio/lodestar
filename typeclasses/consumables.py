@@ -57,13 +57,13 @@ class CmdSetOConMsg(Command):
             return
 
         if self.lhs:
-            connsumableobj = self.caller.search(self.lhs, candidates=self.caller.contents)
-            if not connsumableobj:
+            consumableobj = self.caller.search(self.lhs, candidates=self.caller.contents)
+            if not consumableobj:
                 self.caller.msg("Thing to set message for must be held.")
                 return
             if self.rhs:
                 connsumableobj.db.messages['ocon_msg'] = self.rhs
-                caller.msg("Worn message for %s set as: %s" % (connsumableobj.name, self.rhs))
+                caller.msg("Worn message for %s set as: %s" % (consumableobj.name, self.rhs))
 
 
 
@@ -88,8 +88,8 @@ class CmdEat(Command):
             return
         else:
             if target.location == self.caller:
-                self.caller.msg(target.db.consume_msg)
-                self.caller.msg_contents(f"{self.caller.name} eats {target.name}.", exclude=self.caller)
+                self.caller.msg(target.db.messages['con_msg'])
+                self.caller.msg_contents(target.db.messages['ocon_msg'])
                 target.delete()
 
 class CmdCreateFood(Command):
