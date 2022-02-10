@@ -54,12 +54,12 @@ def menunode_inspect_and_buy(caller, raw_string):
     def buy_ware_result(caller):
         "This will be executed first when choosing to buy."
         if wealth >= value:
-            rtext = "You pay %i chits and purchase %s!" % \
+            rtext = "\n|wYou pay %i chits and purchase %s!" % \
                          (value, ware.key)
             caller.db.currency -= value
             ware.move_to(caller, quiet=True)
         else:
-            rtext = "You cannot afford %i chits for %s!" % \
+            rtext = "\n|wYou cannot afford %i chits for %s!" % \
                           (value, ware.key)
         caller.msg(rtext)
 
