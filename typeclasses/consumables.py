@@ -113,8 +113,6 @@ class CmdCreateFood(Command):
                              key=foodname,
                              location=self.caller.location)
         food.db.desc = "A generic food object."
-        food.db.consume_msg = "You chow down on the %s" % food.key
-        food.db.oconsume_msg = "%s chows down on their %s" % self.caller.name, food.key
         food.db.value = 50
 
 # commandset for CONSUMING
