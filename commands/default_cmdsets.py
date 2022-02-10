@@ -41,8 +41,8 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdCreateVend())
         self.add(ShopCmdSet())
 
-        self.add(ConsumableCmdSet())
-        self.add(CmdCreateFood())
+        #self.add(ConsumableCmdSet())
+        #self.add(CmdCreateFood())
 
         self.add(CmdAbilities())
 
