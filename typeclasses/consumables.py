@@ -6,8 +6,8 @@ from evennia import create_object
 class ConsumableObject(DefaultObject):
        # A basic object that can be eaten/drank/smoked/etc. 
        def at_object_creation(self):
-           print("wow")
-
+           gold_value = 100
+           
 class CmdEat(Command):
     """
     Usage: 
