@@ -12,7 +12,7 @@ class ConsumableObject(DefaultObject):
            if not self.db.messages:
                 self.db.messages = {message: "" for message in CONSUMABLE_MESSAGE_TYPES}
 
-class CmdSetConMsg(MuxCommand):
+class CmdSetConMsg(Command):
     """
     Set the con_msg for a consumable 
     Usage:
@@ -39,7 +39,7 @@ class CmdSetConMsg(MuxCommand):
                 caller.msg("Worn message for %s set as: %s" % (connsumableobj.name, self.rhs))
 
 
-class CmdSetOConMsg(MuxCommand):
+class CmdSetOConMsg(Command):
     """
     Set the ocon_msg for a consumable 
     Usage:
