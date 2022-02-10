@@ -101,6 +101,7 @@ class CmdCreateVend(Command):
         shop = create_object(VendingMachine,
                              key=shopname,
                              location=self.caller.location)
+        shop.db.desc = "A strange-looking vending machine."
         shop.db.storeroom = shop
 
         # inform the builder about progress

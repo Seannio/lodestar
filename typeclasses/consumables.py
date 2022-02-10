@@ -7,7 +7,7 @@ class ConsumableObject(DefaultObject):
        # A basic object that can be eaten/drank/smoked/etc. 
        def at_object_creation(self):
            gold_value = 100
-           
+
 class CmdEat(Command):
     """
     Usage: 
@@ -53,6 +53,7 @@ class CmdCreateFood(Command):
         food = create_object(ConsumableObject,
                              key=foodname,
                              location=self.caller.location)
+        food.db.desc = "A generic food object."
 
 # commandset for CONSUMING
 class ConsumableCmdSet(CmdSet):
