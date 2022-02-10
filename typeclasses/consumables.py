@@ -23,20 +23,25 @@ class CmdSetConMsg(Command):
     locks = "cmd:perm(Builders)"
     help_category = "consumables"
 
-    def func(self):
-        caller = self.caller
+    def parse(self):
         if not self.args:
-            caller.msg("Need to provide fooditem and message.")
+            self.msg("Usage: @con_msg <item> = <message>")
             return
 
-        if self.lhs:
-            connsumableobj = self.caller.search(self.lhs, candidates=self.caller.contents)
+    def func(self):
+        caller = self.caller
+        self.searchob, self.msg = self.args.split('=')
+        self.searchob = self.goods_arg.strip()
+        self.msg = self.machine_arg.strip()
+
+        if self.msg:
+            connsumableobj = self.caller.search(self.searchob, candidates=self.caller.contents)
             if not connsumableobj:
                 self.caller.msg("Thing to set message for must be held.")
                 return
-            if self.rhs:
-                connsumableobj.db.messages['con_msg'] = self.rhs
-                caller.msg("Worn message for %s set as: %s" % (connsumableobj.name, self.rhs))
+            if self.searchob:
+                connsumableobj.db.messages['con_msg'] = self.msg
+                caller.msg("Worn message for %s set as: %s" % (connsumableobj.name, self.msg))
 
 
 class CmdSetOConMsg(Command):
@@ -50,20 +55,25 @@ class CmdSetOConMsg(Command):
     locks = "cmd:perm(Builders)"
     help_category = "consumables"
 
-    def func(self):
-        caller = self.caller
+    def parse(self):
         if not self.args:
-            caller.msg("Need to provide fooditem and message.")
+            self.msg("Usage: @ocon_msg <item> = <message>")
             return
 
-        if self.lhs:
-            consumableobj = self.caller.search(self.lhs, candidates=self.caller.contents)
-            if not consumableobj:
+    def func(self):
+        caller = self.caller
+        self.searchob, self.msg = self.args.split('=')
+        self.searchob = self.goods_arg.strip()
+        self.msg = self.machine_arg.strip()
+
+        if self.msg:
+            connsumableobj = self.caller.search(self.searchob, candidates=self.caller.contents)
+            if not connsumableobj:
                 self.caller.msg("Thing to set message for must be held.")
                 return
-            if self.rhs:
-                connsumableobj.db.messages['ocon_msg'] = self.rhs
-                caller.msg("Worn message for %s set as: %s" % (consumableobj.name, self.rhs))
+            if self.searchob:
+                connsumableobj.db.messages['ocon_msg'] = self.msg
+                caller.msg("Worn message for %s set as: %s" % (connsumableobj.name, self.msg))
 
 
 
