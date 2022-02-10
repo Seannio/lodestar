@@ -41,7 +41,7 @@ class CmdSetConMsg(Command):
                 return
             if self.searchob:
                 connsumableobj.db.messages['con_msg'] = self.msg
-                caller.msg("Worn message for %s set as: %s" % (connsumableobj.name, self.msg))
+                caller.msg("con_msg for %s set as: %s" % (connsumableobj.name, self.msg))
 
 
 class CmdSetOConMsg(Command):
@@ -73,7 +73,7 @@ class CmdSetOConMsg(Command):
                 return
             if self.searchob:
                 connsumableobj.db.messages['ocon_msg'] = self.msg
-                caller.msg("Worn message for %s set as: %s" % (connsumableobj.name, self.msg))
+                caller.msg("ocon_msg for %s set as: %s" % (connsumableobj.name, self.msg))
 
 
 
