@@ -63,8 +63,8 @@ class CmdSetOConMsg(Command):
     def func(self):
         caller = self.caller
         self.searchob, self.msg = self.args.split('=')
-        self.searchob = self.goods_arg.strip()
-        self.msg = self.machine_arg.strip()
+        self.searchob = self.searchob.strip()
+        self.msg = self.msg.strip()
 
         if self.msg:
             connsumableobj = self.caller.search(self.searchob, candidates=self.caller.contents)
