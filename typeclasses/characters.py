@@ -53,6 +53,7 @@ class Character(DefaultCharacter):
         self.db.voltaic_conception = 1
         self.db.superstitions = 1
         self.db.grey_augument = 1
+        self.db.currency = 1
 
 
     def get_abilities(self):
@@ -61,3 +62,11 @@ class Character(DefaultCharacter):
         scores as a tuple (str,agi,mag)
         """
         return self.db.synaptic_tensility, self.db.voltaic_conception, self.db.superstitions,  self.db.grey_augument
+
+
+    def get_currency(self):
+        """
+        Simple access method to return ability
+        scores as a tuple (str,agi,mag)
+        """
+        return self.db.currency

@@ -59,6 +59,27 @@ class CmdAbilities(BaseCommand):
             synaptic_tensility, voltaic_conception, superstitions, grey_augument = self.caller.get_abilities()
             string = "Synaptic Tensility: %s,\n Voltaic Conception: %s,\nSuperstitions: %s,\n Grey Augument %s,\n" % (synaptic_tensility, voltaic_conception, superstitions, grey_augument)
             self.caller.msg(string)
+    
+class CmdCurrency(BaseCommand):
+        """
+        List abilities
+
+        Usage:
+          abilities
+
+        Displays a list of your current ability values.
+        """
+        key = "currency"
+        aliases = ["cur", "count", "money"]
+        lock = "cmd:all()"
+        help_category = "General"
+
+        def func(self):
+            # pulls currency using get_currency in characters.py
+            currency = self.caller.get_currency()
+            string = "You do a brief count of the various currencies in your posession, eventually totalling: %sc.\n" % (currency)
+            self.caller.msg(string)
+            self.caller.msg_contents(f"{self.caller.name} searches through their belongings, taking a quick account of their cash.", exclude=self.caller)
 
 # -------------------------------------------------------------
 #

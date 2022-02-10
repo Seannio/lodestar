@@ -16,7 +16,7 @@ own cmdsets by inheriting from them or directly from `evennia.CmdSet`.
 
 from evennia import default_cmds
 from commands import command
-from commands.command import CmdAbilities
+from commands.command import CmdAbilities, CmdCurrency
 from typeclasses.vendor import CmdCreateVend, ShopCmdSet
 from typeclasses.consumables import ConsumableCmdSet, CmdCreateFood
 
@@ -45,6 +45,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdCreateFood())
 
         self.add(CmdAbilities())
+        self.add(CmdCurrency())
 
 
 class AccountCmdSet(default_cmds.AccountCmdSet):
