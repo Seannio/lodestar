@@ -53,7 +53,7 @@ class Character(DefaultCharacter):
         self.db.voltaic_conception = 1
         self.db.superstitions = 1
         self.db.grey_augument = 1
-        self.db.currency = 1
+        self.db.currency = 100
 
 
     def get_abilities(self):

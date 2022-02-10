@@ -47,8 +47,8 @@ def menunode_inspect_and_buy(caller, raw_string):
 
     iware = int(raw_string) - 1
     ware = wares[iware]
-    value = ware.db.value or 2
-    wealth = caller.db.gold or 0
+    value = ware.db.value or 1
+    wealth = caller.db.currency or 0
     text = "You inspect %s:\n\n%s" % (ware.key, ware.db.desc)
 
     def buy_ware_result(caller):
@@ -56,7 +56,7 @@ def menunode_inspect_and_buy(caller, raw_string):
         if wealth >= value:
             rtext = "You pay %i chits and purchase %s!" % \
                          (value, ware.key)
-            caller.db.gold -= value
+            caller.db.currency -= value
             ware.move_to(caller, quiet=True)
         else:
             rtext = "You cannot afford %i chits for %s!" % \
