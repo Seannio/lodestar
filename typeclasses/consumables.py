@@ -210,7 +210,7 @@ class CmdCreateDrink(Command):
 
     def func(self):
         if not self.args:
-            self.msg("Usage: @createfood food")
+            self.msg("Usage: @createdrink food")
             return
 
         # create the shop 
@@ -232,6 +232,7 @@ class ConsumableCmdSet(CmdSet):
 class ConsumableBuildSet(CmdSet):
     def at_cmdset_creation(self):
         self.add(CmdCreateFood())
+        self.add(CmdCreateDrink())
         self.add(CmdSetConMsg())
         self.add(CmdSetOConMsg())
         self.add(CmdSetFinishMsg())
