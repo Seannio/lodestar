@@ -90,13 +90,13 @@ class CmdSetFinishMsg(Command):
         @finish_msg <consumable item> = <message>
     """
 
-    key = '@ocon_msg'
+    key = '@finish_msg'
     locks = "cmd:perm(Builders)"
     help_category = "consumables"
 
     def parse(self):
         if not self.args:
-            self.msg("Usage: @ocon_msg <item> = <message>")
+            self.msg("Usage: @finish_msg <item> = <message>")
             return
 
     def func(self):
@@ -112,7 +112,7 @@ class CmdSetFinishMsg(Command):
                 return
             if self.searchob:
                 connsumableobj.db.messages['finish_msg'] = self.msg
-                caller.msg("ocon_msg for %s set as: %s" % (connsumableobj.name, self.msg))
+                caller.msg("finish_msgfor %s set as: %s" % (connsumableobj.name, self.msg))
 
 class CmdEat(Command):
     """
@@ -233,3 +233,4 @@ class ConsumableBuildSet(CmdSet):
         self.add(CmdCreateFood())
         self.add(CmdSetConMsg())
         self.add(CmdSetOConMsg())
+        self.add(CmdSetFinishMsg())
