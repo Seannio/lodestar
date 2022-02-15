@@ -23,4 +23,10 @@ SCREENOBJECT_STRINGS = (
                 "\nOn the tiny holopanel: A space-drama dubbed in neo-italian, with lips that don't match up to the words."
 )
 
-CONSUMABLE_MESSAGE_TYPES = ['con_msg', 'ocon_msg', 'value']
+CONSUMABLE_MESSAGE_TYPES = ('con_msg',
+                            'ocon_msg',
+                            'finish_msg',
+                            'chug_msg',  
+                            'portions',
+                            'value'
+)

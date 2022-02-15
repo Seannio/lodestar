@@ -152,6 +152,7 @@ class CmdStock(Command):
         Loads a vending machine with OBJECTS.  
     """
     key = 'stock'
+    aliases = ("load")
 
     #TODO: Make refactor the Stock item to deposit multiples of something!
 
