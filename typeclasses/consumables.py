@@ -112,7 +112,7 @@ class CmdSetFinishMsg(Command):
                 return
             if self.searchob:
                 connsumableobj.db.messages['finish_msg'] = self.msg
-                caller.msg("finish_msgfor %s set as: %s" % (connsumableobj.name, self.msg))
+                caller.msg("finish_msg for %s set as: %s" % (connsumableobj.name, self.msg))
 
 class CmdEat(Command):
     """
@@ -227,6 +227,7 @@ class CmdCreateDrink(Command):
 class ConsumableCmdSet(CmdSet):
     def at_cmdset_creation(self):
         self.add(CmdEat())
+        self.add(CmdDrink())
 
 class ConsumableBuildSet(CmdSet):
     def at_cmdset_creation(self):
