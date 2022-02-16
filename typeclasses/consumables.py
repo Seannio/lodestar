@@ -210,7 +210,7 @@ class CmdCreateObj(Command):
 
         obj_name = self.name
         obj_type = self.object_type
-        self.caller.msg("Creating: %s of object type %s" % obj_name, obj_type)
+        self.caller.msg("Creating object type %s" % obj_type)
         food = create_object(obj_type,
                              key=obj_name,
                              location=self.caller.location)
