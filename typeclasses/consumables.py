@@ -279,6 +279,8 @@ class ConsumableBuildSet(CmdSet):
     def at_cmdset_creation(self):
         self.add(CmdCreateFood())
         self.add(CmdCreateDrink())
+        self.add(CmdCreateCon())
+
         self.add(CmdSetConMsg())
         self.add(CmdSetOConMsg())
         self.add(CmdSetFinishMsg())
