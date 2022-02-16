@@ -30,3 +30,8 @@ CONSUMABLE_MESSAGE_TYPES = ('con_msg',
                             'portions',
                             'value'
 )
+
+CONSUMABLE_DRUG_MESSAGES = ( 'You feel a rusty taste on the back of your tongue, like you\'ve been licking old plumbing',
+                             'The world feels like an awful, sweaty place, prickling hotly across your skin.'
+
+)
