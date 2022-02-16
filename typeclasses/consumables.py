@@ -133,6 +133,37 @@ class CmdSetFinishMsg(Command):
                 connsumableobj.db.messages['finish_msg'] = self.msg
                 caller.msg("finish_msg for %s set as: %s" % (connsumableobj.name, self.msg))
 
+class CmdSetChugMsg(Command):
+    """
+    Set the chug_msg for a consumable 
+    Usage:
+        @chug_msg <consumable item> = <message>
+    """
+
+    key = '@chug_msg'
+    locks = "cmd:perm(Builders)"
+    help_category = "consumables"
+
+    def parse(self):
+        if not self.args:
+            self.msg("Usage: @chug_msg <item> = <message>")
+            return
+
+    def func(self):
+        caller = self.caller
+        self.searchob, self.msg = self.args.split('=')
+        self.searchob = self.searchob.strip()
+        self.msg = self.msg.strip()
+
+        if self.msg:
+            connsumableobj = self.caller.search(self.searchob, candidates=self.caller.contents)
+            if not connsumableobj:
+                self.caller.msg("Thing to set message for must be held.")
+                return
+            if self.searchob:
+                connsumableobj.db.messages['chug_msg'] = self.msg
+                caller.msg("finish_msg for %s set as: %s" % (connsumableobj.name, self.msg))
+
 
 # == == == == == Here are the commands for actually CONSUMING == == == == == == #
 
@@ -301,3 +332,4 @@ class ConsumableBuildSet(CmdSet):
         self.add(CmdSetConMsg())
         self.add(CmdSetOConMsg())
         self.add(CmdSetFinishMsg())
+        self.add(CmdSetChugMsg())
