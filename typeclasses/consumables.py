@@ -211,9 +211,9 @@ class CmdCreateObj(Command):
         obj_name = self.name
         obj_type = self.object_type
         self.caller.msg("Creating object type %s" % obj_type)
-        food = create_object(typeclass=obj_type,
+        food = create_object(typeclass= "consumables." + obj_type,
                              key=obj_name,
-                             location=self.caller.location)
+                             location=self.caller.location.contents)
         food.db.desc = "A generic %s object." % obj_type
         food.db.value = 1
         food.db.portions = 3
