@@ -108,5 +108,5 @@ class DrugUse(Script):
         def at_repeat(self):
             "called every self.interval seconds."
             drugmsg = choice(self.db.drug_texts)
-            self.msg_contents("|R %s" % drugmsg)
+            self.obj.msg("|R %s" % drugmsg)
             print("AAAAA. CALLING.")
