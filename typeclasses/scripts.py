@@ -16,24 +16,6 @@ from evennia import DefaultScript
 from config.configlists import CONSUMABLE_DRUG_MESSAGES
 from random import choice
 
-class DrugUse(Script):
-        """
-        A timer script that displays drug-updates. Meant to
-        be attached to a character.
-        """
-        def at_script_creation(self):
-            self.key = "drug_script"
-            self.desc = "Gives random drug info."
-            self.interval = 60 # every 2 minutes
-            self.persistent = False  # will survive reload
-            self.repeats = 6 
-            self.db.drug_texts = CONSUMABLE_DRUG_MESSAGES
-
-        def at_repeat(self):
-            "called every self.interval seconds."
-            drugmsg = choice(self.db.tv_texts)
-            self.obj.msg_contents("|R %s" % drugmsg)
-
 class Script(DefaultScript):
     """
     A script type is customized by redefining some or all of its hook
@@ -109,3 +91,21 @@ class Script(DefaultScript):
     """
 
     pass
+
+class DrugUse(Script):
+        """
+        A timer script that displays drug-updates. Meant to
+        be attached to a character.
+        """
+        def at_script_creation(self):
+            self.key = "drug_script"
+            self.desc = "Gives random drug info."
+            self.interval = 60 # every 2 minutes
+            self.persistent = False  # will survive reload
+            self.repeats = 6 
+            self.db.drug_texts = CONSUMABLE_DRUG_MESSAGES
+
+        def at_repeat(self):
+            "called every self.interval seconds."
+            drugmsg = choice(self.db.tv_texts)
+            self.obj.msg_contents("|R %s" % drugmsg)
