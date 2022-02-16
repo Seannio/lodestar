@@ -4,6 +4,9 @@ from evennia import CmdSet
 from evennia import create_object
 from config.configlists import CONSUMABLE_MESSAGE_TYPES
 
+
+# == == == == == Here are the consumable object types == == == == == == #
+
 class ConsumableObject(DefaultObject):
        # A basic object that can be eaten/drank/smoked/etc. 
        # messages = 'con_msg', 'ocon_msg', 'value'
@@ -19,6 +22,9 @@ class DrinkableObject(DefaultObject):
        def at_object_creation(self):
            if not self.db.messages:
                 self.db.messages = {message: "" for message in CONSUMABLE_MESSAGE_TYPES}
+
+
+# == == == == == Here are the consumable object commands == == == == == == #
 
 class CmdSetConMsg(Command):
     """
@@ -114,6 +120,10 @@ class CmdSetFinishMsg(Command):
                 connsumableobj.db.messages['finish_msg'] = self.msg
                 caller.msg("finish_msg for %s set as: %s" % (connsumableobj.name, self.msg))
 
+
+# == == == == == Here are the commands for actually CONSUMING == == == == == == #
+
+
 class CmdEat(Command):
     """
     Usage: 
@@ -175,6 +185,40 @@ class CmdDrink(Command):
                     #TODO implement a ofinish message???
                     target.delete()
 
+
+# == == == == == Here are the consumable object creation commands == == == == == == #
+
+
+class CmdCreateCon(Command):
+    """
+    Usage:
+        @CreateCon <type> = name
+    """
+    key = "@createobj"
+    locks = "cmd:perm(Builders)"
+    help_category = "Builders"
+
+    def func(self):
+        caller = self.caller
+        if not self.args:
+            self.msg("Usage: @createobj <type> = name")
+            return
+
+        self.object_type, self.name = self.args.split('=')
+        self.object_type = self.object_type.strip()
+        self.name = self.name.strip()
+
+        obj_name = self.name
+        obj_type = self.object_type
+        self.caller.msg("Creating: %s of object type %s" % obj_name, obj_type)
+        food = create_object(obj_type,
+                             key=obj_name,
+                             location=self.caller.location)
+        food.db.desc = "A generic %s object." % obj_type
+        food.db.value = 1
+        food.db.portions = 3
+
+
 class CmdCreateFood(Command):
     """
     Usage:
@@ -194,7 +238,7 @@ class CmdCreateFood(Command):
         self.caller.msg("Creating: %s" % foodname)
         food = create_object(ConsumableObject,
                              key=foodname,
-                             location=self.caller.location)
+                             location=self.caller)
         food.db.desc = "A generic food object."
         food.db.value = 2
         food.db.portions = 3
@@ -213,17 +257,19 @@ class CmdCreateDrink(Command):
             self.msg("Usage: @createdrink food")
             return
 
-        # create the shop 
         foodname = self.args.strip()
         self.caller.msg("Creating: %s" % foodname)
         food = create_object(DrinkableObject,
                              key=foodname,
                              location=self.caller.location)
-        food.db.desc = "A generic food object."
+        food.db.desc = "A generic drink object."
         food.db.value = 50
         food.db.portions = 3
 
-# commandset for CONSUMING
+
+
+# == == == == == Here are the consumable object command sets == == == == == == #
+
 class ConsumableCmdSet(CmdSet):
     def at_cmdset_creation(self):
         self.add(CmdEat())
