@@ -189,10 +189,10 @@ class CmdDrink(Command):
 # == == == == == Here are the consumable object creation commands == == == == == == #
 
 
-class CmdCreateCon(Command):
+class CmdCreateObj(Command):
     """
     Usage:
-        @CreateCon <type> = name
+        @CreateObj <type> = name
     """
     key = "@createobj"
     locks = "cmd:perm(Builders)"
@@ -279,8 +279,7 @@ class ConsumableBuildSet(CmdSet):
     def at_cmdset_creation(self):
         self.add(CmdCreateFood())
         self.add(CmdCreateDrink())
-        self.add(CmdCreateCon())
-
+        self.add(CmdCreateObj())
         self.add(CmdSetConMsg())
         self.add(CmdSetOConMsg())
         self.add(CmdSetFinishMsg())
