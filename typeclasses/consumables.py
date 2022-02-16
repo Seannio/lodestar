@@ -3,7 +3,7 @@ from evennia import Command
 from evennia import CmdSet
 from evennia import create_object
 from config.configlists import CONSUMABLE_MESSAGE_TYPES
-from scripts import DrugUse
+from typeclasses.scripts import DrugUse
 
 
 # == == == == == Here are the consumable object types == == == == == == #
@@ -250,7 +250,7 @@ class CmdRail(Command):
             if target.location == self.caller:
                 self.caller.msg(target.db.messages['chug_msg'])
                 target.delete()
-                self.caller.scripts.add(scripts.DrugUse)
+                self.caller.scripts.add(DrugUse)
 
 # == == == == == Here is the object creation command == == == == == == #
 
