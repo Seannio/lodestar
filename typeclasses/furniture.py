@@ -6,8 +6,6 @@ class Sittable(DefaultObject):
 
     def at_object_creation(self):
         self.db.sitter = None
-        # do you sit "on" or "in" this object?
-        self.db.adjective = "on"
 
     def do_sit(self, sitter):
         """
@@ -16,19 +14,19 @@ class Sittable(DefaultObject):
         Args:
             sitter (Object): The one trying to sit down.
         """
-        adjective = self.db.adjective
+
         current = self.db.sitter
         if current:
             if current == sitter:
-                sitter.msg(f"You are already sitting {adjective} {self.key}.")
+                sitter.msg(f"You are already sitting on {self.key}.")
             else:
                 sitter.msg(
-                    f"You can't sit {adjective} {self.key} "
+                    f"You can't sit on {self.key} "
                     f"- {current.key} is already sitting there!")
             return
         self.db.sitting = sitter
         sitter.db.is_resting = True
-        sitter.msg(f"You sit {adjective} {self.key}")
+        sitter.msg(f"You sit on {self.key}")
 
     def do_stand(self, stander):
         """
@@ -40,7 +38,7 @@ class Sittable(DefaultObject):
         """
         current = self.db.sitter
         if not stander == current:
-            stander.msg(f"You are not sitting {self.db.adjective} {self.key}.")
+            stander.msg(f"You are not sitting on {self.key}.")
         else:
             self.db.sitting = None
             stander.db.is_resting = False
@@ -63,11 +61,11 @@ class CmdSit(Command):
             raise InterruptCommand
 
     def func(self):
-        sittable = self.caller.search(self.args)
-        if not sittable:
+        seat = self.caller.search(self.args, typeclass=Sittable)
+        if not seat:
             return
         try:
-            sittable.do_sit(self.caller)
+            seat.do_sit(self.caller)
         except AttributeError:
             self.caller.msg("You can't sit on that!")
 
@@ -91,7 +89,7 @@ class CmdStand(Command):
                          self.caller,
                          candidates=caller.location.contents,
                          attribute_name="sitter",
-                         typeclass="typeclasses.sittables.Sittable")
+                         typeclass="typeclasses.furniture.Sittable")
         # if this is None, the error was already reported to user
         if not sittable:
             return
