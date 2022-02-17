@@ -238,7 +238,7 @@ class CmdSetValue(Command):
         caller = self.caller
         self.searchob, self.val = self.args.split('=')
         self.searchob = self.searchob.strip()
-        self.msg = self.msg.strip()
+        self.val = self.val.strip()
 
         if self.val:
             valueobj = self.caller.search(self.searchob, candidates=self.caller.contents)
@@ -267,7 +267,7 @@ class CmdSetPortions(Command):
         caller = self.caller
         self.searchob, self.val = self.args.split('=')
         self.searchob = self.searchob.strip()
-        self.msg = self.msg.strip()
+        self.val = self.val.strip()
 
         if self.val:
             valueobj = self.caller.search(self.searchob, candidates=self.caller.contents)
@@ -465,6 +465,9 @@ class CmdCreateObj(Command):
     def func(self):
         caller = self.caller
         if not self.args:
+            self.msg("Usage: @createobj <type> = name")
+            return
+        elif '=' not in self.args:
             self.msg("Usage: @createobj <type> = name")
             return
 
