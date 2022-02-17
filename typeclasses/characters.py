@@ -70,3 +70,13 @@ class Character(DefaultCharacter):
         scores as a tuple (str,agi,mag)
         """
         return self.db.currency
+
+    def at_pre_move(self, destination):
+       """
+       Called by self.move_to when trying to move somewhere. If this returns
+       False, the move is immediately cancelled.
+       """
+       if self.db.is_resting:
+           self.msg("You can't go anywhere while resting.")
+           return False
+       return True
