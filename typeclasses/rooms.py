@@ -29,8 +29,8 @@ class TickerRoom(DefaultRoom):
 
     def at_object_creation(self):
         super().at_object_creation()
+        TICKER_HANDLER.remove(240, self.at_ticker_update)
         TICKER_HANDLER.remove(60, self.at_ticker_update)
-        TICKER_HANDLER.remove(30, self.at_ticker_update)
         #TICKER_HANDLER.add(300, self.at_ticker_update, idstring="roomticker1")
         print("Created ticker")
 
