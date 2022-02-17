@@ -48,7 +48,8 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(ConsumableBuildSet())
 
         self.add(CmdAbilities())
-        self.add(CmdCurrency())
+        
+        self.add(CurrencyCmdSet())
 
         self.add(SitCmdSet())
 
