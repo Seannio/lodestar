@@ -81,33 +81,6 @@ class CmdCurrency(BaseCommand):
             self.caller.msg(string)
             self.caller.msg_contents(f"{self.caller.name} searches through their belongings, taking a quick account of their cash.", exclude=self.caller)
 
-def node_test(caller, raw_string, **kwargs):
-    text = "A goblin attacks you!"
-
-    options = (
-	{"key": ("Attack", "a", "att"),
-         "desc": "Strike the enemy with all your might",
-         "goto": "node_attack"},
-	{"key": ("Defend", "d", "def"),
-         "desc": "Hold back and defend yourself",
-         "goto": "node_attack"}
-    )
-
-    return text, options
-
-class CmdCharCreate(Command):
-    """
-    Launch the menu to create your character!
-
-    Usage:
-      CharCreate
-    """
-    key = "CharCreate"
-
-    def func(self):
-	    evmenu.EvMenu(self.caller, 
-                        "command.commands", 
-                        startnode="node_test")
 # -------------------------------------------------------------
 #
 # The default commands inherit from

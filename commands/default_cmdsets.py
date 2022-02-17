@@ -18,7 +18,7 @@ from evennia import default_cmds
 from commands import command
 from evennia import CmdSet
 from commands.command import CmdAbilities, CmdCurrency
-from typeclasses.vendor import CmdCreateVend, ShopCmdSet
+from typeclasses.vendor import CmdCreateVend, ShopCmdSet, CmdCharCreate
 from typeclasses.consumables import ConsumableCmdSet, ConsumableBuildSet
 
 

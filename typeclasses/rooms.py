@@ -35,11 +35,6 @@ class ChargenRoom(Room):
         self.cmdset.add(ChargenCmdset)
 
 
-
-
-
-
-
 class TickerRoom(DefaultRoom):
     "This room is ticked at regular intervals"
 
