@@ -110,7 +110,7 @@ def node_background(caller):
                 "goto": (_set_attribute, {"attr": ("experienced_betrayal", True),
 					  "next_node": "node_betrayal_background"})})
     return text, options
-    
+
 class CmdCharCreate(Command):
     """
     Launch the menu to create your character!
@@ -130,8 +130,7 @@ class CmdCharCreate(Command):
 
         evmenu.EvMenu(self.caller, 
                       startnode="node_background",
-                      cmd_on_exit="look",
-                      menu_dic=menu_dic)
+                      cmd_on_exit="look")
 
 
         
