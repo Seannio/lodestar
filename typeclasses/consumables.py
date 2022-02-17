@@ -253,7 +253,7 @@ class CmdSetValue(Command):
                 self.caller.msg("Thing to set message for must be in inv.")
                 return
             if self.searchob:
-                valueobj.db.value = self.val
+                valueobj.db.value = int(self.val)
                 caller.msg("value for %s set as: %s" % (valueobj.name, self.val))
 
 class CmdSetPortions(Command):
@@ -282,7 +282,7 @@ class CmdSetPortions(Command):
                 self.caller.msg("Thing to set message for must be in inv.")
                 return
             if self.searchob:
-                valueobj.db.messages['portions'] = self.val
+                valueobj.db.portions = int(self.val)
                 caller.msg("value for %s set as: %s" % (valueobj.name, self.val))
 
 
