@@ -164,7 +164,7 @@ class CmdSetOFinishMsg(Command):
                 self.caller.msg("Thing to set message for must be in inv.")
                 return
             if self.searchob:
-                connsumableobj.db.messages['finish_msg'] = self.msg
+                connsumableobj.db.messages['ofinish_msg'] = self.msg
                 caller.msg("ofinish_msg for %s set as: %s" % (connsumableobj.name, self.msg))
 
 class CmdSetChugMsg(Command):
