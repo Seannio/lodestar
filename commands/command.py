@@ -82,33 +82,18 @@ class CmdCurrency(BaseCommand):
             self.caller.msg_contents(f"{self.caller.name} searches through their belongings, taking a quick account of their cash.", exclude=self.caller)
 
 
-def _set_attribute(caller, raw_string, **kwargs):
-    "Get which attribute to modify and set it"
+def node_test(caller, raw_string, **kwargs):
 
-    attrname, attrvalue = kwargs.get("attr", (None, None))
-    next_node = kwargs.get("next_node")
+    text = "A goblin attacks you!"
 
-    caller.attributes.add(attrname, attrvalue)
-    caller.msg("You chose %s !" % attrname)
+    options = (
+	{"key": ("Attack", "a", "att"),
+         "desc": "Strike the enemy with all your might",
+         "goto": "node_attack"},
+	{"key": ("Defend", "d", "def"),
+         "desc": "Hold back and defend yourself",
+         "goto": (_defend, {"str": 10, "enemyname": "Goblin"})})
 
-    return next_node
-
-
-def node_background(caller):
-    text = \
-    """
-    {} experienced a traumatic event
-    in their childhood. What was it?
-    """.format(caller.key)
-
-    options = ({"key": "death",
-                "desc": "A violent death in the family",
-                "goto": (_set_attribute, {"attr": ("experienced_violence", True),
-					  "next_node": "node_violent_background"})},
-               {"key": "betrayal",
-                "desc": "The betrayal of a trusted grown-up",
-                "goto": (_set_attribute, {"attr": ("experienced_betrayal", True),
-					  "next_node": "node_betrayal_background"})})
     return text, options
 
 class CmdCharCreate(Command):
@@ -121,14 +106,8 @@ class CmdCharCreate(Command):
     key = "CharCreate"
 
     def func(self):
-        if self.args:
-            self.msg("Usage: charcreate")
-            return
-
-        # Start the menu to create your character! 
-        menu_dic = {'att1':'stinky', 'char_class': None}
-
-        evmenu.EvMenu(self.caller, startnode="node_background")
+        def func(self):
+	    evmenu.EvMenu(self.caller, "node_test")
 
 
         
