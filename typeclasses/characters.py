@@ -71,6 +71,7 @@ class Character(DefaultCharacter):
         """
         return self.db.currency
 
+
     def at_pre_move(self, destination):
        """
        Called by self.move_to when trying to move somewhere. If this returns

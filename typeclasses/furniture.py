@@ -15,7 +15,6 @@ class Sittable(DefaultObject):
 
         Args:
             sitter (Object): The one trying to sit down.
-
         """
         adjective = self.db.adjective
         current = self.db.sitter
@@ -54,7 +53,6 @@ class CmdSit(Command):
 
     Usage:
         sit <sittable>
-
     """
     key = "sit"
 
@@ -65,8 +63,6 @@ class CmdSit(Command):
             raise InterruptCommand
 
     def func(self):
-
-        # self.search handles all error messages etc.
         sittable = self.caller.search(self.args)
         if not sittable:
             return
@@ -92,7 +88,7 @@ class CmdStand(Command):
         # in the current location that as an Attribute "sitter" set
         # to the caller
         sittable = caller.search(
-                         caller,
+                         self.caller,
                          candidates=caller.location.contents,
                          attribute_name="sitter",
                          typeclass="typeclasses.sittables.Sittable")
