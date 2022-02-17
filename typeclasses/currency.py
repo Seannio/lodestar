@@ -8,7 +8,7 @@ class CurrencyOb(DefaultObject):
     def at_object_creation(self):
         self.db.value = 0
 
-class CmdCurrency(BaseCommand):
+class CmdCurrency(Command):
         """
         Display your CASH.
 
@@ -27,7 +27,7 @@ class CmdCurrency(BaseCommand):
             self.caller.msg(string)
             self.caller.msg_contents(f"{self.caller.name} searches through their belongings, taking a quick account of their cash.", exclude=self.caller)
 
-class CmdPocket(BaseCommand):
+class CmdPocket(Command):
     """
     Pocket a money-object into your wallet. 
 
