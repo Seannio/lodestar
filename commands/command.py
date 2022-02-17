@@ -128,9 +128,7 @@ class CmdCharCreate(Command):
         # Start the menu to create your character! 
         menu_dic = {'att1':'stinky', 'char_class': None}
 
-        evmenu.EvMenu(self.caller, 
-                      startnode="node_background",
-                      cmd_on_exit="look")
+        evmenu.EvMenu(self.caller, startnode="node_background")
 
 
         
