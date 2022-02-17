@@ -30,28 +30,30 @@ class TickerRoom(DefaultRoom):
     def at_object_creation(self):
         super().at_object_creation()
         "120 seconnd interval"
-        TICKER_HANDLER.add(120 * 2, self.at_ticker_update)
+        TICKER_HANDLER.add(300, self.at_ticker_update)
         print("AAAAAAA. CREATED THING with TICKER!")
 
     def at_ticker_update(self, *args, **kwargs):
-        randomgoods = [ "reactor-plates.",
-                "high-speed graphene batteries.",
-                "dogs wearing hats.",
-                "weapons-grade chili.",
-                "illegally-sourced tubers.",
-                "curiously-made octagons",
-                "thousands of individually-wrapped screws and bolts",
-                "backalley space torpedoes" ]
+        randomgoods = [ "|ySandmelt Vibrofruit Martini|n",
+                "|wWhite Ruskovian|n",
+                "|YGolden Stopwatch cocktail.|n",
+                "|oTwelve-Mango Special|n",
+                "|bMageweaver's Menta",
+                "|bBrewer's Pudding",
+                "|gBackalley Bog Grog",
+                "|pGrenadine and Spritz",
+                "|ySuspicious Yellow Liqueur" ]
 
-        ECHOES = ["A forklift trundles by, carrying a huge pallet of " + random.choice(randomgoods),
-                 "A trickle of oil leaking from the ceiling-pipes splatters onto the ground nearby.",
-                 "A deep, mechanical groan echoes down the length of the ship, sending shivers up the spine.",
-                 "A mechanized loader rolls by on worn-down treads, hefting a pile of " + random.choice(randomgoods),
-                 "Farther down the hangar, the sound of a dropped tool echoes dully against the high, metal walls.",
+        ECHOES = ["A bespokely-dressed waiter delicately squeezes through the patrons, carefully carrying a platter of " + random.choice(randomgoods) + "s.",
+                 "Over the quiet, ambient music, a touch of conversationn picks up at a nearby table, followed by soft laughter.",
+                 "From the depths of the cosmos beyond the window, hazy heatwaves distort the faraway colours in a momentary ripple.",
+                 "Behind the bar, a busy clockwork creature whirrs to life, its spindly brass arms collecting the requisite bottles for a " + random.choice(randomgoods) + ".",
+                 "Behind the bar, a creaky clockwork mixing-figure austerely shakes a drink with mechanical precision. It eventually pours a " + random.choice(randomgoods) + " into a fine glass.",
+                 "Behind the bar, a tired clockwork slicing-machine cuts up a variety of small fruit-pieces, depositing them into a bin for cocktailmaking.",
                  "In the distance, a stacking-machine struggles to find the right place for a load of " + random.choice(randomgoods)]
 
 
         print("This is a regular ticker update.")
-        self.msg_contents("|w%s|n" % random.choice(ECHOES))
+        self.msg_contents("|n%s" % random.choice(ECHOES))
 
 
