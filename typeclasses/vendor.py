@@ -72,20 +72,6 @@ def menunode_inspect_and_buy(caller, raw_string):
 
     return text, options
 
-def node_test(caller, raw_string, **kwargs):
-
-    text = "A goblin attacks you!"
-
-    options = (
-	{"key": ("Attack", "a", "att"),
-         "desc": "Strike the enemy with all your might",
-         "goto": "node_attack"},
-	{"key": ("Defend", "d", "def"),
-         "desc": "Hold back and defend yourself",
-         "goto": (_defend, {"str": 10, "enemyname": "Goblin"})})
-
-    return text, options
-
 # ------- Vendor Commands  --------
 
 class CmdCreateVend(Command):
@@ -203,17 +189,6 @@ class CmdStock(Command):
                 caller.msg(f"Could not find {machine_arg}!")
         else:
             caller.msg(f"Could not find {goods_arg}!")
-
-
-class CmdCharCreate(Command):
-    def func(self):
-        key = "charc"
-
-        evmenu.EvMenu(self.caller, 
-            "typeclasses.vendor",
-            startnode="node_test",
-            cmd_on_exit="look",
-        )
 
 
 # ------- Vendor Objects  --------
