@@ -14,6 +14,8 @@ class EatOb(DefaultObject):
     def at_object_creation(self):
         if not self.db.messages:
             self.db.messages = {message: "" for message in CONSUMABLE_MESSAGE_TYPES}
+            self.db.value = 1
+            self.db.portions = 1
 
 class DrinkOb(DefaultObject):
        # A basic object that can be eaten/drank/smoked/etc. 
@@ -21,6 +23,8 @@ class DrinkOb(DefaultObject):
     def at_object_creation(self):
         if not self.db.messages:
             self.db.messages = {message: "" for message in CONSUMABLE_MESSAGE_TYPES}
+            self.db.value = 1
+            self.db.portions = 1
 
 class SmokeOb(DefaultObject):
        # A basic object that can be eaten/drank/smoked/etc. 
@@ -28,14 +32,17 @@ class SmokeOb(DefaultObject):
     def at_object_creation(self):
            if not self.db.messages:
                 self.db.messages = {message: "" for message in CONSUMABLE_MESSAGE_TYPES}
-    
+                self.db.value = 1
+                self.db.portions = 1
+
 class DrugOb(DefaultObject):
        # A basic object that can be eaten/drank/smoked/etc. 
        # messages = 'con_msg', 'ocon_msg', 'value'
     def at_object_creation(self):
            if not self.db.messages:
                 self.db.messages = {message: "" for message in CONSUMABLE_MESSAGE_TYPES}
-
+                self.db.value = 1
+                self.db.portions = 1
 
 # == == == == == Here are the consumable object commands == == == == == == #
 
@@ -246,7 +253,7 @@ class CmdSetValue(Command):
                 self.caller.msg("Thing to set message for must be in inv.")
                 return
             if self.searchob:
-                valueobj.db.messages['value'] = self.val
+                valueobj.db.value = self.val
                 caller.msg("value for %s set as: %s" % (valueobj.name, self.val))
 
 class CmdSetPortions(Command):

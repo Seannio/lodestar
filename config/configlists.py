@@ -15,9 +15,7 @@ CONSUMABLE_MESSAGE_TYPES = ('con_msg',
                             'finish_msg',
                             'ofinish_msg,'
                             'chug_msg', 
-                            'ochug_msg', 
-                            'portions',
-                            'value'
+                            'ochug_msg'
 )
 
 CONSUMABLE_DRUG_MESSAGES = ( 'You feel a rusty taste on the back of your tongue, like you\'ve been licking old plumbing',
