@@ -1,3 +1,6 @@
+from evennia import DefaultRoom, DefaultExit, DefaultObject
+from evennia import Command
+from evennia import CmdSet
 
 class CurrencyOb(DefaultObject):
        # A basic object that can be eaten/drank/smoked/etc. 
