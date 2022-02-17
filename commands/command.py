@@ -82,37 +82,56 @@ class CmdCurrency(BaseCommand):
             self.caller.msg_contents(f"{self.caller.name} searches through their belongings, taking a quick account of their cash.", exclude=self.caller)
 
 
-class CmdSetPower(Command):
+def _set_attribute(caller, raw_string, **kwargs):
+    "Get which attribute to modify and set it"
+
+    attrname, attrvalue = kwargs.get("attr", (None, None))
+    next_node = kwargs.get("next_node")
+
+    caller.attributes.add(attrname, attrvalue)
+    caller.msg("You chose %s !" % attrname)
+
+    return next_node
+
+
+def node_background(caller):
+    text = \
     """
-    set the power of a character
+    {} experienced a traumatic event
+    in their childhood. What was it?
+    """.format(caller.key)
+
+    options = ({"key": "death",
+                "desc": "A violent death in the family",
+                "goto": (_set_attribute, {"attr": ("experienced_violence", True),
+					  "next_node": "node_violent_background"})},
+               {"key": "betrayal",
+                "desc": "The betrayal of a trusted grown-up",
+                "goto": (_set_attribute, {"attr": ("experienced_betrayal", True),
+					  "next_node": "node_betrayal_background"})})
+    return text, options
+    
+class CmdCharCreate(Command):
+    """
+    Launch the menu to create your character!
 
     Usage:
-      +setpower <1-10>
-
-    This sets the power of the current character. This can only be
-    used during character generation.
+      CharCreate
     """
-    
-    key = "+setpower"
-    help_category = "mush"
+    key = "CharCreate"
 
     def func(self):
-        "This performs the actual command"
-        errmsg = "You must supply a number between 1 and 10."
-        if not self.args:
-            self.caller.msg(errmsg)
+        if self.args:
+            self.msg("Usage: charcreate")
             return
-        try:
-            power = int(self.args)
-        except ValueError:
-            self.caller.msg(errmsg)
-            return
-        if not (1 <= power <= 10):
-            self.caller.msg(errmsg)
-            return
-        # at this point the argument is tested as valid. Let's set it.
-        self.caller.db.power = power
-        self.caller.msg("Your Power was set to %i." % power)
+
+        # Start the menu to create your character! 
+        menu_dic = {'att1':'stinky', 'char_class': None}
+
+        evmenu.EvMenu(self.caller, 
+                      startnode="node_background",
+                      cmd_on_exit="look",
+                      menu_dic=menu_dic)
 
 
         

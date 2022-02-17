@@ -25,9 +25,6 @@ class Room(DefaultRoom):
 
     pass
 
-# ...
-# down at the end of rooms.py
-
 class ChargenRoom(Room):
     """
     This room class is used by character-generation rooms. It makes
@@ -36,6 +33,12 @@ class ChargenRoom(Room):
     def at_object_creation(self):
         "this is called only at first creation"
         self.cmdset.add(ChargenCmdset, permanent=True)
+
+
+
+
+
+
 
 class TickerRoom(DefaultRoom):
     "This room is ticked at regular intervals"
