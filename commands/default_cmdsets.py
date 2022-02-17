@@ -48,8 +48,6 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdAbilities())
         self.add(CmdCurrency())
 
-        self.add(CmdTestMenu())
-
 
 class AccountCmdSet(default_cmds.AccountCmdSet):
     """

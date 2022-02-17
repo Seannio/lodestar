@@ -81,30 +81,6 @@ class CmdCurrency(BaseCommand):
             self.caller.msg(string)
             self.caller.msg_contents(f"{self.caller.name} searches through their belongings, taking a quick account of their cash.", exclude=self.caller)
 
-
-
-
-
-def node_test(caller, raw_string, **kwargs):
-        text = "A goblin attacks you!"
-        options = (
-	        {"key": ("Attack", "a", "att"),
-            "desc": "Strike the enemy with all your might",
-            "goto": "node_attack"},
-	        {"key": ("Defend", "d", "def"),
-            "desc": "Hold back and defend yourself",
-            "goto": (_defend, {"str": 10, "enemyname": "Goblin"})})
-
-class CmdTestMenu(Command):
-
-    key = "testcommand"
-    menutree = {"start": "bugugug",
-              "node1": "oo",
-              "node2": "ooo"}
-
-    def func(self):
-        evmenu.EvMenu(self.caller, node_test)
-
 # -------------------------------------------------------------
 #
 # The default commands inherit from
