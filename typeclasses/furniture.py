@@ -18,15 +18,13 @@ class Sittable(DefaultObject):
         current = self.db.sitter
         if current:
             if current == sitter:
-                sitter.msg(f"You are already sitting on {self.key}.")
+                sitter.msg("You are already sitting on %s." % self.key)
             else:
-                sitter.msg(
-                    f"You can't sit on {self.key} "
-                    f"- {current.key} is already sitting there!")
+                sitter.msg( "You can't sit on %s" % self.key)
             return
         self.db.sitting = sitter
         sitter.db.is_resting = True
-        sitter.msg(f"You sit on {self.key}")
+        sitter.msg("You sit on the %s " % self.key)
 
     def do_stand(self, stander):
         """
@@ -38,11 +36,11 @@ class Sittable(DefaultObject):
         """
         current = self.db.sitter
         if not stander == current:
-            stander.msg(f"You are not sitting on {self.key}.")
+            stander.msg("You are not sitting on %s." % self.key)
         else:
             self.db.sitting = None
             stander.db.is_resting = False
-            stander.msg(f"You stand up from {self.key}")
+            stander.msg(f"You stand up from %s." % self.key)
 
 
 class CmdSit(Command):
@@ -61,11 +59,11 @@ class CmdSit(Command):
             raise InterruptCommand
 
     def func(self):
-        seat = self.caller.search(self.args, typeclass=Sittable)
-        if not seat:
+        sittable = self.caller.search(self.args)
+        if not sittable:
             return
         try:
-            seat.do_sit(self.caller)
+            sittable.do_sit(self.caller)
         except AttributeError:
             self.caller.msg("You can't sit on that!")
 
@@ -89,7 +87,7 @@ class CmdStand(Command):
                          self.caller,
                          candidates=caller.location.contents,
                          attribute_name="sitter",
-                         typeclass="typeclasses.furniture.Sittable")
+                         typeclass="typeclasses.sittables.Sittable")
         # if this is None, the error was already reported to user
         if not sittable:
             return
