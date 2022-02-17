@@ -17,10 +17,11 @@ own cmdsets by inheriting from them or directly from `evennia.CmdSet`.
 from evennia import default_cmds
 from commands import command
 from evennia import CmdSet
-from commands.command import CmdAbilities, CmdCurrency
+from commands.command import CmdAbilities
 from typeclasses.vendor import CmdCreateVend, ShopCmdSet
 from typeclasses.consumables import ConsumableCmdSet, ConsumableBuildSet
 from typeclasses.furniture import SitCmdSet
+from typeclasses.currency import CurrencyCmdSet
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
