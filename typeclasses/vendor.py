@@ -205,7 +205,7 @@ class CmdStock(Command):
             caller.msg(f"Could not find {goods_arg}!")
 
 
-class CmdCharc(Command):
+class CmdCharCreate(Command):
     def func(self):
         key = "charc"
 
