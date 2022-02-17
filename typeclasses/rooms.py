@@ -9,7 +9,6 @@ from evennia import DefaultRoom
 from random import choice
 from evennia import TICKER_HANDLER
 from collections import defaultdict
-from commands.default_cmdsets import ChargenCmdset
 
 
 class Room(DefaultRoom):
