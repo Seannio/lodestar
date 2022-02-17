@@ -106,10 +106,7 @@ class CmdCharCreate(Command):
     key = "CharCreate"
 
     def func(self):
-        def func(self):
 	    evmenu.EvMenu(self.caller, "node_test")
-
-
         
 # -------------------------------------------------------------
 #
