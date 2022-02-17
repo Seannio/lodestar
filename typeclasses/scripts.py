@@ -100,8 +100,9 @@ class DrugUse(Script):
         def at_script_creation(self):
             self.key = "drug_script"
             self.desc = "Gives random drug info."
-            self.interval = 20 # every minutes
-            self.persistent = False  # will survive reload
+            self.interval = 60 # every minutes
+            self.persistent = False  # will not survive reload
+            self.start_delay = 10
             self.repeats = 6 
             self.db.drug_texts = CONSUMABLE_DRUG_MESSAGES
 
@@ -109,4 +110,4 @@ class DrugUse(Script):
             "called every self.interval seconds."
             drugmsg = choice(self.db.drug_texts)
             self.obj.msg("|R %s" % drugmsg)
-            print("AAAAA. CALLING.")
+            print("A DrugUse Script has been called.")

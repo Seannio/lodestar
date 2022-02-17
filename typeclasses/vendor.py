@@ -15,14 +15,13 @@ def menunode_shopfront(caller, raw_string, **kwargs):
     menu_dic = caller.ndb._menutree.menu_dic
     cmdarg = menu_dic['shopname']
 
-    # try-catch, forcing an error if multiple identical vending machines
-    # exist. Shouldn't happen, but....
+    # try-catch, forcing an error if multiple identical vending machines exist
     try:
         vendobject = caller.search(cmdarg, typeclass=VendingMachine)
         caller.ndb._menutree.shoptitle = vendobject
         wares = vendobject.contents
     except:
-        caller.msg("Error.")
+        caller.msg("Multiple identical machines! Please specify.")
         return
 
     # generate the MACHINE MENU! Maybe randomize things here, later.

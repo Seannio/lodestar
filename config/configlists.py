@@ -13,7 +13,9 @@ SCREENOBJECT_STRINGS = (
 CONSUMABLE_MESSAGE_TYPES = ('con_msg',
                             'ocon_msg',
                             'finish_msg',
-                            'chug_msg',  
+                            'ofinish_msg,'
+                            'chug_msg', 
+                            'ochug_msg', 
                             'portions',
                             'value'
 )

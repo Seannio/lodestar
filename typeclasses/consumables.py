@@ -40,11 +40,10 @@ class DrugOb(DefaultObject):
 # == == == == == Here are the consumable object commands == == == == == == #
 
 class CmdSetConMsg(Command):
-    """
-    Set the con_msg for a consumable 
-    Usage:
-        @con_msg <consumable item> = <message>
-    """
+    '''
+    Sets the local (internal) message when consuming a consumable
+    Usage: @con_msg <consumable item> = <message>
+    '''
 
     key = '@con_msg'
     locks = "cmd:perm(Builders)"
@@ -71,11 +70,10 @@ class CmdSetConMsg(Command):
                 caller.msg("con_msg for %s set as: %s" % (connsumableobj.name, self.msg))
 
 class CmdSetOConMsg(Command):
-    """
-    Set the ocon_msg for a consumable 
-    Usage:
-        @ocon_msg <consumable item> = <message>
-    """
+    '''
+    Sets the room (external) message when consuming a consumable
+    Usage: @oconn_msg <consumable item> = <message>
+    '''
 
     key = '@ocon_msg'
     locks = "cmd:perm(Builders)"
@@ -95,7 +93,7 @@ class CmdSetOConMsg(Command):
         if self.msg:
             connsumableobj = self.caller.search(self.searchob, candidates=self.caller.contents)
             if not connsumableobj:
-                self.caller.msg("Thing to set message for must be held.")
+                self.caller.msg("Thing to set message for must be in inv.")
                 return
             if self.searchob:
                 connsumableobj.db.messages['ocon_msg'] = self.msg
@@ -103,11 +101,10 @@ class CmdSetOConMsg(Command):
 
 
 class CmdSetFinishMsg(Command):
-    """
-    Set the ocon_msg for a consumable 
-    Usage:
-        @finish_msg <consumable item> = <message>
-    """
+    '''
+    Sets the local (internal) message when finishing a consumable
+    Usage: @finish_msg <consumable item> = <message>
+    '''
 
     key = '@finish_msg'
     locks = "cmd:perm(Builders)"
@@ -127,18 +124,47 @@ class CmdSetFinishMsg(Command):
         if self.msg:
             connsumableobj = self.caller.search(self.searchob, candidates=self.caller.contents)
             if not connsumableobj:
-                self.caller.msg("Thing to set message for must be held.")
+                self.caller.msg("Thing to set message for must be in inv.")
                 return
             if self.searchob:
                 connsumableobj.db.messages['finish_msg'] = self.msg
                 caller.msg("finish_msg for %s set as: %s" % (connsumableobj.name, self.msg))
 
+class CmdSetOFinishMsg(Command):
+    '''
+    Sets the room (external) message when finishing a consumable
+    Usage: @ofinish_msg <consumable item> = <message>
+    '''
+
+    key = '@ofinish_msg'
+    locks = "cmd:perm(Builders)"
+    help_category = "consumables"
+
+    def parse(self):
+        if not self.args:
+            self.msg("Usage: @ofinish_msg <item> = <message>")
+            return
+
+    def func(self):
+        caller = self.caller
+        self.searchob, self.msg = self.args.split('=')
+        self.searchob = self.searchob.strip()
+        self.msg = self.msg.strip()
+
+        if self.msg:
+            connsumableobj = self.caller.search(self.searchob, candidates=self.caller.contents)
+            if not connsumableobj:
+                self.caller.msg("Thing to set message for must be in inv.")
+                return
+            if self.searchob:
+                connsumableobj.db.messages['finish_msg'] = self.msg
+                caller.msg("ofinish_msg for %s set as: %s" % (connsumableobj.name, self.msg))
+
 class CmdSetChugMsg(Command):
-    """
-    Set the chug_msg for a consumable 
-    Usage:
-        @chug_msg <consumable item> = <message>
-    """
+    '''
+    Sets the local (internal) message when chugging/railing a consumable
+    Usage: @chug_msg <consumable item> = <message>
+    '''
 
     key = '@chug_msg'
     locks = "cmd:perm(Builders)"
@@ -158,15 +184,102 @@ class CmdSetChugMsg(Command):
         if self.msg:
             connsumableobj = self.caller.search(self.searchob, candidates=self.caller.contents)
             if not connsumableobj:
-                self.caller.msg("Thing to set message for must be held.")
+                self.caller.msg("Thing to set message for must be in inv.")
                 return
             if self.searchob:
                 connsumableobj.db.messages['chug_msg'] = self.msg
-                caller.msg("finish_msg for %s set as: %s" % (connsumableobj.name, self.msg))
+                caller.msg("chug_msg for %s set as: %s" % (connsumableobj.name, self.msg))
+
+class CmdSetOChugMsg(Command):
+    '''
+    Sets the room (external) message when chugging/railing a consumable
+    Usage: @ochug_msg <consumable item> = <message>
+    '''
+
+    key = '@ochug_msg'
+    locks = "cmd:perm(Builders)"
+    help_category = "consumables"
+
+    def parse(self):
+        if not self.args:
+            self.msg("Usage: @ochug_msg <item> = <message>")
+            return
+
+    def func(self):
+        caller = self.caller
+        self.searchob, self.msg = self.args.split('=')
+        self.searchob = self.searchob.strip()
+        self.msg = self.msg.strip()
+
+        if self.msg:
+            connsumableobj = self.caller.search(self.searchob, candidates=self.caller.contents)
+            if not connsumableobj:
+                self.caller.msg("Thing to set message for must be in inv.")
+                return
+            if self.searchob:
+                connsumableobj.db.messages['ochug_msg'] = self.msg
+                caller.msg("ochug_msg for %s set as: %s" % (connsumableobj.name, self.msg))
+
+class CmdSetValue(Command):
+    '''
+    Sets the value for a consumable
+    Usage: @setvalue <consumable item> = <value>
+    '''
+    key = '@setvalue'
+    locks = "cmd:perm(Builders)"
+    help_category = "consumables"
+
+    def parse(self):
+        if not self.args:
+            self.msg("Usage: @setvalue <item> = <message>")
+            return
+
+    def func(self):
+        caller = self.caller
+        self.searchob, self.val = self.args.split('=')
+        self.searchob = self.searchob.strip()
+        self.msg = self.msg.strip()
+
+        if self.val:
+            valueobj = self.caller.search(self.searchob, candidates=self.caller.contents)
+            if not valueobj:
+                self.caller.msg("Thing to set message for must be in inv.")
+                return
+            if self.searchob:
+                connsumableobj.db.messages['value'] = self.val
+                caller.msg("value for %s set as: %s" % (valueobj.name, self.val))
+
+class CmdSetPortions(Command):
+    '''
+    Sets the value for a consumable
+    Usage: @setpor <consumable item> = <value>
+    '''
+    key = '@setpor'
+    locks = "cmd:perm(Builders)"
+    help_category = "consumables"
+
+    def parse(self):
+        if not self.args:
+            self.msg("Usage: @setpor <item> = <message>")
+            return
+
+    def func(self):
+        caller = self.caller
+        self.searchob, self.val = self.args.split('=')
+        self.searchob = self.searchob.strip()
+        self.msg = self.msg.strip()
+
+        if self.val:
+            valueobj = self.caller.search(self.searchob, candidates=self.caller.contents)
+            if not valueobj:
+                self.caller.msg("Thing to set message for must be in inv.")
+                return
+            if self.searchob:
+                connsumableobj.db.messages['portions'] = self.val
+                caller.msg("value for %s set as: %s" % (valueobj.name, self.val))
 
 
 # == == == == == Here are the commands for actually CONSUMING == == == == == == #
-
 
 class CmdEat(Command):
     """
@@ -195,7 +308,7 @@ class CmdEat(Command):
                     target.db.portions -= 1
                 elif target.db.portions == 1:
                     self.caller.msg(target.db.messages['finish_msg'])
-                    #TODO implement a ofinish message???
+                    self.caller.msg(target.db.messages['ofinish_msg'])
                     target.delete()
 
 
@@ -226,7 +339,7 @@ class CmdDrink(Command):
                     target.db.portions -= 1
                 elif target.db.portions == 1:
                     self.caller.msg(target.db.messages['finish_msg'])
-                    #TODO implement a ofinish message???
+                    self.caller.msg(target.db.messages['ofinish_msg'])
                     target.delete()
 
 class CmdDose(Command):
@@ -256,7 +369,37 @@ class CmdDose(Command):
                     target.db.portions -= 1
                 elif target.db.portions == 1:
                     self.caller.msg(target.db.messages['finish_msg'])
-                    #TODO implement a ofinish message???
+                    self.caller.msg(target.db.messages['ofinish_msg'])
+                    target.delete()
+
+class CmdSmoke(Command):
+    """
+    Usage: 
+        smoke <thing>
+        allows you to smoke something!
+    """
+    key = 'smoke'
+    aliases = ("toke")
+    def func(self):
+        if not self.args:
+            self.msg("Usage: smoke <thing>")
+            return
+
+        tosmoke = self.args.strip()
+        target = self.caller.search(tosmoke, candidates=self.caller.contents, typeclass=SmokeOb)
+
+        if not target: 
+            self.msg("You don't have anything dosable by that name.")
+            return
+        else:
+            if target.location == self.caller:
+                if target.db.portions != 1:
+                    self.caller.msg(target.db.messages['con_msg'])
+                    self.caller.msg_contents(target.db.messages['ocon_msg'])
+                    target.db.portions -= 1
+                elif target.db.portions == 1:
+                    self.caller.msg(target.db.messages['finish_msg'])
+                    self.caller.msg(target.db.messages['ofinish_msg'])
                     target.delete()
 
 class CmdRail(Command):
@@ -282,6 +425,30 @@ class CmdRail(Command):
                 self.caller.msg(target.db.messages['chug_msg'])
                 target.delete()
                 self.caller.scripts.add(DrugUse)
+
+
+class CmdChug(Command):
+    """
+    Usage: 
+        chug <thing>
+        allows you knock back all of a drink at once.
+    """
+    key = 'chug'
+    def func(self):
+        if not self.args:
+            self.msg("Usage: chug <drink>")
+            return
+
+        tochug= self.args.strip()
+        target = self.caller.search(tochug, candidates=self.caller.contents, typeclass=DrinkOb)
+
+        if not target: 
+            self.msg("You don't have anything to CHUG by that name.")
+            return
+        else:
+            if target.location == self.caller:
+                self.caller.msg(target.db.messages['chug_msg'])
+                target.delete()
 
 # == == == == == Here is the object creation command == == == == == == #
 
@@ -324,6 +491,7 @@ class ConsumableCmdSet(CmdSet):
         self.add(CmdEat())
         self.add(CmdDrink())
         self.add(CmdDose())
+        self.add(CmdChug())
         self.add(CmdRail())
 
 class ConsumableBuildSet(CmdSet):
@@ -332,4 +500,8 @@ class ConsumableBuildSet(CmdSet):
         self.add(CmdSetConMsg())
         self.add(CmdSetOConMsg())
         self.add(CmdSetFinishMsg())
+        self.add(CmdSetOFinishMsg())
         self.add(CmdSetChugMsg())
+        self.add(CmdSetOChugMsg())
+        self.add(CmdSetValue())
+        self.add(CmdSetPortions())
