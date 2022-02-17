@@ -34,7 +34,7 @@ class CmdPocket(Command):
     Usage:
           pocket (money object)
     """
-    key = 'eat'
+    key = 'pocket'
         
     def func(self):
         if not self.args:
