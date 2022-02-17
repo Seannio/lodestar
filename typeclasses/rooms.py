@@ -29,9 +29,7 @@ class TickerRoom(DefaultRoom):
 
     def at_object_creation(self):
         super().at_object_creation()
-        TICKER_HANDLER.remove(240, self.at_ticker_update)
-        TICKER_HANDLER.remove(60, self.at_ticker_update)
-        #TICKER_HANDLER.add(300, self.at_ticker_update, idstring="roomticker1")
+        TICKER_HANDLER.add(300, self.at_ticker_update)
         print("Created ticker")
 
     def at_ticker_update(self, *args, **kwargs):
@@ -43,7 +41,11 @@ class TickerRoom(DefaultRoom):
                 "|yBrewer's Pudding|n",
                 "|gBackalley Bog Grog|n",
                 "|mGrenadine and Spritz|n",
-                "|MSuspicious Pinkish Liqueur|n" ]
+                "|xLey-Vodka Sour|n",
+                "|gSpicy Cactus-Jack|n",
+                "|xSmoke-Rakja Highball|n",
+                "|rFlaming Bushwrangler|n" 
+        ]
 
         ECHOES = ("A bespokely-dressed waiter delicately squeezes through the patrons, carefully carrying a platter of " + random.choice(randomgoods) + "s.",
                  "Over the quiet, ambient music, a touch of conversationn picks up at a nearby table, followed by soft laughter.",
