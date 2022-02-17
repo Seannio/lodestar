@@ -246,7 +246,7 @@ class CmdSetValue(Command):
                 self.caller.msg("Thing to set message for must be in inv.")
                 return
             if self.searchob:
-                connsumableobj.db.messages['value'] = self.val
+                valueobj.db.messages['value'] = self.val
                 caller.msg("value for %s set as: %s" % (valueobj.name, self.val))
 
 class CmdSetPortions(Command):
@@ -275,7 +275,7 @@ class CmdSetPortions(Command):
                 self.caller.msg("Thing to set message for must be in inv.")
                 return
             if self.searchob:
-                connsumableobj.db.messages['portions'] = self.val
+                valueobj.db.messages['portions'] = self.val
                 caller.msg("value for %s set as: %s" % (valueobj.name, self.val))
 
 
