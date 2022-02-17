@@ -9,6 +9,7 @@ from evennia import DefaultRoom
 from random import choice
 from evennia import TICKER_HANDLER
 from collections import defaultdict
+from commands.default_cmdsets import ChargenCmdset
 
 
 class Room(DefaultRoom):
@@ -23,6 +24,18 @@ class Room(DefaultRoom):
     """
 
     pass
+
+# ...
+# down at the end of rooms.py
+
+class ChargenRoom(Room):
+    """
+    This room class is used by character-generation rooms. It makes
+    the ChargenCmdset available.
+    """
+    def at_object_creation(self):
+        "this is called only at first creation"
+        self.cmdset.add(ChargenCmdset, permanent=True)
 
 class TickerRoom(DefaultRoom):
     "This room is ticked at regular intervals"
@@ -48,7 +61,7 @@ class TickerRoom(DefaultRoom):
         ]
 
         ECHOES = ("A bespokely-dressed waiter delicately squeezes through the patrons, carefully carrying a platter of " + random.choice(randomgoods) + "s.",
-                 "Over the quiet, ambient music, a touch of conversationn picks up at a nearby table, followed by soft laughter.",
+                 "Over the quiet, ambient music, a touch of conversation picks up at a nearby table, followed by soft laughter.",
                  "From the depths of the cosmos beyond the window, hazy heatwaves distort the faraway colours in a momentary ripple.",
                  "Behind the bar, a busy clockwork creature whirrs to life, its spindly brass arms collecting the requisite bottles for a " + random.choice(randomgoods) + ".",
                  "Behind the bar, a creaky clockwork mixing-figure austerely shakes a drink with mechanical precision. It eventually pours a " + random.choice(randomgoods) + " into a fine glass.",

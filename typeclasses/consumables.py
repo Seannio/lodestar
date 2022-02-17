@@ -13,7 +13,7 @@ class EatOb(DefaultObject):
        # messages = 'con_msg', 'ocon_msg', 'value'
     def at_object_creation(self):
         if not self.db.messages:
-            self.db.messages = {message: "" for message in CONSUMABLE_MESSAGE_TYPES}
+            self.db.messages = {message: " " for message in CONSUMABLE_MESSAGE_TYPES}
             self.db.value = 1
             self.db.portions = 1
 
@@ -22,7 +22,7 @@ class DrinkOb(DefaultObject):
        # messages = 'con_msg', 'ocon_msg', 'value'
     def at_object_creation(self):
         if not self.db.messages:
-            self.db.messages = {message: "" for message in CONSUMABLE_MESSAGE_TYPES}
+            self.db.messages = {message: " " for message in CONSUMABLE_MESSAGE_TYPES}
             self.db.value = 1
             self.db.portions = 1
 
@@ -31,7 +31,7 @@ class SmokeOb(DefaultObject):
        # messages = 'con_msg', 'ocon_msg', 'value'
     def at_object_creation(self):
            if not self.db.messages:
-                self.db.messages = {message: "" for message in CONSUMABLE_MESSAGE_TYPES}
+                self.db.messages = {message: " " for message in CONSUMABLE_MESSAGE_TYPES}
                 self.db.value = 1
                 self.db.portions = 1
 
@@ -40,7 +40,7 @@ class DrugOb(DefaultObject):
        # messages = 'con_msg', 'ocon_msg', 'value'
     def at_object_creation(self):
            if not self.db.messages:
-                self.db.messages = {message: "" for message in CONSUMABLE_MESSAGE_TYPES}
+                self.db.messages = {message: " " for message in CONSUMABLE_MESSAGE_TYPES}
                 self.db.value = 1
                 self.db.portions = 1
 
@@ -315,7 +315,7 @@ class CmdEat(Command):
                     target.db.portions -= 1
                 elif target.db.portions == 1:
                     self.caller.msg(target.db.messages['finish_msg'])
-                    self.caller.msg(target.db.messages['ofinish_msg'])
+                    self.caller.msg_contents(target.db.messages['ofinish_msg'])
                     target.delete()
 
 
@@ -346,7 +346,7 @@ class CmdDrink(Command):
                     target.db.portions -= 1
                 elif target.db.portions == 1:
                     self.caller.msg(target.db.messages['finish_msg'])
-                    self.caller.msg(target.db.messages['ofinish_msg'])
+                    self.caller.msg_contents(target.db.messages['ofinish_msg'])
                     target.delete()
 
 class CmdDose(Command):
@@ -376,7 +376,7 @@ class CmdDose(Command):
                     target.db.portions -= 1
                 elif target.db.portions == 1:
                     self.caller.msg(target.db.messages['finish_msg'])
-                    self.caller.msg(target.db.messages['ofinish_msg'])
+                    self.caller.msg_contents(target.db.messages['ofinish_msg'])
                     target.delete()
 
 class CmdSmoke(Command):
@@ -406,7 +406,7 @@ class CmdSmoke(Command):
                     target.db.portions -= 1
                 elif target.db.portions == 1:
                     self.caller.msg(target.db.messages['finish_msg'])
-                    self.caller.msg(target.db.messages['ofinish_msg'])
+                    self.caller.msg_contents(target.db.messages['ofinish_msg'])
                     target.delete()
 
 class CmdRail(Command):
