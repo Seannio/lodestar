@@ -86,14 +86,10 @@ class CmdStand(Command):
         sittable = caller.search(
                          self.caller,
                          candidates=caller.location.contents,
-                         attribute_name="sitter",
+                         attribute_name="sitting",
                          typeclass="typeclasses.sittables.SittableOb")
         # if this is None, the error was already reported to user
-        self.caller.msg(caller.search(
-                         self.caller,
-                         candidates=caller.location.contents,
-                         attribute_name="sitter",
-                         typeclass="typeclasses.sittables.SittableOb"))
+        
         if not sittable:
             return
 
