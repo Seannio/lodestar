@@ -39,7 +39,7 @@ class SittableOb(DefaultObject):
             stander.msg("You are not sitting on %s." % self.key)
         else:
             self.db.sitting = None
-            stander.db.is_resting = False
+            stander.db.is_sitting = False
             stander.msg(f"You stand up from {self.key}")
 
 
@@ -87,8 +87,13 @@ class CmdStand(Command):
                          self.caller,
                          candidates=caller.location.contents,
                          attribute_name="sitter",
-                         typeclass="typeclasses.sittables.Sittable")
+                         typeclass="typeclasses.sittables.SittableOb")
         # if this is None, the error was already reported to user
+        self.caller.msg(caller.search(
+                         self.caller,
+                         candidates=caller.location.contents,
+                         attribute_name="sitter",
+                         typeclass="typeclasses.sittables.SittableOb"))
         if not sittable:
             return
 
