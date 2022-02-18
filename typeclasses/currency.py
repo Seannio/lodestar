@@ -72,7 +72,7 @@ class CmdCashout(Command):
 
         to_cashout = int(self.args.strip())
 
-        if to_cashout > self.db.value:
+        if to_cashout > self.caller.db.currency:
             self.caller.msg("You don't have that much money, dumbass.")
         else:
             if to_cashout < 10:
