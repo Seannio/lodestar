@@ -99,3 +99,4 @@ class CurrencyCmdSet(CmdSet):
     def at_cmdset_creation(self):
         self.add(CmdCurrency())
         self.add(CmdPocket())
+        self.add(CmdCashout())
