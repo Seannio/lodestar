@@ -77,7 +77,7 @@ class Character(DefaultCharacter):
        Called by self.move_to when trying to move somewhere. If this returns
        False, the move is immediately cancelled.
        """
-       if self.db.is_resting:
+       if self.db.is_sitting:
            self.msg("You can't go anywhere while resting.")
            return False
        return True

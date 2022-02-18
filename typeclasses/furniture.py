@@ -2,7 +2,7 @@ from evennia import InterruptCommand
 from evennia import DefaultObject
 from evennia import Command, CmdSet
 
-class Sittable(DefaultObject):
+class SittableOb(DefaultObject):
 
     def at_object_creation(self):
         self.db.sitter = None
@@ -23,7 +23,7 @@ class Sittable(DefaultObject):
                 sitter.msg( "You can't sit on %s" % self.key)
             return
         self.db.sitting = sitter
-        sitter.db.is_resting = True
+        sitter.db.is_sitting= True
         sitter.msg("You sit on the %s " % self.key)
 
     def do_stand(self, stander):
@@ -40,7 +40,7 @@ class Sittable(DefaultObject):
         else:
             self.db.sitting = None
             stander.db.is_resting = False
-            stander.msg(f"You stand up from %s." % self.key)
+            stander.msg(f"You stand up from {self.key}")
 
 
 class CmdSit(Command):
