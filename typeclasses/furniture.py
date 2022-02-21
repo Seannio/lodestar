@@ -35,7 +35,7 @@ class SittableOb(DefaultObject):
             stander (Object): The one trying to stand up.
 
         """
-        current = self.db.sitter
+        current = self.db.sitting
         if not stander == current:
             stander.msg("You are not sitting on %s." % self.key)
         else:
