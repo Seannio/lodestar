@@ -86,9 +86,11 @@ class CmdStand(Command):
         # to the caller
         sittable = self.caller.search(
                          self.caller,
-                         candidates=caller.location.contents,
+                         candidates=self.caller.location.contents,
                          attribute_name="sitting",
                          typeclass="typeclasses.sittables.SittableOb")
+        print("THE FOLLOWING IS THE SIT OUTUPUT")
+        print(sittable)
         # if this is None, the error was already reported to user
         
         if not sittable:
