@@ -15,7 +15,7 @@ class SittableOb(DefaultObject):
             sitter (Object): The one trying to sit down.
         """
 
-        current = self.db.sitter
+        current = self.db.sitting
         if current:
             if current == sitter:
                 sitter.msg("You are already sitting on %s." % self.key)
@@ -84,13 +84,18 @@ class CmdStand(Command):
         # find the thing we are sitting on/in, by finding the object
         # in the current location that as an Attribute "sitter" set
         # to the caller
-        sittable = self.caller.search(
+        try:
+            sittable = self.caller.search(
                          self.caller,
                          candidates=self.caller.location.contents,
                          attribute_name="sitting",
                          typeclass="typeclasses.furniture.SittableOb")
-        print("THE FOLLOWING IS THE SIT OUTUPUT")
-        print(sittable)
+            print("THE FOLLOWING IS THE SIT OUTUPUT")
+            print(sittable)
+        except AttributeError:
+            self.caller.msg("You aren't sitting..")
+    
+        
         # if this is None, the error was already reported to user
         
         if not sittable:
