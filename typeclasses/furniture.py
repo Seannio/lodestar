@@ -25,7 +25,7 @@ class SittableOb(DefaultObject):
         self.db.sitting = sitter
         sitter.db.is_sitting= True
         sitter.msg("You sit on the %s " % self.key)
-        sitter.msg("The object you sat on has sitting set to: " % self.db.sitting)
+        sitter.msg("The object you sat on has sitting set to: %s" % self.db.sitting)
 
     def do_stand(self, stander):
         """
