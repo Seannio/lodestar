@@ -88,7 +88,7 @@ class CmdStand(Command):
                          self.caller,
                          candidates=self.caller.location.contents,
                          attribute_name="sitting",
-                         typeclass="typeclasses.sittables.SittableOb")
+                         typeclass="typeclasses.furniture.SittableOb")
         print("THE FOLLOWING IS THE SIT OUTUPUT")
         print(sittable)
         # if this is None, the error was already reported to user
