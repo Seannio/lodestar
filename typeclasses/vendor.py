@@ -59,10 +59,11 @@ def menunode_inspect_and_buy(caller, raw_string):
             ware.move_to(caller, quiet=True)
             caller.location.msg_contents("%s feeds some currency into a machine's payment-slot and withdraws an item." % (caller.key), exclude=caller)
         else:
-            rtext = "\n|wThe machine makes a loud, offensive buzz as you attempt to pay for your stuff. You cannot afford %i chits for %s!" % \
-                          (value, ware.key)
+            rtext = "\n|wThe %s makes a loud, offensive buzz as you attempt to pay for your stuff. You cannot afford %i chits for %s!" % \
+                          (caller.ndb._menutree.shoptitle, value, ware.key)
+            caller.location.msg_contents("%s presses a few buttons on the %s, eliciting a loud |rBEEEP." % (caller.key, caller.ndb._menutree.shoptitle), exclude=caller)
         caller.msg(rtext)
-        caller.location.msg_contents("%s presses a few buttons on a machine, eliciting a loud |rBEEEP." % (caller.key), exclude=caller)
+        
 
     options = ({"desc": "Buy %s for %s gold" % \
                         (ware.key, ware.db.value or 1),
