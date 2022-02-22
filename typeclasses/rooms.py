@@ -28,7 +28,7 @@ class Room(DefaultRoom):
             elif con.is_typeclass(Character):
                 players.append("|c%s|n is standing here." % key)
             elif con.is_typeclass(SittableOb):
-                seats.append("|cA %s." % key)
+                seats.append("|na %s" % key)
             else:
                 things[key].append(con)
 
