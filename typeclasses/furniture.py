@@ -1,11 +1,14 @@
 from evennia import InterruptCommand 
 from evennia import DefaultObject
 from evennia import Command, CmdSet
+from configlists import FURNITURE_MESSAGE_TYPES
 
 class SittableOb(DefaultObject):
 
     def at_object_creation(self):
-        self.db.sitter = None
+        self.db.sitting = None
+        if not self.db.messages:
+            self.db.messages = {message: " " for message in FURNITURE_MESSAGE_TYPES}
 
     def do_sit(self, sitter):
         """
@@ -19,9 +22,12 @@ class SittableOb(DefaultObject):
         if current:
             if current == sitter:
                 sitter.msg("You are already sitting on %s." % self.key)
+            elif sitter.db.is_sitting == True:
+                sitter.msg( "You are already sitting on something. Stand up first!")
             else:
                 sitter.msg( "You can't sit on %s" % self.key)
             return
+
         self.db.sitting = sitter
         sitter.db.is_sitting= True
         sitter.msg("You sit on the %s " % self.key)
@@ -33,7 +39,6 @@ class SittableOb(DefaultObject):
 
         Args:
             stander (Object): The one trying to stand up.
-
         """
         current = self.db.sitting
         if not stander == current:
@@ -103,8 +108,41 @@ class CmdStand(Command):
 
         sittable.do_stand(caller)
 
+class CmdSetSitMsg(Command):
+    '''
+    Sets the local (internal) message when consuming a consumable
+    Usage: @sit_msg furniture = <message>
+    '''
+
+    key = '@sit_msg'
+    locks = "cmd:perm(Builders)"
+    help_category = "furniture"
+
+    def parse(self):
+        if not self.args:
+            self.msg("Usage: @sit_msg <item> = <message>")
+            return
+
+    def func(self):
+        caller = self.caller
+        self.searchob, self.msg = self.args.split('=')
+        self.searchob = self.searchob.strip()
+        self.msg = self.msg.strip()
+
+        if self.msg:
+            furniture = self.caller.search(self.searchob, candidates=self.caller.contents, typeclass="typeclasses.furniture.SittableOb")
+            if not furniture:
+                self.caller.msg("This isn't a furniture object.")
+                return
+            if self.searchob:
+                connsumableobj.db.messages['sit_msg'] = self.msg
+                caller.msg("con_msg for %s set as: %s" % (furniture.name, self.msg))
 
 class SitCmdSet(CmdSet):
     def at_cmdset_creation(self):
         self.add(CmdSit)
         self.add(CmdStand)
+
+class FurnitureBuildSet(CmdSet):
+    def at_cmdset_creation(self):
+        self.add(CmdSetSitMsg())

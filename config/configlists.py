@@ -22,3 +22,9 @@ CONSUMABLE_DRUG_MESSAGES = ( 'You feel a rusty taste on the back of your tongue,
                              'The world feels like an awful, sweaty place, prickling hotly across your skin.'
 
 )
+
+FURNITURE_MESSAGE_TYPES = ('sit_msg',
+                            'osit_msg',
+                            'stand_msg',
+                            'ostand_msg,'
+)

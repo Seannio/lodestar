@@ -20,7 +20,7 @@ from evennia import CmdSet
 from commands.command import CmdAbilities
 from typeclasses.vendor import CmdCreateVend, ShopCmdSet
 from typeclasses.consumables import ConsumableCmdSet, ConsumableBuildSet
-from typeclasses.furniture import SitCmdSet
+from typeclasses.furniture import SitCmdSet, FurnitureBuildSet
 from typeclasses.currency import CurrencyCmdSet
 
 
@@ -52,6 +52,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CurrencyCmdSet())
 
         self.add(SitCmdSet())
+        self.add(FurnitureBuildSet(CmdSet))
 
 
 class AccountCmdSet(default_cmds.AccountCmdSet):
