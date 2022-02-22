@@ -47,7 +47,7 @@ class SittableOb(DefaultObject):
                 stander.msg(self.db.messages['stand_msg'])
                 #stander.msg(f"You stand up from {self.key}")
         except AttributeError:
-            stander.msg("You aren't sitting")
+            stander.msg("You're not sitting. (error in the function do_Stand)")
             stander.db.is_sitting = False
 
 
@@ -88,11 +88,6 @@ class CmdStand(Command):
 
     """
     key = "stand"
-    
-    def parse(self):
-        if self.caller.db.is_sitting ==False:
-            self.caller.msg("You aren't sitting on anything.")
-            raise InterruptCommand
 
     def func(self):
 
@@ -106,11 +101,11 @@ class CmdStand(Command):
                          candidates=self.caller.location.contents,
                          attribute_name="sitting",
                          typeclass="typeclasses.furniture.SittableOb")
+
+            sittable.do_stand(caller)
         except AttributeError:
-            self.caller.msg("You aren't sitting..")
+            self.caller.msg("You aren't sitting... (error after function?)")
             self.caller.db.is_sitting = False
-    
-        sittable.do_stand(caller)
 
 
 
