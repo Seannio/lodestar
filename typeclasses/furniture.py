@@ -7,6 +7,7 @@ class SittableOb(DefaultObject):
 
     def at_object_creation(self):
         self.db.sitting = None
+        self.db.seats = 1 #TODO: Add multiple seats to a seating object. Should be easy - make sitting an array?
         if not self.db.messages:
             self.db.messages = {message: " " for message in FURNITURE_MESSAGE_TYPES}
 
@@ -49,9 +50,8 @@ class SittableOb(DefaultObject):
                 stander.location.msg_contents(self.db.messages['ostand_msg'], exclude=stander)
                 #stander.msg(f"You stand up from {self.key}")
         except AttributeError:
-            stander.msg("You're not sitting. (error in the function do_Stand)")
+            stander.msg("You're not sitting.")
             stander.db.is_sitting = False
-
 
 class CmdSit(Command):
     """
@@ -98,10 +98,6 @@ class CmdStand(Command):
 
     def func(self):
         caller = self.caller
-        # find the thing we are sitting on/in, by finding the object
-        # in the current location that as an Attribute "sitter" set
-        # to the caller
-
         sittable = self.caller.search(
                          self.caller,
                          candidates=self.caller.location.contents,
@@ -112,6 +108,8 @@ class CmdStand(Command):
             return
 
         sittable.do_stand(caller)
+
+
 
 # Set the messages for standing/sitting! 
 
