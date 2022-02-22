@@ -9,19 +9,56 @@ from evennia import DefaultRoom
 from random import choice
 from evennia import TICKER_HANDLER
 from collections import defaultdict
+from typeclasses.characters import Character
+from typeclasses.furniture import SittableOb
+
 
 
 class Room(DefaultRoom):
-    """
-    Rooms are like any Object, except their location is None
-    (which is default). They also use basetype_setup() to
-    add locks so they cannot be puppeted or picked up.
-    (to change that, use at_object_creation instead)
 
-    See examples/object.py for a list of
-    properties and methods available on all Objects.
-    """
+    def return_appearance(self, looker, **kwargs):
+        if not looker:
+            return ""
+        visible = (con for con in self.contents if con != looker and con.access(looker, "view"))
+        exits, players, seats, things = [], [], [], defaultdict(list)
+        for con in visible:
+            key = con.get_display_name(looker)
+            if con.destination:
+                exits.append(key)
+            elif con.is_typeclass(Character):
+                players.append("|c%s|n is standing here." % key)
+            elif con.is_typeclass(SittableOb):
+                seats.append("|cA %s." % key)
+            else:
+                things[key].append(con)
 
+        string = "|c%s|n\n" % self.get_display_name(looker)
+        desc = self.db.desc
+
+        if desc:
+            string += "%s" % desc
+        if players:
+            string += "\n|n" + ' '.join(players)
+        if things:
+            thing_strings = []
+            for key, itemlist in sorted(things.items()):
+                nitem = len(itemlist)
+                if nitem == 1:
+                    key, _ = itemlist[0].get_numbered_name(nitem, looker, key=key)
+                else:
+                    key = [item.get_numbered_name(nitem, looker, key=key)[1] for item in itemlist][0]
+                thing_strings.append(key)
+            string += "\n|wYou see:|n " + ', '.join(thing_strings)
+        if seats:
+            string += "\n|Seats:|n " + ', '.join(seats)
+        if exits:
+            string += "\n|wExits:|n " + ', '.join(exits)
+        return string
+
+    def at_look(self, target, **kwargs):
+        description = target.return_appearance(self, **kwargs)
+        target.at_desc(looker=self, **kwargs)
+        return description
     pass
 
 
