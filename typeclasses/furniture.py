@@ -1,7 +1,7 @@
 from evennia import InterruptCommand 
 from evennia import DefaultObject
 from evennia import Command, CmdSet
-from configlists import FURNITURE_MESSAGE_TYPES
+from config.configlists import FURNITURE_MESSAGE_TYPES
 
 class SittableOb(DefaultObject):
 
