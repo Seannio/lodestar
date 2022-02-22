@@ -25,7 +25,7 @@ class SittableOb(DefaultObject):
         if current:
             if sitter in current:
                 sitter.msg("You are already sitting on %s." % self.key)
-            elif len(self.db.siting) <= self.db.space:
+            elif len(self.db.sitting) <= self.db.space:
                 sitter.msg( "There's no space left on %s" % self.key)
             return
 
@@ -223,6 +223,36 @@ class CmdSetStandMsg(Command):
                 furniture.db.messages['stand_msg'] = self.msg.strip()
                 caller.msg("stand_msg for %s set as: %s" % (furniture.name, self.msg.strip()))
 
+class CmdSetSpace(Command):
+    '''
+    Set the space on a seat
+    Usage: @seat_space furniture = num
+    '''
+    key = '@seat_space'
+    locks = "cmd:perm(Builders)"
+    help_category = "furniture"
+
+    def parse(self):
+        if not self.args:
+            self.msg("Usage: @ostand_msg <item> = <message>")
+            return
+
+    def func(self):
+        caller = self.caller
+        self.searchob, self.seats = self.args.split('=')
+        self.searchob = self.searchob.strip()
+        self.seats = self.seats.strip()
+
+        if self.seats:
+            seatobj = self.caller.search(self.searchob, candidates=self.caller.location.contents)
+            if not seatobj:
+                self.caller.msg("Thing to set seats for should be on the floor.")
+                return
+            if self.searchob:
+                seatobj.db.space = int(self.seats)
+                caller.msg("Seat-amount for %s set as: %s" % (seatobj.name, self.val))
+
+
 class SitCmdSet(CmdSet):
     def at_cmdset_creation(self):
         self.add(CmdSit)
@@ -234,3 +264,4 @@ class FurnitureBuildSet(CmdSet):
         self.add(CmdSetStandMsg())
         self.add(CmdSetOSitMsg())
         self.add(CmdSetOStandMsg())
+        self.add(CmdSetSpace())
