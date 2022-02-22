@@ -46,7 +46,7 @@ class SittableOb(DefaultObject):
             if not stander in current:
                 stander.msg("You are not sitting on %s." % self.key)
             else:
-                self.db.sitting.remove(stander) = None
+                self.db.sitting.remove(stander)
                 stander.db.is_sitting = False
                 stander.msg(self.db.messages['stand_msg'])
                 stander.location.msg_contents(self.db.messages['ostand_msg'], exclude=stander)
