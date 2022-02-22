@@ -21,20 +21,18 @@ class SittableOb(DefaultObject):
         """
         sitter.db.seat = self.key
         current = self.db.sitting
-
-        if current:
-            print("NOW.... LEN of the SITTING ARRAY: %i" % len(self.db.sitting))
-            print(" VERSUS LEN of the sitting space: %i" % self.db.space)
-            if sitter in current:
-                sitter.msg("You are already sitting on %s." % self.key)
-            elif len(self.db.sitting) >= self.db.space:
-                sitter.msg( "There's no space left on %s" % self.key)
-            else: 
-                self.db.sitting.append(sitter)
-                sitter.db.is_sitting= True
-                print(self.db.sitting)
-                sitter.msg(self.db.messages['sit_msg'])
-                sitter.location.msg_contents(self.db.messages['osit_msg'], exclude=sitter)
+        print("NOW.... LEN of the SITTING ARRAY: %i" % len(self.db.sitting))
+        print(" VERSUS LEN of the sitting space: %i" % self.db.space)
+        if sitter in current:
+            sitter.msg("You are already sitting on %s." % self.key)
+        elif len(self.db.sitting) >= self.db.space:
+            sitter.msg( "There's no space left on %s" % self.key)
+        else: 
+            self.db.sitting.append(sitter)
+            sitter.db.is_sitting= True
+            print(self.db.sitting)
+            sitter.msg(self.db.messages['sit_msg'])
+            sitter.location.msg_contents(self.db.messages['osit_msg'], exclude=sitter)
 
     def do_stand(self, stander):
         """
