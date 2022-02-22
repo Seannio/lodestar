@@ -38,17 +38,14 @@ class SittableOb(DefaultObject):
             stander (Object): The one trying to stand up.
         """
         current = self.db.sitting
-        try:
-            if not stander == current:
-                stander.msg("You are not sitting on %s." % self.key)
-            else:
-                self.db.sitting = None
-                stander.db.is_sitting = False
-                stander.msg(self.db.messages['stand_msg'])
-                #stander.msg(f"You stand up from {self.key}")
-        except AttributeError:
-            stander.msg("You aren't sitting on anything.")
+   
+        if not stander == current:
+            stander.msg("You are not sitting on %s." % self.key)
+        else:
+            self.db.sitting = None
             stander.db.is_sitting = False
+            stander.msg(self.db.messages['stand_msg'])
+            #stander.msg(f"You stand up from {self.key}")
 
 
 class CmdSit(Command):

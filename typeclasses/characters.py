@@ -54,6 +54,7 @@ class Character(DefaultCharacter):
         self.db.superstitions = 1
         self.db.grey_augument = 1
         self.db.currency = 100
+        self.db.is_sitting = False
 
 
     def get_abilities(self):
