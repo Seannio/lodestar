@@ -130,13 +130,13 @@ class CmdSetSitMsg(Command):
         self.msg = self.msg.strip()
 
         if self.msg:
-            furniture = self.caller.search(self.searchob, candidates=self.caller.contents, typeclass="typeclasses.furniture.SittableOb")
+            furniture = self.caller.search(self.searchob, candidates=self.caller.contents)
             if not furniture:
                 self.caller.msg("This isn't a furniture object.")
                 return
             if self.searchob:
-                connsumableobj.db.messages['sit_msg'] = self.msg
-                caller.msg("con_msg for %s set as: %s" % (furniture.name, self.msg))
+                furniture.db.messages['sit_msg'] = self.msg
+                caller.msg("sit_msg for %s set as: %s" % (furniture.name, self.msg))
 
 class SitCmdSet(CmdSet):
     def at_cmdset_creation(self):
