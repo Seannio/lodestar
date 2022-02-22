@@ -53,14 +53,16 @@ def menunode_inspect_and_buy(caller, raw_string):
     def buy_ware_result(caller):
         "This will be executed first when choosing to buy."
         if wealth >= value:
-            rtext = "\n|wYou pay %i chits and purchase %s!" % \
+            rtext = "\n|wYou feed %i pieces of currency into the machine. After a second, it beeps and dispenses your %s!" % \
                          (value, ware.key)
             caller.db.currency -= value
             ware.move_to(caller, quiet=True)
+            caller.location.msg_contents("%s feeds some currency into a machine's payment-slot and withdraws an item." % (caller.key), exclude=caller)
         else:
-            rtext = "\n|wYou cannot afford %i chits for %s!" % \
+            rtext = "\n|wThe machine makes a loud, offensive buzz as you attempt to pay for your stuff. You cannot afford %i chits for %s!" % \
                           (value, ware.key)
         caller.msg(rtext)
+        caller.location.msg_contents("%s presses a few buttons on a machine, eliciting a loud |rBEEEP." % (caller.key), exclude=caller)
 
     options = ({"desc": "Buy %s for %s gold" % \
                         (ware.key, ware.db.value or 1),
