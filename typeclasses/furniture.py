@@ -95,18 +95,14 @@ class CmdStand(Command):
         # find the thing we are sitting on/in, by finding the object
         # in the current location that as an Attribute "sitter" set
         # to the caller
-        try:
-            sittable = self.caller.search(
-                         self.caller,
-                         candidates=self.caller.location.contents,
-                         attribute_name="sitting",
-                         typeclass="typeclasses.furniture.SittableOb")
-            print("output before error???")
-            print(sittable)
-            sittable.do_stand(caller)
-        except AttributeError:
-            self.caller.msg("You aren't sitting... (error after function?)")
 
+        sittable = self.caller.search(
+                        self.caller,
+                        candidates=self.caller.location.contents,
+                        attribute_name="sitting",
+                        typeclass="typeclasses.furniture.SittableOb")
+
+        sittable.do_stand(caller)
 
 
 # Set the messages for standing/sitting! 
