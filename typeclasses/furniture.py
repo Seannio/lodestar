@@ -28,13 +28,13 @@ class SittableOb(DefaultObject):
                 sitter.msg("You are already sitting on %s." % self.key)
             elif len(self.db.sitting) >= self.db.space:
                 sitter.msg( "There's no space left on %s" % self.key)
-            return
+                return
+            elif len(self.db.sitting) <= self.db.space:
+                self.db.sitting.append(sitter)
+                sitter.db.is_sitting= True
 
-        self.db.sitting.append(sitter)
-        sitter.db.is_sitting= True
-
-        sitter.msg(self.db.messages['sit_msg'])
-        sitter.location.msg_contents(self.db.messages['osit_msg'], exclude=sitter)
+                sitter.msg(self.db.messages['sit_msg'])
+                sitter.location.msg_contents(self.db.messages['osit_msg'], exclude=sitter)
 
     def do_stand(self, stander):
         """
