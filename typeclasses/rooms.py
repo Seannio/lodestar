@@ -50,7 +50,7 @@ class Room(DefaultRoom):
                 thing_strings.append(key)
             string += "\n|wYou see:|n " + ', '.join(thing_strings)
         if seats:
-            string += "\n|Seats:|n " + ', '.join(seats)
+            string += "\n|wSeats:|n " + ', '.join(seats)
         if exits:
             string += "\n|wExits:|n " + ', '.join(exits)
         return string
@@ -62,7 +62,7 @@ class Room(DefaultRoom):
     pass
 
 
-class TickerRoom(DefaultRoom):
+class TickerRoom(Room):
     "This room is ticked at regular intervals"
 
     def at_object_creation(self):
