@@ -29,6 +29,7 @@ class SittableOb(DefaultObject):
         self.db.sitting = sitter
         sitter.db.is_sitting= True
         sitter.msg(self.db.messages['sit_msg'])
+        sitter.location.msg_contents(self.db.messages['osit_msg'], exclude=sitter)
 
     def do_stand(self, stander):
         """
@@ -45,6 +46,7 @@ class SittableOb(DefaultObject):
                 self.db.sitting = None
                 stander.db.is_sitting = False
                 stander.msg(self.db.messages['stand_msg'])
+                stander.location.msg_contents(self.db.messages['ostand_msg'], exclude=stander)
                 #stander.msg(f"You stand up from {self.key}")
         except AttributeError:
             stander.msg("You're not sitting. (error in the function do_Stand)")
@@ -138,6 +140,61 @@ class CmdSetSitMsg(Command):
             if self.searchob:
                 furniture.db.messages['sit_msg'] = self.msg.strip()
                 caller.msg("sit_msg for %s set as: %s" % (furniture.name, self.msg.strip()))
+
+
+
+class CmdSetOSitMsg(Command):
+    '''
+    Set the room message when sitting on a furniture object
+    Usage: @osit_msg furniture = <message>
+    '''
+    key = '@osit_msg'
+    locks = "cmd:perm(Builders)"
+    help_category = "furniture"
+
+    def parse(self):
+        if not self.args:
+            self.msg("Usage: @osit_msg <item> = <message>")
+            return
+
+    def func(self):
+        caller = self.caller
+        self.searchob, self.msg = self.args.split('=')
+        if self.msg:
+            furniture = self.caller.search(self.searchob.strip(), candidates=self.caller.location.contents, typeclass="typeclasses.furniture.SittableOb")
+            if not furniture:
+                self.caller.msg("This isn't a furniture object.")
+                return
+            if self.searchob:
+                furniture.db.messages['osit_msg'] = self.msg.strip()
+                caller.msg("osit_msg for %s set as: %s" % (furniture.name, self.msg.strip()))
+
+class CmdSetStandMsg(Command):
+    '''
+    Set the external message when standing from a furniture object
+    Usage: @ostand_msg furniture = <message>
+    '''
+    key = '@ostand_msg'
+    locks = "cmd:perm(Builders)"
+    help_category = "furniture"
+
+    def parse(self):
+        if not self.args:
+            self.msg("Usage: @ostand_msg <item> = <message>")
+            return
+
+    def func(self):
+        caller = self.caller
+        self.searchob, self.msg = self.args.split('=')
+        if self.msg:
+            furniture = self.caller.search(self.searchob.strip(), candidates=self.caller.location.contents, typeclass="typeclasses.furniture.SittableOb")
+            if not furniture:
+                self.caller.msg("This isn't a furniture object.")
+                return
+            if self.searchob:
+                furniture.db.messages['ostand_msg'] = self.msg.strip()
+                caller.msg("ostand_msg for %s set as: %s" % (furniture.name, self.msg.strip()))
+
 
 class CmdSetStandMsg(Command):
     '''
