@@ -101,9 +101,10 @@ class CmdStand(Command):
                         candidates=self.caller.location.contents,
                         attribute_name="sitting",
                         typeclass="typeclasses.furniture.SittableOb")
-
+        print("Here is the sittable:")
+        print(sittable)
         sittable.do_stand(caller)
-
+        print(sittable)
 
 # Set the messages for standing/sitting! 
 
