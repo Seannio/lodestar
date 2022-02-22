@@ -250,7 +250,7 @@ class CmdSetSpace(Command):
                 return
             if self.searchob:
                 seatobj.db.space = int(self.seats)
-                caller.msg("Seat-amount for %s set as: %s" % (seatobj.name, self.val))
+                caller.msg("Seat-amount for %s set as: %s" % (seatobj.name, self.seats))
 
 
 class SitCmdSet(CmdSet):
