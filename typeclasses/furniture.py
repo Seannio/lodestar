@@ -47,8 +47,7 @@ class SittableOb(DefaultObject):
                 stander.msg(self.db.messages['stand_msg'])
                 #stander.msg(f"You stand up from {self.key}")
         except AttributeError:
-            stander.msg("You're not sitting. (error in the function do_Stand)")
-            stander.db.is_sitting = False
+            stander.msg("You're not sitting.")
 
 
 class CmdSit(Command):
@@ -106,7 +105,6 @@ class CmdStand(Command):
             sittable.do_stand(caller)
         except AttributeError:
             self.caller.msg("You aren't sitting... (error after function?)")
-            self.caller.db.is_sitting = False
 
 
 
