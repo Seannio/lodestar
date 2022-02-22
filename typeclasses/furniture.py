@@ -28,9 +28,7 @@ class SittableOb(DefaultObject):
 
         self.db.sitting = sitter
         sitter.db.is_sitting= True
-        sitter.msg("You sit on the %s " % self.key)
         sitter.msg(self.db.messages['sit_msg'])
-        sitter.msg("The object you sat on has sitting set to: %s" % self.db.sitting)
 
     def do_stand(self, stander):
         """
@@ -45,7 +43,8 @@ class SittableOb(DefaultObject):
         else:
             self.db.sitting = None
             stander.db.is_sitting = False
-            stander.msg(f"You stand up from {self.key}")
+            stander.msg(self.db.messages['stand_msg'])
+            #stander.msg(f"You stand up from {self.key}")
 
 
 class CmdSit(Command):
@@ -65,6 +64,7 @@ class CmdSit(Command):
 
     def func(self):
         sittable = self.caller.search(self.args)
+        
         if not sittable:
             return
         elif self.caller.db.is_sitting == True:
@@ -97,25 +97,21 @@ class CmdStand(Command):
                          candidates=self.caller.location.contents,
                          attribute_name="sitting",
                          typeclass="typeclasses.furniture.SittableOb")
-            print("THE FOLLOWING IS THE SIT OUTUPUT")
-            print(sittable)
         except AttributeError:
             self.caller.msg("You aren't sitting..")
+            self.caller.db.is_sitting = False
     
-        
-        # if this is None, the error was already reported to user
-        
-        if not sittable:
-            return
-
         sittable.do_stand(caller)
+
+
+
+# Set the messages for standing/sitting! 
 
 class CmdSetSitMsg(Command):
     '''
-    Sets the local (internal) message when consuming a consumable
+    Set the internal message when sitting on a furniture object
     Usage: @sit_msg furniture = <message>
     '''
-
     key = '@sit_msg'
     locks = "cmd:perm(Builders)"
     help_category = "furniture"
@@ -126,26 +122,42 @@ class CmdSetSitMsg(Command):
             return
 
     def func(self):
-        
-        if not self.args:
-            self.msg("Usage: @sit_msg <item> = <message>")
-            return
-
         caller = self.caller
         self.searchob, self.msg = self.args.split('=')
-        self.searchob = self.searchob.strip()
-        self.msg = self.msg.strip()
-
         if self.msg:
-            furniture = self.caller.search(self.searchob, candidates=self.caller.location.contents, typeclass="typeclasses.furniture.SittableOb")
-            print("THE FOLLOWING IS THE FURNITURE SEARCH OUTUPUT")
-            print(furniture)
+            furniture = self.caller.search(self.searchob.strip(), candidates=self.caller.location.contents, typeclass="typeclasses.furniture.SittableOb")
             if not furniture:
                 self.caller.msg("This isn't a furniture object.")
                 return
             if self.searchob:
-                furniture.db.messages['sit_msg'] = self.msg
-                caller.msg("sit_msg for %s set as: %s" % (furniture.name, self.msg))
+                furniture.db.messages['sit_msg'] = self.msg.strip()
+                caller.msg("sit_msg for %s set as: %s" % (furniture.name, self.msg.strip()))
+
+class CmdSetStandMsg(Command):
+    '''
+    Set the internal message when standing from a furniture object
+    Usage: @stand_msg furniture = <message>
+    '''
+    key = '@stand_msg'
+    locks = "cmd:perm(Builders)"
+    help_category = "furniture"
+
+    def parse(self):
+        if not self.args:
+            self.msg("Usage: @stand_msg <item> = <message>")
+            return
+
+    def func(self):
+        caller = self.caller
+        self.searchob, self.msg = self.args.split('=')
+        if self.msg:
+            furniture = self.caller.search(self.searchob.strip(), candidates=self.caller.location.contents, typeclass="typeclasses.furniture.SittableOb")
+            if not furniture:
+                self.caller.msg("This isn't a furniture object.")
+                return
+            if self.searchob:
+                furniture.db.messages['stand_msg'] = self.msg.strip()
+                caller.msg("stand_msg for %s set as: %s" % (furniture.name, self.msg.strip()))
 
 class SitCmdSet(CmdSet):
     def at_cmdset_creation(self):
@@ -155,3 +167,4 @@ class SitCmdSet(CmdSet):
 class FurnitureBuildSet(CmdSet):
     def at_cmdset_creation(self):
         self.add(CmdSetSitMsg())
+        self.add(CmdSetStandMsg())
