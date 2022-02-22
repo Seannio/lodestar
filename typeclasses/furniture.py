@@ -101,7 +101,8 @@ class CmdStand(Command):
                          candidates=self.caller.location.contents,
                          attribute_name="sitting",
                          typeclass="typeclasses.furniture.SittableOb")
-
+            print("output before error???")
+            print(sittable)
             sittable.do_stand(caller)
         except AttributeError:
             self.caller.msg("You aren't sitting... (error after function?)")
