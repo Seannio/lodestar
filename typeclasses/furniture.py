@@ -106,11 +106,11 @@ class CmdStand(Command):
                          candidates=self.caller.location.contents,
                          attribute_name="sitting",
                          typeclass="typeclasses.furniture.SittableOb")
+            sittable.do_stand(caller)
         except AttributeError:
             self.caller.msg("You aren't sitting..")
             self.caller.db.is_sitting = False
-    
-        sittable.do_stand(caller)
+
 
 
 

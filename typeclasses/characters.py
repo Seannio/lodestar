@@ -78,7 +78,8 @@ class Character(DefaultCharacter):
        Called by self.move_to when trying to move somewhere. If this returns
        False, the move is immediately cancelled.
        """
-       if self.db.is_sitting:
+       if self.db.is_sitting == True:
+           self.db.is_sitting = True
            self.msg("Try standing up before moving!")
            return False
 
