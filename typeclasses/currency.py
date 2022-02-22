@@ -78,7 +78,7 @@ class CmdCashout(Command):
             if to_cashout < 10:
                 self.caller.msg("You count out a meagre amount of money into your palm.")
                 obj = create_object(typeclass=CurrencyOb,
-                             key="A small wad of cash.",
+                             key="a small wad of cash",
                              location=self.caller)
                 obj.db.desc = "A small collection of coins, chits, stones, and bones worth roughly %s" % str(to_cashout)
                 obj.db.value = to_cashout
@@ -86,7 +86,7 @@ class CmdCashout(Command):
             elif to_cashout > 10:
                 self.caller.msg("You count out a big amount of money into your palm.")
                 obj = create_object(typeclass=CurrencyOb,
-                             key="A big wad of cash.",
+                             key="a big wad of cash",
                              location=self.caller)
                 obj.db.desc = "A big collection of coins, chits, stones, and bones worth roughly %s" % str(to_cashout)
                 obj.db.value = to_cashout
