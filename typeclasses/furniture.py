@@ -19,8 +19,9 @@ class SittableOb(DefaultObject):
         Args:
             sitter (Object): The one trying to sit down.
         """
-
+        sitter.db.seat = self.key
         current = self.db.sitting
+
         if current:
             if sitter in current:
                 sitter.msg("You are already sitting on %s." % self.key)
@@ -101,11 +102,9 @@ class CmdStand(Command):
     def func(self):
         caller = self.caller
         sittable = self.caller.search(
-                         self.caller,
+                         self.db.seat,
                          candidates=self.caller.location.contents,
-                         attribute_name="sitting",
                          typeclass="typeclasses.furniture.SittableOb")
-
         if not sittable:
             return
 

@@ -53,8 +53,13 @@ class Character(DefaultCharacter):
         self.db.voltaic_conception = 1
         self.db.superstitions = 1
         self.db.grey_augument = 1
+
+
         self.db.currency = 100
+
+
         self.db.is_sitting = False
+        self.db.seat = None
 
 
     def get_abilities(self):
