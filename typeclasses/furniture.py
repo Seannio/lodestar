@@ -49,6 +49,7 @@ class SittableOb(DefaultObject):
             else:
                 self.db.sitting.remove(stander)
                 stander.db.is_sitting = False
+                stander.db.seat = None
                 stander.msg(self.db.messages['stand_msg'])
                 stander.location.msg_contents(self.db.messages['ostand_msg'], exclude=stander)
                 #stander.msg(f"You stand up from {self.key}")
@@ -105,6 +106,7 @@ class CmdStand(Command):
                          self.caller.db.seat,
                          candidates=self.caller.location.contents,
                          typeclass="typeclasses.furniture.SittableOb")
+
         if not sittable:
             return
 
