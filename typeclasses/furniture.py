@@ -29,6 +29,7 @@ class SittableOb(DefaultObject):
         self.db.sitting = sitter
         sitter.db.is_sitting= True
         sitter.msg("You sit on the %s " % self.key)
+        sitter.msg(self.db.messages['sit_msg'])
         sitter.msg("The object you sat on has sitting set to: %s" % self.db.sitting)
 
     def do_stand(self, stander):
@@ -125,13 +126,18 @@ class CmdSetSitMsg(Command):
             return
 
     def func(self):
+        
+        if not self.args:
+            self.msg("Usage: @sit_msg <item> = <message>")
+            return
+
         caller = self.caller
         self.searchob, self.msg = self.args.split('=')
         self.searchob = self.searchob.strip()
         self.msg = self.msg.strip()
 
         if self.msg:
-            furniture = self.caller.search(self.searchob, candidates=self.caller.location)
+            furniture = self.caller.search(self.searchob, candidates=self.caller.location.contents, typeclass="typeclasses.furniture.SittableOb")
             print("THE FOLLOWING IS THE FURNITURE SEARCH OUTUPUT")
             print(furniture)
             if not furniture:
