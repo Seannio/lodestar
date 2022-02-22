@@ -92,6 +92,10 @@ class CmdStand(Command):
         # find the thing we are sitting on/in, by finding the object
         # in the current location that as an Attribute "sitter" set
         # to the caller
+        if self.caller.db.is_sitting == False:
+            self.caller.msg("You aren't sitting...")
+            return
+
         try:
             sittable = self.caller.search(
                          self.caller,

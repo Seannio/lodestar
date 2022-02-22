@@ -73,12 +73,13 @@ class Character(DefaultCharacter):
         return self.db.currency
 
 
-    def at_pre_move(self, destination):
+    def at_before_move(self, destination):
        """
        Called by self.move_to when trying to move somewhere. If this returns
        False, the move is immediately cancelled.
        """
        if self.db.is_sitting:
-           self.msg("You can't go anywhere while resting.")
+           self.msg("Try standing up before moving!")
            return False
+
        return True
