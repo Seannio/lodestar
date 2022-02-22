@@ -103,8 +103,6 @@ class CmdStand(Command):
             print("output before error???")
             print(sittable)
             sittable.do_stand(caller)
-        except AttributeError:
-            self.caller.msg("You aren't sitting... (error after function?)")
 
 
 
