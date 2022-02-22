@@ -104,7 +104,7 @@ class CmdStand(Command):
                          self.caller,
                          candidates=self.caller.location.contents,
                          attribute_name="sitting",
-                         typeclass="typeclasses.sittables.Sittable")
+                         typeclass="typeclasses.furniture.SittableOb")
 
         if not sittable:
             return
