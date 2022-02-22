@@ -88,6 +88,11 @@ class CmdStand(Command):
 
     """
     key = "stand"
+    
+    def parse(self):
+        if self.db.is_sitting ==False:
+            self.caller.msg("You aren't sitting on anything.")
+            raise InterruptCommand
 
     def func(self):
 
