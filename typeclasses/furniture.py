@@ -102,7 +102,7 @@ class CmdStand(Command):
     def func(self):
         caller = self.caller
         sittable = self.caller.search(
-                         self.db.seat,
+                         self.caller.db.seat,
                          candidates=self.caller.location.contents,
                          typeclass="typeclasses.furniture.SittableOb")
         if not sittable:
