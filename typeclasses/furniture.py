@@ -66,7 +66,7 @@ class CmdSit(Command):
         sittable = self.caller.search(self.args)
         if not sittable:
             return
-        elif self.db.is_sitting == True:
+        elif self.caller.db.is_sitting == True:
             self.msg( "You are already sitting on something. Stand up first!")
             return
         try:
@@ -132,6 +132,8 @@ class CmdSetSitMsg(Command):
 
         if self.msg:
             furniture = self.caller.search(self.searchob, candidates=self.caller.location)
+            print("THE FOLLOWING IS THE FURNITURE SEARCH OUTUPUT")
+            print(furniture)
             if not furniture:
                 self.caller.msg("This isn't a furniture object.")
                 return
