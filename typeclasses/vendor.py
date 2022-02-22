@@ -53,11 +53,11 @@ def menunode_inspect_and_buy(caller, raw_string):
     def buy_ware_result(caller):
         "This will be executed first when choosing to buy."
         if wealth >= value:
-            rtext = "\n|wYou feed %i pieces of currency into the machine. After a second, it beeps and dispenses your %s!" % \
-                         (value, ware.key)
+            rtext = "\n|wYou feed %i pieces of currency into the %s. After a second, it beeps and dispenses your %s!" % \
+                         (value, caller.ndb._menutree.shoptitle, ware.key)
             caller.db.currency -= value
             ware.move_to(caller, quiet=True)
-            caller.location.msg_contents("%s feeds some currency into a machine's payment-slot and withdraws an item." % (caller.key), exclude=caller)
+            caller.location.msg_contents("%s feeds some currency into the %s's payment-slot and withdraws an item." % (caller.key, caller.ndb._menutree.shoptitle), exclude=caller)
         else:
             rtext = "\n|wThe %s makes a loud, offensive buzz as you attempt to pay for your stuff. You cannot afford %i chits for %s!" % \
                           (caller.ndb._menutree.shoptitle, value, ware.key)

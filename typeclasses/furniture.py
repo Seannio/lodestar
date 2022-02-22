@@ -6,14 +6,15 @@ from config.configlists import FURNITURE_MESSAGE_TYPES
 class SittableOb(DefaultObject):
 
     def at_object_creation(self):
-        self.db.sitting = None
-        self.db.seats = 1 #TODO: Add multiple seats to a seating object. Should be easy - make sitting an array?
+        self.db.sitting = []
+        self.db.space = 1
+
         if not self.db.messages:
             self.db.messages = {message: " " for message in FURNITURE_MESSAGE_TYPES}
 
     def do_sit(self, sitter):
         """
-        Called when trying to sit on/in this object.
+        Called when trying to sit on/in this SittableOb object.
 
         Args:
             sitter (Object): The one trying to sit down.
@@ -21,14 +22,15 @@ class SittableOb(DefaultObject):
 
         current = self.db.sitting
         if current:
-            if current == sitter:
+            if sitter in current:
                 sitter.msg("You are already sitting on %s." % self.key)
-            else:
-                sitter.msg( "You can't sit on %s" % self.key)
+            elif len(self.db.siting) <= self.db.space:
+                sitter.msg( "There's no space left on %s" % self.key)
             return
 
-        self.db.sitting = sitter
+        self.db.sitting.append(sitter)
         sitter.db.is_sitting= True
+
         sitter.msg(self.db.messages['sit_msg'])
         sitter.location.msg_contents(self.db.messages['osit_msg'], exclude=sitter)
 
@@ -41,10 +43,10 @@ class SittableOb(DefaultObject):
         """
         current = self.db.sitting
         try:
-            if not stander == current:
+            if not stander in current:
                 stander.msg("You are not sitting on %s." % self.key)
             else:
-                self.db.sitting = None
+                self.db.sitting.remove(stander) = None
                 stander.db.is_sitting = False
                 stander.msg(self.db.messages['stand_msg'])
                 stander.location.msg_contents(self.db.messages['ostand_msg'], exclude=stander)
