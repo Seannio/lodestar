@@ -22,8 +22,6 @@ class SittableOb(DefaultObject):
         if current:
             if current == sitter:
                 sitter.msg("You are already sitting on %s." % self.key)
-            elif sitter.db.is_sitting == True:
-                sitter.msg( "You are already sitting on something. Stand up first!")
             else:
                 sitter.msg( "You can't sit on %s" % self.key)
             return
@@ -67,6 +65,9 @@ class CmdSit(Command):
     def func(self):
         sittable = self.caller.search(self.args)
         if not sittable:
+            return
+        elif self.db.is_sitting == True:
+            self.msg( "You are already sitting on something. Stand up first!")
             return
         try:
             sittable.do_sit(self.caller)
@@ -130,7 +131,7 @@ class CmdSetSitMsg(Command):
         self.msg = self.msg.strip()
 
         if self.msg:
-            furniture = self.caller.search(self.searchob, candidates=self.caller.contents)
+            furniture = self.caller.search(self.searchob, candidates=self.caller.location)
             if not furniture:
                 self.caller.msg("This isn't a furniture object.")
                 return
