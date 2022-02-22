@@ -169,7 +169,7 @@ class CmdSetOSitMsg(Command):
                 furniture.db.messages['osit_msg'] = self.msg.strip()
                 caller.msg("osit_msg for %s set as: %s" % (furniture.name, self.msg.strip()))
 
-class CmdSetStandMsg(Command):
+class CmdSetOStandMsg(Command):
     '''
     Set the external message when standing from a furniture object
     Usage: @ostand_msg furniture = <message>
@@ -231,3 +231,5 @@ class FurnitureBuildSet(CmdSet):
     def at_cmdset_creation(self):
         self.add(CmdSetSitMsg())
         self.add(CmdSetStandMsg())
+        self.add(CmdSetOSitMsg())
+        self.add(CmdSetOStandMsg())
