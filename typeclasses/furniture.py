@@ -22,10 +22,11 @@ class SittableOb(DefaultObject):
         sitter.db.seat = self.key
         current = self.db.sitting
 
+        print("LEN of the SITTING ARRAY: %i" % len(self.db.sitting))
         if current:
             if sitter in current:
                 sitter.msg("You are already sitting on %s." % self.key)
-            elif len(self.db.sitting) <= self.db.space:
+            elif len(self.db.sitting) >= self.db.space:
                 sitter.msg( "There's no space left on %s" % self.key)
             return
 
