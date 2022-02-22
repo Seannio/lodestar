@@ -89,22 +89,27 @@ class CmdStand(Command):
     """
     key = "stand"
 
-    def func(self):
+    def parse(self):
+        if self.caller.db.is_sitting is False:
+            self.caller.msg("Try sitting on something before standing up. ")
+            raise InterruptCommand
 
+    def func(self):
         caller = self.caller
         # find the thing we are sitting on/in, by finding the object
         # in the current location that as an Attribute "sitter" set
         # to the caller
-
+        
         sittable = self.caller.search(
-                        self.caller,
-                        candidates=self.caller.location.contents,
-                        attribute_name="sitting",
-                        typeclass="typeclasses.furniture.SittableOb")
-        print("Here is the sittable:")
-        print(sittable)
+                         self.caller,
+                         candidates=caller.location.contents,
+                         attribute_name="sitting",
+                         typeclass="typeclasses.sittables.Sittable")
+
+        if not sittable:
+            return
+
         sittable.do_stand(caller)
-        print(sittable)
 
 # Set the messages for standing/sitting! 
 
