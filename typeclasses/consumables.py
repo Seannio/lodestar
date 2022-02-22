@@ -311,11 +311,11 @@ class CmdEat(Command):
             if target.location == self.caller:
                 if target.db.portions != 1:
                     self.caller.msg(target.db.messages['con_msg'])
-                    self.caller.location.msg(target.db.messages['ocon_msg'])
+                    self.caller.location.msg_contents(target.db.messages['ocon_msg'], exclude=self.caller)
                     target.db.portions -= 1
                 elif target.db.portions == 1:
                     self.caller.msg(target.db.messages['finish_msg'])
-                    self.caller.location.msg(target.db.messages['ofinish_msg'])
+                    self.caller.location.msg_contents(target.db.messages['ofinish_msg'], exclude=self.caller)
                     target.delete()
 
 
@@ -342,11 +342,11 @@ class CmdDrink(Command):
             if target.location == self.caller:
                 if target.db.portions != 1:
                     self.caller.msg(target.db.messages['con_msg'])
-                    self.caller.location.msg(target.db.messages['ocon_msg'])
+                    self.caller.location.msg_contents(target.db.messages['ocon_msg'], exclude=self.caller)
                     target.db.portions -= 1
                 elif target.db.portions == 1:
                     self.caller.msg(target.db.messages['finish_msg'])
-                    self.caller.location.msg(target.db.messages['ofinish_msg'])
+                    self.caller.location.msg_contents(target.db.messages['ofinish_msg'], exclude=self.caller)
                     target.delete()
 
 class CmdDose(Command):
@@ -372,11 +372,11 @@ class CmdDose(Command):
             if target.location == self.caller:
                 if target.db.portions != 1:
                     self.caller.msg(target.db.messages['con_msg'])
-                    self.caller.location.msg(target.db.messages['ocon_msg'])
+                    self.caller.location.msg_contents(target.db.messages['ocon_msg'], exclude=self.caller)
                     target.db.portions -= 1
                 elif target.db.portions == 1:
                     self.caller.msg(target.db.messages['finish_msg'])
-                    self.caller.location.msg(target.db.messages['ofinish_msg'])
+                    self.caller.location.msg_contents(target.db.messages['ofinish_msg'], exclude=self.caller)
                     target.delete()
 
 class CmdSmoke(Command):
@@ -402,11 +402,11 @@ class CmdSmoke(Command):
             if target.location == self.caller:
                 if target.db.portions != 1:
                     self.caller.msg(target.db.messages['con_msg'])
-                    self.caller.location.msg(target.db.messages['ocon_msg'])
+                    self.caller.location.msg_contents(target.db.messages['ocon_msg'], exclude=self.caller)
                     target.db.portions -= 1
                 elif target.db.portions == 1:
                     self.caller.msg(target.db.messages['finish_msg'])
-                    self.caller.location.msg(target.db.messages['ofinish_msg'])
+                    self.caller.location.msg_contents(target.db.messages['ofinish_msg'], exclude=self.caller)
                     target.delete()
 
 class CmdRail(Command):
