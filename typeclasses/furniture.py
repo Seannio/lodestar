@@ -99,10 +99,10 @@ class CmdStand(Command):
         # find the thing we are sitting on/in, by finding the object
         # in the current location that as an Attribute "sitter" set
         # to the caller
-        
+
         sittable = self.caller.search(
                          self.caller,
-                         candidates=caller.location.contents,
+                         candidates=self.caller.location.contents,
                          attribute_name="sitting",
                          typeclass="typeclasses.sittables.Sittable")
 
