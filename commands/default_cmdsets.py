@@ -22,6 +22,8 @@ from typeclasses.vendor import CmdCreateVend, ShopCmdSet
 from typeclasses.consumables import ConsumableCmdSet, ConsumableBuildSet
 from typeclasses.furniture import SitCmdSet, FurnitureBuildSet
 from typeclasses.currency import CurrencyCmdSet
+from typeclasses.characters import SetGender
+
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -53,6 +55,8 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
 
         self.add(SitCmdSet())
         self.add(FurnitureBuildSet(CmdSet))
+
+        self.add(SetGender())
 
 
 class AccountCmdSet(default_cmds.AccountCmdSet):

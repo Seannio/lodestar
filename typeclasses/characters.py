@@ -1,14 +1,15 @@
-"""
-Characters
-
-Characters are (by default) Objects setup to be puppeted by Accounts.
-They are what you "see" in game. The Character class in this module
-is setup to be the "default" character type created by the default
-creation commands.
-
-"""
+from evennia import DefaultCharacter
+import re
+from evennia.utils import logger
 from evennia import DefaultCharacter
 
+_GENDER_PRONOUN_MAP = {
+    "male": {"s": "he", "o": "him", "p": "his", "a": "his"},
+    "female": {"s": "she", "o": "her", "p": "her", "a": "hers"},
+    "neutral": {"s": "it", "o": "it", "p": "its", "a": "its"},
+    "ambiguous": {"s": "they", "o": "them", "p": "their", "a": "theirs"},
+}
+_RE_GENDER_PRONOUN = re.compile(r"(?<!\|)\|(?!\|)[sSoOpPaA]")
 
 class Character(DefaultCharacter):
     """
@@ -28,7 +29,6 @@ class Character(DefaultCharacter):
     at_pre_puppet - Just before Account re-connects, retrieves the character's
                     pre_logout_location Attribute and move it back on the grid.
     at_post_puppet - Echoes "AccountName has entered the game" to the room.
-
     """
 
     pass
@@ -48,6 +48,8 @@ class Character(DefaultCharacter):
             # Grey Augument: little by little, nanites form the tissue-base of your muscles. 
         """
         #set persistent attributes
+        super().at_object_creation()
+        self.db.gender = "ambiguous"
         
         self.db.synaptic_tensility = 1
         self.db.voltaic_conception = 1
@@ -61,6 +63,57 @@ class Character(DefaultCharacter):
         self.db.is_sitting = False
         self.db.seat = None
 
+    def _get_pronoun(self, regex_match):
+        """
+        Get pronoun from the pronoun marker in the text. This is used as
+        the callable for the re.sub function.
+        Args:
+            regex_match (MatchObject): the regular expression match.
+        Notes:
+            - `|s`, `|S`: Subjective form: he, she, it, He, She, It, They
+            - `|o`, `|O`: Objective form: him, her, it, Him, Her, It, Them
+            - `|p`, `|P`: Possessive form: his, her, its, His, Her, Its, Their
+            - `|a`, `|A`: Absolute Possessive form: his, hers, its, His, Hers, Its, Theirs
+        """
+        typ = regex_match.group()[1]  # "s", "O" etc
+        gender = self.attributes.get("gender", default="ambiguous")
+        gender = gender if gender in ("male", "female", "neutral") else "ambiguous"
+        pronoun = _GENDER_PRONOUN_MAP[gender][typ.lower()]
+        return pronoun.capitalize() if typ.isupper() else pronoun
+
+    def msg(self, text=None, from_obj=None, session=None, **kwargs):
+        """
+        Emits something to a session attached to the object.
+        Overloads the default msg() implementation to include
+        gender-aware markers in output.
+        Args:
+            text (str or tuple, optional): The message to send. This
+                is treated internally like any send-command, so its
+                value can be a tuple if sending multiple arguments to
+                the `text` oob command.
+            from_obj (obj, optional): object that is sending. If
+                given, at_msg_send will be called
+            session (Session or list, optional): session or list of
+                sessions to relay to, if any. If set, will
+                force send regardless of MULTISESSION_MODE.
+        Notes:
+            `at_msg_receive` will be called on this Object.
+            All extra kwargs will be passed on to the protocol.
+        """
+        if text is None:
+            super().msg(from_obj=from_obj, session=session, **kwargs)
+            return
+
+        try:
+            if text and isinstance(text, tuple):
+                text = (_RE_GENDER_PRONOUN.sub(self._get_pronoun, text[0]), *text[1:])
+            else:
+                text = _RE_GENDER_PRONOUN.sub(self._get_pronoun, text)
+        except TypeError:
+            pass
+        except Exception as e:
+            logger.log_trace(e)
+        super().msg(text, from_obj=from_obj, session=session, **kwargs)
 
     def get_abilities(self):
         """
@@ -89,3 +142,30 @@ class Character(DefaultCharacter):
            return False
 
        return True
+
+# gender command
+
+class SetGender(Command):
+    """
+    Sets gender on yourself
+    Usage:
+      @gender male||female||neutral||ambiguous
+    """
+
+    key = "@gender"
+    aliases = "@sex"
+    locks = "call:all()"
+
+    def func(self):
+        """
+        Implements the command.
+        """
+        caller = self.caller
+        arg = self.args.strip().lower()
+        if arg not in ("male", "female", "neutral", "ambiguous"):
+            caller.msg("Usage: @gender male||female||neutral||ambiguous")
+            return
+        caller.db.gender = arg
+        caller.msg("Your gender was set to %s." % arg)
+
+

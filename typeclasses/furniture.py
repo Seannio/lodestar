@@ -9,7 +9,7 @@ class SittableOb(DefaultObject):
         self.db.sitting = []
         self.db.space = 1
         self.locks.add("get:false()")
-        self.db.get_err_msg = "The %s is too heavy to pick up." % self.db.key
+        self.db.get_err_msg = "The %s is too heavy to pick up." % self.db.name
 
         if not self.db.messages:
             self.db.messages = {message: " " for message in FURNITURE_MESSAGE_TYPES}
