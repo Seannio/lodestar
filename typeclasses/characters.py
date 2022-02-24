@@ -11,7 +11,7 @@ _GENDER_PRONOUN_MAP = {
 }
 
 _RE_GENDER_PRONOUN = re.compile(r"(?<!\|)\|(?!\|)[sSoOpPaA]")
-_RE_NAME = re.compile(r"\|N")
+_RE_NAME = re.compile(r"(\|n)|(\|N)")
 
 class Character(DefaultCharacter):
     """
@@ -108,11 +108,11 @@ class Character(DefaultCharacter):
         try:
             if text and isinstance(text, tuple):
                 text = (_RE_GENDER_PRONOUN.sub(self._get_pronoun, text[0]), *text[1:])
-                #text = (_RE_NAME.sub(self.name, text[0]), *text[1:])
+                text = (_RE_NAME.sub(self.name, text[0]), *text[1:])
 
             else:
                 text = _RE_GENDER_PRONOUN.sub(self._get_pronoun, text)
-                #text = _RE_NAME.sub(self.name, text)
+                text = _RE_NAME.sub(self.name, text)
 
         except TypeError:
             pass
