@@ -22,7 +22,6 @@ from typeclasses.vendor import CmdCreateVend, ShopCmdSet
 from typeclasses.consumables import ConsumableCmdSet, ConsumableBuildSet
 from typeclasses.furniture import SitCmdSet, FurnitureBuildSet
 from typeclasses.currency import CurrencyCmdSet
-from typeclasses.characters import SetGender
 
 
 
