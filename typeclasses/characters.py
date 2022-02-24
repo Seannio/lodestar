@@ -7,9 +7,11 @@ _GENDER_PRONOUN_MAP = {
     "male": {"s": "he", "o": "him", "p": "his", "a": "his"},
     "female": {"s": "she", "o": "her", "p": "her", "a": "hers"},
     "neutral": {"s": "it", "o": "it", "p": "its", "a": "its"},
-    "ambiguous": {"s": "they", "o": "them", "p": "their", "a": "theirs"},
+    "ambiguous": {"s": "they", "o": "them", "p": "their", "a": "theirs"}
 }
+
 _RE_GENDER_PRONOUN = re.compile(r"(?<!\|)\|(?!\|)[sSoOpPaA]")
+_RE_NAME = re.compile(r"(?<!\|)\|(?!\|)[nN]")
 
 class Character(DefaultCharacter):
     """
@@ -47,6 +49,7 @@ class Character(DefaultCharacter):
             # Superstitions: Don't you know it's bad luck to traverse space without carbon stiltbeads? 
             # Grey Augument: little by little, nanites form the tissue-base of your muscles. 
         """
+
         #set persistent attributes
         super().at_object_creation()
         self.db.gender = "ambiguous"
@@ -83,9 +86,7 @@ class Character(DefaultCharacter):
 
     def msg(self, text=None, from_obj=None, session=None, **kwargs):
         """
-        Emits something to a session attached to the object.
-        Overloads the default msg() implementation to include
-        gender-aware markers in output.
+        Overloads the default msg() implementation.
         Args:
             text (str or tuple, optional): The message to send. This
                 is treated internally like any send-command, so its
@@ -107,8 +108,11 @@ class Character(DefaultCharacter):
         try:
             if text and isinstance(text, tuple):
                 text = (_RE_GENDER_PRONOUN.sub(self._get_pronoun, text[0]), *text[1:])
+                text = (_RE_NAME.sub(self.name, text[0]), *text[1:])
+
             else:
                 text = _RE_GENDER_PRONOUN.sub(self._get_pronoun, text)
+                text = _RE_NAME.sub(self.name, text)
         except TypeError:
             pass
         except Exception as e:
