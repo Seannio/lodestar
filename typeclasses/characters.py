@@ -11,7 +11,7 @@ _GENDER_PRONOUN_MAP = {
 }
 
 _RE_GENDER_PRONOUN = re.compile(r"(?<!\|)\|(?!\|)[sSoOpPaA]")
-_RE_NAME = re.compile(r"(?<!\|n)|(?!\|N)")
+_RE_NAME = re.compile(r"(\|n)|(\|N)")
 
 class Character(DefaultCharacter):
     """
