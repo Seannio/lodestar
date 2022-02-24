@@ -8,6 +8,8 @@ class SittableOb(DefaultObject):
     def at_object_creation(self):
         self.db.sitting = []
         self.db.space = 1
+        self.locks.add("get:false()")
+        self.db.get_err_msg = "The %s is too heavy to pick up." % self.db.key
 
         if not self.db.messages:
             self.db.messages = {message: " " for message in FURNITURE_MESSAGE_TYPES}

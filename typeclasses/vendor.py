@@ -208,6 +208,8 @@ class VendingStock(DefaultObject):
        # Ideally, when stocked, it should create several other objects. 
        # ex:  'crate of bottles' -> 5 bottles when placed
 
+       # TODO: Make this an actual funcntioning thing.
+
        def at_object_creation(self):
            print("wow")
 
