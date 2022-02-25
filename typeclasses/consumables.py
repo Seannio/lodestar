@@ -372,11 +372,11 @@ class CmdDose(Command):
             if target.location == self.caller:
                 if target.db.portions != 1:
                     self.caller.msg(target.db.messages['con_msg'])
-                    self.caller.location.msg_contents(target.db.messages['ocon_msg'], from_obj=target, exclude=self.caller)
+                    self.caller.location.msg_contents(target.db.messages['ocon_msg'], from_obj=self.caller, exclude=self.caller)
                     target.db.portions -= 1
                 elif target.db.portions == 1:
                     self.caller.msg(target.db.messages['finish_msg'])
-                    self.caller.location.msg_contents(target.db.messages['ofinish_msg'], from_obj=target, exclude=self.caller)
+                    self.caller.location.msg_contents(target.db.messages['ofinish_msg'], from_obj=self.caller, exclude=self.caller)
                     target.delete()
 
 class CmdSmoke(Command):
