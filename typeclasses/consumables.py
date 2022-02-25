@@ -502,6 +502,7 @@ class ConsumableCmdSet(CmdSet):
     def at_cmdset_creation(self):
         self.add(CmdEat())
         self.add(CmdDrink())
+        self.add(CmdSmoke())
         self.add(CmdDose())
         self.add(CmdChug())
         self.add(CmdRail())
