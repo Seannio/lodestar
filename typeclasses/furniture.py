@@ -293,3 +293,4 @@ class FurnitureBuildSet(CmdSet):
         self.add(CmdSetOSitMsg())
         self.add(CmdSetOStandMsg())
         self.add(CmdSetSpace())
+        self.add(CmdSetSeatPose())
