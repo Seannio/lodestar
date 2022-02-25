@@ -109,16 +109,20 @@ class Character(DefaultCharacter):
             if text and isinstance(text, tuple):
                 text = (_RE_GENDER_PRONOUN.sub(self._get_pronoun, text[0]), *text[1:])
                 text = (_RE_NAME.sub(self.name, text[0]), *text[1:])
+                print("FROM OBJECT:")
+                print(from_obj)
 
             else:
                 text = _RE_GENDER_PRONOUN.sub(self._get_pronoun, text)
                 text = _RE_NAME.sub(self.name, text)
+                print("FROM OBJECT:")
+                print(from_obj)
 
         except TypeError:
             pass
         except Exception as e:
             logger.log_trace(e)
-        super().msg(text,  from_obj=self.caller, session=session, **kwargs)
+        super().msg(text, from_obj=from_obj, session=session, **kwargs)
 
     def get_abilities(self):
         """
