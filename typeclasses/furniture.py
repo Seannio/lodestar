@@ -33,6 +33,7 @@ class SittableOb(DefaultObject):
             print(self.db.sitting)
             sitter.msg(self.db.messages['sit_msg'])
             sitter.location.msg_contents(self.db.messages['osit_msg'], from_obj=sitter, exclude=sitter)
+            sitter.db.temp_idle = self.db.messages['seat_pose'] 
 
     def do_stand(self, stander):
         """
@@ -51,6 +52,7 @@ class SittableOb(DefaultObject):
                 stander.db.seat = None
                 stander.msg(self.db.messages['stand_msg'])
                 stander.location.msg_contents(self.db.messages['ostand_msg'],  from_obj=stander, exclude=stander)
+                sitter.db.temp_idle = None
                 #stander.msg(f"You stand up from {self.key}")
         except AttributeError:
             stander.msg("You're not sitting.")
@@ -250,6 +252,33 @@ class CmdSetSpace(Command):
             if self.searchob:
                 seatobj.db.space = int(self.seats)
                 caller.msg("Seat-amount for %s set as: %s" % (seatobj.name, self.seats))
+
+class CmdSetSeatPose(Command):
+    '''
+    Sets a player's temp_idle as the seat they're in. Able to be overriden
+    if the player adjusts their temp idle, but that's okay. 
+    Usage: @seat_pose furniture = <message>
+    '''
+    key = '@seat_pose'
+    locks = "cmd:perm(Builders)"
+    help_category = "furniture"
+
+    def parse(self):
+        if not self.args:
+            self.msg("Usage: @seat_pose <item> = <message>")
+            return
+
+    def func(self):
+        caller = self.caller
+        self.searchob, self.msg = self.args.split('=')
+        if self.msg:
+            furniture = self.caller.search(self.searchob.strip(), candidates=self.caller.location.contents, typeclass="typeclasses.furniture.SittableOb")
+            if not furniture:
+                self.caller.msg("This isn't a furniture object.")
+                return
+            if self.searchob:
+                furniture.db.messages['seat_pose'] = self.msg.strip()
+                caller.msg("Seated pose-message for %s set as: %s" % (furniture.name, self.msg.strip()))
 
 
 class SitCmdSet(CmdSet):

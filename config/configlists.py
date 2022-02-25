@@ -26,5 +26,6 @@ CONSUMABLE_DRUG_MESSAGES = ( 'You feel a rusty taste on the back of your tongue,
 FURNITURE_MESSAGE_TYPES = ('sit_msg',
                             'osit_msg',
                             'stand_msg',
-                            'ostand_msg,'
+                            'ostand_msg',
+                            'seat_pose'
 )
