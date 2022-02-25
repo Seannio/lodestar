@@ -118,7 +118,7 @@ class Character(DefaultCharacter):
             pass
         except Exception as e:
             logger.log_trace(e)
-        super().msg(text, from_obj=from_obj, session=session, **kwargs)
+        super().msg(text,  from_obj=self.caller, session=session, **kwargs)
 
     def get_abilities(self):
         """
