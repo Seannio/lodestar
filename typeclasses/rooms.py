@@ -26,7 +26,10 @@ class Room(DefaultRoom):
             if con.destination:
                 exits.append(key)
             elif con.is_typeclass(Character):
-                players.append("|c%s|n is standing here." % key)
+                if con.db.temp_idlepose:
+                    players.append("|c%s|n %s" % (key, con.db.temp_idlepose))
+                else:
+                    players.append("|c%s|n %s" % (key, con.db.idlepose))
             elif con.is_typeclass(SittableOb):
                 seats.append("|na %s" % key)
             else:

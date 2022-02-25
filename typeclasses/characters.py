@@ -140,26 +140,17 @@ class Character(DefaultCharacter):
         super().msg(text, from_obj=from_obj, session=session, **kwargs)
 
     def get_abilities(self):
-        """
-        Simple access method to return ability
-        scores as a tuple (str,agi,mag)
-        """
+        # Return ability scores, which are a little arbitrary atm.
         return self.db.synaptic_tensility, self.db.voltaic_conception, self.db.superstitions,  self.db.grey_augument
 
 
     def get_currency(self):
-        """
-        Simple access method to return ability
-        scores as a tuple (str,agi,mag)
-        """
+        # Return currency, called by the Count command.
         return self.db.currency
 
 
     def at_before_move(self, destination):
-       """
-       Called by self.move_to when trying to move somewhere. If this returns
-       False, the move is immediately cancelled.
-       """
+       # Called by self.move. If the result is false, it stops the move from happening. 
        if self.db.is_sitting == True:
            self.db.is_sitting = True
            self.msg("Try standing up before moving!")
@@ -167,6 +158,12 @@ class Character(DefaultCharacter):
 
        return True
 
+    def at_after_move(self, source_location):
+        # Called by the move function after moving.
+        # used to reset idle pose! 
+
+        if self.attributes.has('temp_idlepose'):
+            self.db.temp_idlepose = ""
 
 
 

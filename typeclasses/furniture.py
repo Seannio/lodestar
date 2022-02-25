@@ -9,7 +9,7 @@ class SittableOb(DefaultObject):
         self.db.sitting = []
         self.db.space = 1
         self.locks.add("get:false()")
-        self.db.get_err_msg = "The %s is too heavy to pick up." % self.name
+        self.db.get_err_msg = "The %s is affixed to the floor, and is too heavy. Please try not to steal the furniture." % self.key
 
         if not self.db.messages:
             self.db.messages = {message: " " for message in FURNITURE_MESSAGE_TYPES}
@@ -23,8 +23,6 @@ class SittableOb(DefaultObject):
         """
         sitter.db.seat = self.key
         current = self.db.sitting
-        print("NOW.... LEN of the SITTING ARRAY: %i" % len(self.db.sitting))
-        print(" VERSUS LEN of the sitting space: %i" % self.db.space)
         if sitter in current:
             sitter.msg("You are already sitting on %s." % self.key)
         elif len(self.db.sitting) >= self.db.space:
@@ -34,7 +32,7 @@ class SittableOb(DefaultObject):
             sitter.db.is_sitting= True
             print(self.db.sitting)
             sitter.msg(self.db.messages['sit_msg'])
-            sitter.location.msg_contents(self.db.messages['osit_msg'], exclude=sitter)
+            sitter.location.msg_contents(self.db.messages['osit_msg'], from_obj=sitter, exclude=sitter)
 
     def do_stand(self, stander):
         """
@@ -52,7 +50,7 @@ class SittableOb(DefaultObject):
                 stander.db.is_sitting = False
                 stander.db.seat = None
                 stander.msg(self.db.messages['stand_msg'])
-                stander.location.msg_contents(self.db.messages['ostand_msg'], exclude=stander)
+                stander.location.msg_contents(self.db.messages['ostand_msg'],  from_obj=stander, exclude=stander)
                 #stander.msg(f"You stand up from {self.key}")
         except AttributeError:
             stander.msg("You're not sitting.")

@@ -84,6 +84,34 @@ class SetGender(Command):
         caller.db.gender = arg
         caller.msg("Your gender was set to %s." % arg)
 
+class SetPose(Command):
+    """
+    Sets your idle poses, temp or permanent.
+    Usage: "@pose temp|idle = pose message"
+    """
+    key = "@pose"
+    locks = "call:all()"
+
+    def func(self):
+
+        caller = self.caller
+        if not self.args:
+            self.msg("Usage: @pose temp|idle = pose message")
+            return
+        elif '=' not in self.args:
+            self.msg("Usage: @pose temp|idle = pose message")
+            return
+
+        self.posetype, self.message = self.args.split('=')
+        self.posetype = self.posetype.strip()
+        self.message = self.message.strip()
+
+        if posetype == "idle":
+            caller.db.idlepose = self.message
+            caller.msg("Your idle pose was set to: %s %s." % (self.key, self.message))
+        elif posetype == "temp":
+            caller.db.temp_idlepose = self.message
+            caller.msg("Your temporary idle pose was set to: %s %s." % (self.key, self.message))
 
 # -------------------------------------------------------------
 #
