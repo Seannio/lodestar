@@ -108,10 +108,10 @@ class SetPose(Command):
 
         if self.posetype == "idle":
             caller.db.idlepose = self.message
-            caller.msg("Your idle pose was set to: %s %s." % (self.key, self.message))
+            caller.msg("Your idle pose was set to: %s %s." % (caller.key, self.message))
         elif self.posetype == "temp":
             caller.db.temp_idlepose = self.message
-            caller.msg("Your temporary idle pose was set to: %s %s." % (self.key, self.message))
+            caller.msg("Your temporary idle pose was set to: %s %s." % (caller.key, self.message))
 
 # -------------------------------------------------------------
 #

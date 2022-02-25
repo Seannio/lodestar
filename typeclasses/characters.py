@@ -58,6 +58,7 @@ class Character(DefaultCharacter):
         self.db.voltaic_conception = 1
         self.db.superstitions = 1
         self.db.grey_augument = 1
+        self.db.idlepose = "is standing here."
 
 
         self.db.currency = 100
