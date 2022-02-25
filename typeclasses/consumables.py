@@ -311,11 +311,11 @@ class CmdEat(Command):
             if target.location == self.caller:
                 if target.db.portions != 1:
                     self.caller.msg(target.db.messages['con_msg'])
-                    self.caller.location.msg_contents(target.db.messages['ocon_msg'], exclude=self.caller)
+                    self.caller.location.msg_contents(target.db.messages['ocon_msg'], from_obj=self.caller, exclude=self.caller)
                     target.db.portions -= 1
                 elif target.db.portions == 1:
                     self.caller.msg(target.db.messages['finish_msg'])
-                    self.caller.location.msg_contents(target.db.messages['ofinish_msg'], exclude=self.caller)
+                    self.caller.location.msg_contents(target.db.messages['ofinish_msg'], from_obj=self.caller, exclude=self.caller)
                     target.delete()
 
 
@@ -342,11 +342,11 @@ class CmdDrink(Command):
             if target.location == self.caller:
                 if target.db.portions != 1:
                     self.caller.msg(target.db.messages['con_msg'])
-                    self.caller.location.msg_contents(target.db.messages['ocon_msg'], exclude=self.caller)
+                    self.caller.location.msg_contents(target.db.messages['ocon_msg'], from_obj=self.caller, exclude=self.caller)
                     target.db.portions -= 1
                 elif target.db.portions == 1:
                     self.caller.msg(target.db.messages['finish_msg'])
-                    self.caller.location.msg_contents(target.db.messages['ofinish_msg'], exclude=self.caller)
+                    self.caller.location.msg_contents(target.db.messages['ofinish_msg'], from_obj=self.caller, exclude=self.caller)
                     target.delete()
 
 class CmdDose(Command):
@@ -402,11 +402,11 @@ class CmdSmoke(Command):
             if target.location == self.caller:
                 if target.db.portions != 1:
                     self.caller.msg(target.db.messages['con_msg'])
-                    self.caller.location.msg_contents(target.db.messages['ocon_msg'], exclude=self.caller)
+                    self.caller.location.msg_contents(target.db.messages['ocon_msg'], from_obj=self.caller, exclude=self.caller)
                     target.db.portions -= 1
                 elif target.db.portions == 1:
                     self.caller.msg(target.db.messages['finish_msg'])
-                    self.caller.location.msg_contents(target.db.messages['ofinish_msg'], exclude=self.caller)
+                    self.caller.location.msg_contents(target.db.messages['ofinish_msg'], from_obj=self.caller, exclude=self.caller)
                     target.delete()
 
 class CmdRail(Command):
@@ -430,7 +430,7 @@ class CmdRail(Command):
         else:
             if target.location == self.caller:
                 self.caller.msg(target.db.messages['chug_msg'])
-                self.caller.location.msg_contents(target.db.messages['ochug_msg'], exclude=self.caller)
+                self.caller.location.msg_contents(target.db.messages['ochug_msg'], from_obj=self.caller, exclude=self.caller)
                 target.delete()
                 self.caller.scripts.add(DrugUse)
 
@@ -456,7 +456,7 @@ class CmdChug(Command):
         else:
             if target.location == self.caller:
                 self.caller.msg(target.db.messages['chug_msg'])
-                self.caller.location.msg_contents(target.db.messages['ochug_msg'], exclude=self.caller)
+                self.caller.location.msg_contents(target.db.messages['ochug_msg'], from_obj=self.caller, exclude=self.caller)
                 target.delete()
 
 # == == == == == Here is the object creation command == == == == == == #

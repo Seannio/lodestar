@@ -106,17 +106,32 @@ class Character(DefaultCharacter):
             return
 
         try:
-            if text and isinstance(text, tuple):
-                text = (_RE_GENDER_PRONOUN.sub(self._get_pronoun, text[0]), *text[1:])
-                text = (_RE_NAME.sub(self.name, text[0]), *text[1:])
-                print("FROM OBJECT:")
-                print(from_obj)
+            if from_obj:
+                
+                if text and isinstance(text, tuple):
+                    text = (_RE_GENDER_PRONOUN.sub(from_obj._get_pronoun, text[0]), *text[1:])
+                    text = (_RE_NAME.sub(from_obj.name, text[0]), *text[1:])
+                    print("FROM OBJECT:")
+                    print(from_obj)
 
-            else:
-                text = _RE_GENDER_PRONOUN.sub(self._get_pronoun, text)
-                text = _RE_NAME.sub(self.name, text)
-                print("FROM OBJECT:")
-                print(from_obj)
+                else:
+                    text = _RE_GENDER_PRONOUN.sub(from_obj._get_pronoun, text)
+                    text = _RE_NAME.sub(from_obj.name, text)
+                    print("FROM OBJECT:")
+                    print(from_obj)
+
+            else: 
+                if text and isinstance(text, tuple):
+                    text = (_RE_GENDER_PRONOUN.sub(self._get_pronoun, text[0]), *text[1:])
+                    text = (_RE_NAME.sub(self.name, text[0]), *text[1:])
+                    print("FROM OBJECT:")
+                    print(from_obj)
+
+                else:
+                    text = _RE_GENDER_PRONOUN.sub(self._get_pronoun, text)
+                    text = _RE_NAME.sub(self.name, text)
+                    print("FROM OBJECT:")
+                    print(from_obj)
 
         except TypeError:
             pass
