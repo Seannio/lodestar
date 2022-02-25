@@ -33,7 +33,7 @@ class SittableOb(DefaultObject):
             print(self.db.sitting)
             sitter.msg(self.db.messages['sit_msg'])
             sitter.location.msg_contents(self.db.messages['osit_msg'], from_obj=sitter, exclude=sitter)
-            sitter.db.temp_idle = self.db.messages['seat_pose'] 
+            sitter.db.temp_idlepose = self.db.messages['seat_pose'] 
 
     def do_stand(self, stander):
         """
@@ -52,7 +52,7 @@ class SittableOb(DefaultObject):
                 stander.db.seat = None
                 stander.msg(self.db.messages['stand_msg'])
                 stander.location.msg_contents(self.db.messages['ostand_msg'],  from_obj=stander, exclude=stander)
-                sitter.db.temp_idle = None
+                sitter.db.temp_idlepose = None
                 #stander.msg(f"You stand up from {self.key}")
         except AttributeError:
             stander.msg("You're not sitting.")
