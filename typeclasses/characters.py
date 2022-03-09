@@ -49,7 +49,6 @@ class Character(DefaultCharacter):
             # Superstitions: Don't you know it's bad luck to traverse space without carbon stiltbeads? 
             # Grey Augument: little by little, nanites form the tissue-base of your muscles. 
         """
-
         #set persistent attributes
         super().at_object_creation()
         self.db.gender = "ambiguous"
@@ -58,14 +57,16 @@ class Character(DefaultCharacter):
         self.db.voltaic_conception = 1
         self.db.superstitions = 1
         self.db.grey_augument = 1
+
         self.db.idlepose = "is standing here."
-
-
-        self.db.currency = 100
-
-
+        self.db.temp_idlepose = "is standing here."
         self.db.is_sitting = False
         self.db.seat = None
+
+
+        # for the purpose of testing
+        self.db.currency = 100
+
 
     def _get_pronoun(self, regex_match):
         """
@@ -78,6 +79,7 @@ class Character(DefaultCharacter):
             - `|o`, `|O`: Objective form: him, her, it, Him, Her, It, Them
             - `|p`, `|P`: Possessive form: his, her, its, His, Her, Its, Their
             - `|a`, `|A`: Absolute Possessive form: his, hers, its, His, Hers, Its, Theirs
+            Can be edited for more pronouns if necessary! 
         """
         typ = regex_match.group()[1]  # "s", "O" etc
         gender = self.attributes.get("gender", default="ambiguous")
@@ -139,6 +141,7 @@ class Character(DefaultCharacter):
         except Exception as e:
             logger.log_trace(e)
         super().msg(text, from_obj=from_obj, session=session, **kwargs)
+
 
     def get_abilities(self):
         # Return ability scores, which are a little arbitrary atm.
